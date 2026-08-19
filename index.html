@@ -18,18 +18,22 @@
       color: #ffffff;
     }
 
-    button {
+    button,
+    input {
       font: inherit;
     }
 
+    button {
+      cursor: pointer;
+    }
+
     .app {
+      width: 100%;
       max-width: 480px;
       min-height: 100vh;
       margin: 0 auto;
       background: #111318;
     }
-
-    /* ---------- 通用页面 ---------- */
 
     .screen {
       display: none;
@@ -44,21 +48,17 @@
       padding: 0 18px 100px;
     }
 
-    .light-screen {
-      background: #f5f6f8;
-      color: #20242b;
-      padding: 22px 20px 40px;
-    }
-
     .back-button {
       border: 0;
       background: transparent;
       padding: 8px 8px 8px 0;
-      font-size: 26px;
+      font-size: 28px;
       color: inherit;
     }
 
-    /* ---------- 发现页 ---------- */
+    /* =========================
+       发现
+    ========================= */
 
     .discover-header {
       padding-top: 28px;
@@ -66,8 +66,8 @@
 
     .discover-top {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
     }
 
     .discover-title {
@@ -76,20 +76,20 @@
       letter-spacing: -1px;
     }
 
+    .discover-subtitle {
+      margin-top: 8px;
+      color: #7f8590;
+      font-size: 13px;
+    }
+
     .search-button {
       width: 40px;
       height: 40px;
       border: 0;
       border-radius: 14px;
       background: #1c1f26;
-      color: #c8ccd5;
-      font-size: 18px;
-    }
-
-    .discover-subtitle {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #7f8590;
+      color: #d2d5dc;
+      font-size: 20px;
     }
 
     .categories {
@@ -116,8 +116,8 @@
     }
 
     .category.active {
-      background: #ffffff;
-      color: #16181d;
+      background: white;
+      color: #17191e;
       font-weight: 650;
     }
 
@@ -128,13 +128,13 @@
     }
 
     .character-card {
-      border: 0;
       padding: 0;
       overflow: hidden;
-      text-align: left;
+      border: 0;
       border-radius: 22px;
       background: #1a1d23;
-      color: #ffffff;
+      color: white;
+      text-align: left;
       box-shadow: 0 12px 30px rgba(0,0,0,.18);
     }
 
@@ -142,8 +142,8 @@
       position: relative;
       height: 218px;
       display: flex;
-      align-items: flex-end;
       justify-content: center;
+      align-items: flex-end;
       overflow: hidden;
     }
 
@@ -164,7 +164,7 @@
     .character-initial {
       position: relative;
       z-index: 1;
-      margin-bottom: 42px;
+      margin-bottom: 43px;
       font-size: 58px;
       font-weight: 800;
       color: rgba(255,255,255,.86);
@@ -173,26 +173,26 @@
 
     .linwan {
       background:
-        radial-gradient(circle at 70% 20%, #8c97a9, transparent 32%),
-        linear-gradient(145deg, #44505d, #242832 65%, #17191f);
+        radial-gradient(circle at 72% 20%, #93a0b1, transparent 32%),
+        linear-gradient(145deg, #485462, #262b35 65%, #17191f);
     }
 
     .sunian {
       background:
-        radial-gradient(circle at 25% 20%, #d6a58c, transparent 35%),
-        linear-gradient(145deg, #b47f70, #694f59 60%, #25212a);
+        radial-gradient(circle at 25% 20%, #e1b29a, transparent 35%),
+        linear-gradient(145deg, #bd8778, #704f59 60%, #28212a);
     }
 
     .chenyu {
       background:
-        radial-gradient(circle at 75% 20%, #667789, transparent 34%),
-        linear-gradient(145deg, #3f4b58, #222832 62%, #17191d);
+        radial-gradient(circle at 75% 18%, #6c7d8f, transparent 34%),
+        linear-gradient(145deg, #424d5a, #242a33 62%, #17191d);
     }
 
     .shenchuan {
       background:
-        radial-gradient(circle at 30% 20%, #6d8293, transparent 34%),
-        linear-gradient(145deg, #33475a, #202c39 62%, #14191f);
+        radial-gradient(circle at 30% 20%, #748b9d, transparent 34%),
+        linear-gradient(145deg, #364c60, #202d3a 62%, #14191f);
     }
 
     .image-tags {
@@ -202,14 +202,15 @@
       right: 12px;
       bottom: 12px;
       display: flex;
-      gap: 5px;
       flex-wrap: wrap;
+      gap: 5px;
     }
 
     .image-tag {
       padding: 5px 8px;
       border-radius: 9px;
-      background: rgba(20,22,27,.7);
+      background: rgba(20,22,27,.72);
+      -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
       color: #e6e8ec;
       font-size: 10px;
@@ -228,12 +229,22 @@
       height: 41px;
       margin-top: 7px;
       overflow: hidden;
+      color: #9399a4;
       font-size: 12px;
       line-height: 1.65;
-      color: #9399a4;
     }
 
-    /* ---------- 会话 ---------- */
+    .preview-note {
+      margin-top: 22px;
+      color: #656b75;
+      font-size: 11px;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    /* =========================
+       会话 / 我的
+    ========================= */
 
     .section-header {
       padding-top: 30px;
@@ -251,11 +262,17 @@
       font-size: 13px;
     }
 
+    .conversation-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
     .conversation-card {
       width: 100%;
+      padding: 14px;
       border: 0;
-      border-radius: 20px;
-      padding: 15px;
+      border-radius: 18px;
       background: #1a1d23;
       color: white;
       display: flex;
@@ -268,10 +285,10 @@
       height: 52px;
       flex: 0 0 auto;
       border-radius: 18px;
+      background: linear-gradient(145deg, #687584, #303741);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(145deg, #657180, #303640);
       font-size: 18px;
       font-weight: 700;
     }
@@ -290,19 +307,17 @@
     .conversation-preview {
       margin-top: 6px;
       overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
       color: #8e949f;
       font-size: 12px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .conversation-time {
-      margin-left: 10px;
+      margin-left: 8px;
       color: #666c76;
       font-size: 10px;
     }
-
-    /* ---------- 我的 ---------- */
 
     .profile-box {
       margin-top: 25px;
@@ -329,7 +344,7 @@
       margin-top: 18px;
       border: 0;
       border-radius: 16px;
-      background: #ffffff;
+      background: white;
       color: #15171c;
       font-weight: 650;
     }
@@ -361,12 +376,14 @@
       font-size: 12px;
     }
 
-    /* ---------- 角色详情 ---------- */
+    /* =========================
+       角色详情
+    ========================= */
 
     .role-detail-screen {
+      padding-bottom: 40px;
       background: #101216;
       color: white;
-      padding-bottom: 40px;
     }
 
     .role-detail-top {
@@ -374,15 +391,15 @@
     }
 
     .role-hero {
+      position: relative;
       height: 47vh;
       min-height: 340px;
       margin-top: 8px;
+      overflow: hidden;
       border-radius: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow: hidden;
     }
 
     .role-big-initial {
@@ -403,8 +420,8 @@
     .role-tags {
       margin-top: 10px;
       display: flex;
-      gap: 7px;
       flex-wrap: wrap;
+      gap: 7px;
     }
 
     .role-tag {
@@ -435,15 +452,82 @@
       margin-top: 28px;
       border: 0;
       border-radius: 18px;
-      background: #ffffff;
+      background: white;
       color: #15171b;
       font-size: 16px;
       font-weight: 700;
     }
 
-    /* ---------- 互动页面 ---------- */
+    /* =========================
+       A + C 聊天页
+    ========================= */
+
+    .chat-screen {
+      position: relative;
+      min-height: 100vh;
+      padding: 18px 20px 145px;
+      overflow: hidden;
+      color: #242b32;
+      background: #dce3e8;
+    }
+
+    .chat-screen::before,
+    .chat-screen::after {
+      content: "";
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(1px);
+      opacity: .55;
+    }
+
+    .chat-screen::before {
+      width: 320px;
+      height: 320px;
+      top: 80px;
+      right: -140px;
+      background: rgba(255,255,255,.5);
+    }
+
+    .chat-screen::after {
+      width: 280px;
+      height: 280px;
+      left: -130px;
+      bottom: 70px;
+      background: rgba(101,125,145,.18);
+    }
+
+    .chat-linwan {
+      background:
+        radial-gradient(circle at 78% 16%, rgba(255,255,255,.74), transparent 30%),
+        radial-gradient(circle at 15% 72%, rgba(104,127,145,.16), transparent 38%),
+        linear-gradient(165deg, #eef2f4 0%, #d7e0e6 52%, #c3d0d8 100%);
+    }
+
+    .chat-sunian {
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,244,225,.85), transparent 31%),
+        radial-gradient(circle at 85% 75%, rgba(189,122,106,.17), transparent 37%),
+        linear-gradient(165deg, #f8eee5 0%, #f0d8c9 55%, #dfbdaf 100%);
+    }
+
+    .chat-chenyu {
+      background:
+        radial-gradient(circle at 78% 15%, rgba(255,255,255,.58), transparent 28%),
+        radial-gradient(circle at 13% 72%, rgba(75,91,105,.17), transparent 38%),
+        linear-gradient(165deg, #e8ecef 0%, #ced6dc 55%, #b6c0c8 100%);
+    }
+
+    .chat-shenchuan {
+      background:
+        radial-gradient(circle at 75% 15%, rgba(235,242,246,.58), transparent 28%),
+        radial-gradient(circle at 15% 72%, rgba(55,78,96,.19), transparent 38%),
+        linear-gradient(165deg, #dde5e9 0%, #c2d0d8 53%, #9fb2be 100%);
+    }
 
     .chat-header {
+      position: relative;
+      z-index: 4;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -452,92 +536,208 @@
     .chat-header-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
     }
 
     .chat-avatar {
       width: 42px;
       height: 42px;
       border-radius: 15px;
-      background: linear-gradient(145deg, #d9dee8, #aeb9ca);
+      background: rgba(78,94,108,.7);
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 15px;
       font-weight: 700;
+      box-shadow: 0 8px 24px rgba(55,70,82,.15);
     }
 
     .chat-name {
       font-size: 18px;
-      font-weight: 720;
+      font-weight: 730;
     }
 
     .chat-status {
       margin-top: 3px;
+      color: rgba(45,57,67,.55);
       font-size: 11px;
-      color: #9ca1aa;
     }
 
     .memory-link {
       border: 0;
       background: transparent;
-      color: #8f949d;
+      color: rgba(45,57,67,.6);
       font-size: 12px;
     }
 
-    .companion-area {
-      min-height: 62vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 35px 6px 25px;
+    .chat-feed {
+      position: relative;
+      z-index: 3;
+      padding: 58px 5px 25px;
     }
 
-    .message-box {
-      width: 100%;
-      padding: 32px 27px;
-      border-radius: 26px;
-      background: white;
-      box-shadow: 0 12px 40px rgba(25,35,50,.06);
-    }
-
-    .message-time {
-      margin-bottom: 18px;
-      color: #a4a9b1;
+    .time-line {
+      margin: 0 0 26px;
+      color: rgba(42,53,62,.42);
       font-size: 11px;
     }
 
-    .message {
-      white-space: pre-line;
-      font-size: 22px;
-      line-height: 1.75;
-      transition: opacity .18s ease;
+    .ai-entry {
+      max-width: 92%;
+      margin-bottom: 34px;
     }
 
-    .primary-button {
-      width: 100%;
-      height: 54px;
-      border: 0;
-      border-radius: 18px;
-      background: #252a32;
-      color: white;
-      font-size: 15px;
+    .speaker {
+      margin-bottom: 9px;
+      color: rgba(45,56,65,.55);
+      font-size: 11px;
       font-weight: 650;
     }
 
-    .secondary-button {
-      width: 100%;
-      padding: 17px 10px 4px;
-      border: 0;
-      background: transparent;
-      color: #969ba5;
+    .ai-text {
+      color: #273039;
+      font-size: 20px;
+      line-height: 1.8;
+      white-space: pre-line;
+      letter-spacing: .1px;
+    }
+
+    .user-entry {
+      display: flex;
+      justify-content: flex-end;
+      margin: 5px 0 33px;
+    }
+
+    .user-message {
+      max-width: 82%;
+      padding: 11px 14px;
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 17px 17px 5px 17px;
+      background: rgba(255,255,255,.38);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      color: #303940;
+      font-size: 15px;
+      line-height: 1.6;
+      box-shadow: 0 8px 25px rgba(66,82,95,.06);
+    }
+
+    .typing {
+      margin-bottom: 28px;
+      color: rgba(44,57,67,.48);
       font-size: 12px;
     }
 
-    /* ---------- 记忆 ---------- */
+    .intro-actions {
+      position: relative;
+      z-index: 5;
+      margin-top: 3px;
+    }
+
+    .intro-actions.hidden {
+      display: none;
+    }
+
+    .continue-button {
+      width: 100%;
+      height: 52px;
+      border: 0;
+      border-radius: 18px;
+      background: rgba(37,48,57,.9);
+      color: white;
+      font-size: 15px;
+      font-weight: 650;
+      box-shadow: 0 12px 30px rgba(53,67,79,.15);
+    }
+
+    .talk-button {
+      width: 100%;
+      height: 48px;
+      margin-top: 9px;
+      border: 1px solid rgba(60,76,88,.13);
+      border-radius: 18px;
+      background: rgba(255,255,255,.34);
+      color: #3b4852;
+      font-size: 14px;
+      font-weight: 600;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+
+    .finish-button {
+      width: 100%;
+      padding: 16px 10px 4px;
+      border: 0;
+      background: transparent;
+      color: rgba(52,65,75,.48);
+      font-size: 12px;
+    }
+
+    .composer {
+      display: none;
+      position: fixed;
+      z-index: 30;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(70,84,95,.08);
+      background: rgba(230,237,241,.74);
+      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(22px);
+    }
+
+    .composer.active {
+      display: flex;
+      gap: 9px;
+      align-items: flex-end;
+    }
+
+    .chat-input {
+      flex: 1;
+      height: 48px;
+      min-width: 0;
+      padding: 0 16px;
+      border: 1px solid rgba(72,87,99,.09);
+      outline: none;
+      border-radius: 18px;
+      background: rgba(255,255,255,.58);
+      color: #28333c;
+      font-size: 15px;
+      box-shadow: 0 7px 20px rgba(61,77,89,.05);
+    }
+
+    .chat-input::placeholder {
+      color: rgba(49,63,73,.38);
+    }
+
+    .send-button {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 17px;
+      background: #34434e;
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       记忆
+    ========================= */
+
+    .memory-screen {
+      padding: 20px 20px 50px;
+      background: #f4f6f7;
+      color: #20262c;
+    }
 
     .memory-title {
-      margin-top: 15px;
+      margin-top: 12px;
       font-size: 28px;
       font-weight: 760;
     }
@@ -545,14 +745,14 @@
     .memory-subtitle {
       margin-top: 8px;
       margin-bottom: 30px;
-      color: #959aa4;
+      color: #9298a0;
       font-size: 13px;
       line-height: 1.65;
     }
 
     .memory-section-title {
-      margin: 26px 4px 10px;
-      color: #969ba5;
+      margin: 27px 4px 10px;
+      color: #9298a0;
       font-size: 12px;
     }
 
@@ -574,7 +774,7 @@
 
     .memory-text {
       font-size: 14px;
-      line-height: 1.65;
+      line-height: 1.68;
     }
 
     .memory-meta {
@@ -583,7 +783,16 @@
       font-size: 10px;
     }
 
-    /* ---------- 底部导航 ---------- */
+    .empty-memory {
+      padding: 20px 18px;
+      color: #9aa0a8;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* =========================
+       底栏
+    ========================= */
 
     .nav {
       position: fixed;
@@ -595,9 +804,10 @@
       max-width: 480px;
       height: 79px;
       padding-bottom: env(safe-area-inset-bottom);
-      background: rgba(17,19,24,.94);
-      backdrop-filter: blur(18px);
       border-top: 1px solid rgba(255,255,255,.05);
+      background: rgba(17,19,24,.94);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
       display: flex;
       align-items: center;
       justify-content: space-around;
@@ -617,18 +827,8 @@
     }
 
     .nav-item.active {
-      color: #ffffff;
+      color: white;
       font-weight: 700;
-    }
-
-    /* ---------- 提示 ---------- */
-
-    .preview-note {
-      margin-top: 22px;
-      color: #656b75;
-      font-size: 11px;
-      line-height: 1.7;
-      text-align: center;
     }
   </style>
 </head>
@@ -641,10 +841,13 @@
   <section id="discoverScreen" class="screen root-screen active">
 
     <div class="discover-header">
+
       <div class="discover-top">
         <div>
           <div class="discover-title">发现</div>
-          <div class="discover-subtitle">遇见一个你愿意长期认识的人。</div>
+          <div class="discover-subtitle">
+            遇见一个你愿意长期认识的人。
+          </div>
         </div>
 
         <button class="search-button">⌕</button>
@@ -657,6 +860,7 @@
         <button class="category">成熟</button>
         <button class="category">剧情</button>
       </div>
+
     </div>
 
     <div class="character-grid">
@@ -679,6 +883,7 @@
         </div>
       </button>
 
+
       <button class="character-card" onclick="openRole('sunian')">
         <div class="character-image sunian">
           <div class="character-initial">念</div>
@@ -697,6 +902,7 @@
         </div>
       </button>
 
+
       <button class="character-card" onclick="openRole('chenyu')">
         <div class="character-image chenyu">
           <div class="character-initial">屿</div>
@@ -714,6 +920,7 @@
           </div>
         </div>
       </button>
+
 
       <button class="character-card" onclick="openRole('shenchuan')">
         <div class="character-image shenchuan">
@@ -736,9 +943,10 @@
     </div>
 
     <div class="preview-note">
-      当前角色视觉为临时占位。<br>
-      确认角色卡结构后，再制作正式角色形象。
+      当前人物形象仍为临时占位。<br>
+      这一阶段重点测试页面结构和聊天体验。
     </div>
+
   </section>
 
 
@@ -747,21 +955,12 @@
 
     <div class="section-header">
       <div class="section-title">会话</div>
-      <div class="section-note">回到已经认识的TA身边。</div>
+      <div class="section-note">
+        回到已经认识的TA身边。
+      </div>
     </div>
 
-    <button class="conversation-card" onclick="openChat('linwan')">
-      <div class="conversation-avatar">晚</div>
-
-      <div class="conversation-main">
-        <div class="conversation-name">林晚</div>
-        <div class="conversation-preview">
-          你昨天说，今天想把那件事继续做下去。
-        </div>
-      </div>
-
-      <div class="conversation-time">21:03</div>
-    </button>
+    <div id="conversationList" class="conversation-list"></div>
 
   </section>
 
@@ -771,14 +970,17 @@
 
     <div class="section-header">
       <div class="section-title">我的</div>
-      <div class="section-note">账号、会员和个人设置以后都会在这里。</div>
+      <div class="section-note">
+        账号、会员和个人设置以后都会在这里。
+      </div>
     </div>
 
     <div class="profile-box">
       <div class="profile-status">当前：预览模式</div>
 
       <div class="profile-description">
-        现在还没有接入真实登录。正式版本登录后，会保存你的会话、角色关系和长期记忆。
+        现在还没有接入真实登录。
+        正式版本登录后，会保存你的会话、角色关系和长期记忆。
       </div>
 
       <button class="login-placeholder">
@@ -787,6 +989,7 @@
     </div>
 
     <div class="settings-list">
+
       <div class="settings-row">
         <span>收藏角色</span>
         <span class="settings-value">›</span>
@@ -806,6 +1009,7 @@
         <span>帮助与反馈</span>
         <span class="settings-value">›</span>
       </div>
+
     </div>
 
   </section>
@@ -815,15 +1019,24 @@
   <section id="roleScreen" class="screen role-detail-screen">
 
     <div class="role-detail-top">
-      <button class="back-button" onclick="backToDiscover()">‹</button>
+
+      <button class="back-button" onclick="backToDiscover()">
+        ‹
+      </button>
 
       <div id="roleHero" class="role-hero linwan">
-        <div id="roleBigInitial" class="role-big-initial">晚</div>
+        <div id="roleBigInitial" class="role-big-initial">
+          晚
+        </div>
       </div>
+
     </div>
 
     <div class="role-content">
-      <div id="roleName" class="role-name">林晚</div>
+
+      <div id="roleName" class="role-name">
+        林晚
+      </div>
 
       <div id="roleTags" class="role-tags"></div>
 
@@ -838,25 +1051,35 @@
       <div class="preview-note">
         预览阶段暂时跳过登录流程。
       </div>
+
     </div>
 
   </section>
 
 
-  <!-- 角色互动 -->
-  <section id="chatScreen" class="screen light-screen">
+  <!-- A + C 聊天 -->
+  <section id="chatScreen" class="screen chat-screen chat-linwan">
 
     <div class="chat-header">
 
       <div class="chat-header-left">
 
-        <button class="back-button" onclick="backToConversation()">‹</button>
+        <button class="back-button" onclick="backToConversation()">
+          ‹
+        </button>
 
-        <div id="chatAvatar" class="chat-avatar">晚</div>
+        <div id="chatAvatar" class="chat-avatar">
+          晚
+        </div>
 
         <div>
-          <div id="chatName" class="chat-name">林晚</div>
-          <div class="chat-status">今天 · 在这里</div>
+          <div id="chatName" class="chat-name">
+            林晚
+          </div>
+
+          <div class="chat-status">
+            今天 · 在这里
+          </div>
         </div>
 
       </div>
@@ -867,83 +1090,76 @@
 
     </div>
 
-    <div class="companion-area">
 
-      <div class="message-box">
-        <div class="message-time">21:03</div>
+    <div id="chatFeed" class="chat-feed"></div>
 
-        <div id="message" class="message"></div>
-      </div>
+
+    <div id="introActions" class="intro-actions">
+
+      <button
+        id="continueButton"
+        class="continue-button"
+        onclick="continueIntro()"
+      >
+        继续听TA说
+      </button>
+
+      <button
+        id="talkButton"
+        class="talk-button"
+        onclick="enterConversation()"
+      >
+        我想和TA说句话
+      </button>
+
+      <button
+        class="finish-button"
+        onclick="finishToday()"
+      >
+        今天先到这里
+      </button>
 
     </div>
-
-    <button
-      id="continueButton"
-      class="primary-button"
-      onclick="nextMessage()"
-    >
-      继续听TA说
-    </button>
-
-    <button class="secondary-button" onclick="finishToday()">
-      今天先到这里
-    </button>
 
   </section>
 
 
-  <!-- 记忆 -->
-  <section id="memoryScreen" class="screen light-screen">
+  <!-- 输入区 -->
+  <div id="composer" class="composer">
 
-    <button class="back-button" onclick="backToChat()">‹</button>
+    <input
+      id="chatInput"
+      class="chat-input"
+      type="text"
+      placeholder="说点什么……"
+      autocomplete="off"
+      onkeydown="handleInputKey(event)"
+    >
+
+    <button class="send-button" onclick="sendMessage()">
+      ↑
+    </button>
+
+  </div>
+
+
+  <!-- 记忆 -->
+  <section id="memoryScreen" class="screen memory-screen">
+
+    <button class="back-button" onclick="backToChat()">
+      ‹
+    </button>
 
     <div id="memoryTitle" class="memory-title">
       林晚记得
     </div>
 
     <div class="memory-subtitle">
-      这些不是聊天记录，而是TA在相处过程中留下的重要理解。
+      这些不是普通聊天记录，
+      而是TA在相处过程中留下的重要理解。
     </div>
 
-    <div class="memory-section-title">关于你</div>
-
-    <div class="memory-card">
-
-      <div class="memory-item">
-        <div class="memory-text">
-          你正在认真做自己的第一个产品。
-        </div>
-        <div class="memory-meta">关于你</div>
-      </div>
-
-      <div class="memory-item">
-        <div class="memory-text">
-          你不喜欢别人一直催你，更希望自己想清楚以后行动。
-        </div>
-        <div class="memory-meta">习惯</div>
-      </div>
-
-    </div>
-
-    <div class="memory-section-title">共同经历</div>
-
-    <div class="memory-card">
-
-      <div class="memory-item">
-        <div class="memory-text">
-          你决定认真把 AI 伴侣这个想法做成真正的产品。
-        </div>
-        <div class="memory-meta">2026 · 08 · 19</div>
-      </div>
-
-      <div class="memory-item">
-        <div class="memory-text">
-          你第一次做出了可以直接用手机打开的产品原型。
-        </div>
-        <div class="memory-meta">2026 · 08 · 19</div>
-      </div>
-
-    </div>
+    <div id="memoryContent"></div>
 
   </section>
 
@@ -985,10 +1201,21 @@
       name: '林晚',
       initial: '晚',
       heroClass: 'linwan',
-      tags: ['慢热', '克制', '观察力强'],
-      quote: '“我不一定会顺着你，但你说过的话，我会记得。”',
-      about: '她很少急着给出答案。相比不停安慰，她更习惯先观察一个人真正发生了什么。',
-      messages: [
+      chatClass: 'chat-linwan',
+
+      tags: [
+        '慢热',
+        '克制',
+        '观察力强'
+      ],
+
+      quote:
+        '“我不一定会顺着你，但你说过的话，我会记得。”',
+
+      about:
+        '她很少急着给出答案。相比不停安慰，她更习惯先观察一个人真正发生了什么。',
+
+      intro: [
         `回来了？
 
 你昨天说，
@@ -1004,17 +1231,63 @@
         `所以今天不用一次解决所有问题。
 
 至少把下一步做完。`
-      ]
+      ],
+
+      replies: [
+        `嗯，我在听。
+
+你可以慢一点说。`,
+
+        `我记住了。
+
+不过我更想知道，
+这件事真正让你在意的是什么。`,
+
+        `你刚才这句话，
+和你之前说过的有一点不一样。`,
+
+        `不用急着给自己一个结论。
+
+先把现在真正发生的事情说清楚。`
+      ],
+
+      memory: {
+        about: [
+          '你正在认真做自己的第一个产品。',
+          '你不喜欢别人一直催你，更希望自己想清楚以后行动。'
+        ],
+
+        events: [
+          '你决定认真把 AI 伴侣这个想法做成真正的产品。',
+          '你第一次做出了可以直接在手机上打开的产品原型。'
+        ],
+
+        understanding: [
+          '她觉得你做决定以前会想很多，但真正开始以后通常会继续推进。'
+        ]
+      }
     },
+
 
     sunian: {
       name: '苏念',
       initial: '念',
       heroClass: 'sunian',
-      tags: ['外向', '爱分享', '有点话多'],
-      quote: '“我看到一点小事，就会忍不住想回来告诉你。”',
-      about: '她很容易把自己的生活分享出来。相处久了，也会慢慢记住你的日常习惯。',
-      messages: [
+      chatClass: 'chat-sunian',
+
+      tags: [
+        '外向',
+        '爱分享',
+        '有点话多'
+      ],
+
+      quote:
+        '“我看到一点小事，就会忍不住想回来告诉你。”',
+
+      about:
+        '她很容易把自己的生活分享出来。相处久了，也会慢慢记住你的日常习惯。',
+
+      intro: [
         `你来了。
 
 我刚刚还在想，
@@ -1026,17 +1299,53 @@
 
         `反正你在的话，
 我就先不走了。`
-      ]
+      ],
+
+      replies: [
+        `等等，这个我想听。
+
+你继续说。`,
+
+        `原来是这样。
+
+难怪你刚刚说话的感觉有点不一样。`,
+
+        `那我先记下来。
+
+以后你别说我忘了。`,
+
+        `我突然有点好奇。
+
+如果重新来一次，你还会这么选吗？`
+      ],
+
+      memory: {
+        about: [],
+        events: [],
+        understanding: []
+      }
     },
+
 
     chenyu: {
       name: '陈屿',
       initial: '屿',
       heroClass: 'chenyu',
-      tags: ['理性', '嘴硬', '行动派'],
-      quote: '“可以难受，但别拿难受当作什么都不做的理由。”',
-      about: '他不太擅长漂亮话，也不会为了让你开心就一直顺着你。',
-      messages: [
+      chatClass: 'chat-chenyu',
+
+      tags: [
+        '理性',
+        '嘴硬',
+        '行动派'
+      ],
+
+      quote:
+        '“可以难受，但别拿难受当作什么都不做的理由。”',
+
+      about:
+        '他不太擅长漂亮话，也不会为了让你开心就一直顺着你。',
+
+      intro: [
         `终于来了。
 
 昨天那个问题，
@@ -1050,17 +1359,53 @@
         `想清楚了就做。
 
 剩下的以后再说。`
-      ]
+      ],
+
+      replies: [
+        `说重点。
+
+你现在真正想解决的是什么？`,
+
+        `这个理由我听懂了。
+
+但它不能代替行动。`,
+
+        `可以。
+
+至少这次你没有躲。`,
+
+        `先做最小的一步。
+
+其他问题做完再讨论。`
+      ],
+
+      memory: {
+        about: [],
+        events: [],
+        understanding: []
+      }
     },
+
 
     shenchuan: {
       name: '沈川',
       initial: '川',
       heroClass: 'shenchuan',
-      tags: ['成熟', '稳定', '有边界'],
-      quote: '“不用每天证明什么。重要的时候，你知道我在就够了。”',
-      about: '他不会一直追问你，也不会要求你时时回应，但会认真对待真正重要的事情。',
-      messages: [
+      chatClass: 'chat-shenchuan',
+
+      tags: [
+        '成熟',
+        '稳定',
+        '有边界'
+      ],
+
+      quote:
+        '“不用每天证明什么。重要的时候，你知道我在就够了。”',
+
+      about:
+        '他不会一直追问你，也不会要求你时时回应，但会认真对待真正重要的事情。',
+
+      intro: [
         `晚上好。
 
 今天过得还可以吗？`,
@@ -1072,15 +1417,60 @@
         `今晚先好好休息。
 
 明天的事，明天处理。`
-      ]
+      ],
+
+      replies: [
+        `我明白。
+
+你不用一次把所有事情说完。`,
+
+        `这件事先放在这里也可以。
+
+等你想清楚，我们再继续。`,
+
+        `听起来你已经撑了一段时间了。`,
+
+        `先处理眼前最重要的。
+
+其他事情不用今晚全部解决。`
+      ],
+
+      memory: {
+        about: [],
+        events: [],
+        understanding: []
+      }
     }
 
   };
 
 
   let currentRoleKey = 'linwan';
-  let currentMessages = roles.linwan.messages;
-  let currentMessageIndex = 0;
+
+  let introIndex = 0;
+
+  let knownRoles = ['linwan'];
+
+  const conversationStarted = {
+    linwan: false,
+    sunian: false,
+    chenyu: false,
+    shenchuan: false
+  };
+
+  const chatHistory = {
+    linwan: [],
+    sunian: [],
+    chenyu: [],
+    shenchuan: []
+  };
+
+  const replyIndex = {
+    linwan: 0,
+    sunian: 0,
+    chenyu: 0,
+    shenchuan: 0
+  };
 
 
   function hideAllScreens() {
@@ -1090,9 +1480,20 @@
   }
 
 
+  function hideComposer() {
+    document.getElementById('composer').classList.remove('active');
+  }
+
+
+  function showComposer() {
+    document.getElementById('composer').classList.add('active');
+  }
+
+
   function showRoot(screenId, button) {
 
     hideAllScreens();
+    hideComposer();
 
     document.getElementById(screenId).classList.add('active');
     document.getElementById('bottomNav').classList.remove('hidden');
@@ -1102,6 +1503,10 @@
     });
 
     button.classList.add('active');
+
+    if (screenId === 'conversationScreen') {
+      renderConversations();
+    }
 
     window.scrollTo(0, 0);
   }
@@ -1119,7 +1524,6 @@
     document.getElementById('roleAbout').innerText = role.about;
 
     const hero = document.getElementById('roleHero');
-
     hero.className = 'role-hero ' + role.heroClass;
 
     const tags = document.getElementById('roleTags');
@@ -1128,12 +1532,15 @@
 
     role.tags.forEach(tag => {
       const item = document.createElement('span');
+
       item.className = 'role-tag';
       item.innerText = tag;
+
       tags.appendChild(item);
     });
 
     hideAllScreens();
+    hideComposer();
 
     document.getElementById('roleScreen').classList.add('active');
     document.getElementById('bottomNav').classList.add('hidden');
@@ -1145,19 +1552,23 @@
   function backToDiscover() {
 
     hideAllScreens();
+    hideComposer();
 
     document.getElementById('discoverScreen').classList.add('active');
     document.getElementById('bottomNav').classList.remove('hidden');
 
-    document.querySelectorAll('.nav-item').forEach((item, index) => {
-      item.classList.toggle('active', index === 0);
-    });
+    setActiveNav(0);
 
     window.scrollTo(0, 0);
   }
 
 
   function startCurrentRole() {
+
+    if (!knownRoles.includes(currentRoleKey)) {
+      knownRoles.push(currentRoleKey);
+    }
+
     openChat(currentRoleKey);
   }
 
@@ -1168,58 +1579,392 @@
 
     const role = roles[key];
 
-    currentMessages = role.messages;
-    currentMessageIndex = 0;
-
     document.getElementById('chatName').innerText = role.name;
     document.getElementById('chatAvatar').innerText = role.initial;
-    document.getElementById('message').innerText = currentMessages[0];
 
-    const button = document.getElementById('continueButton');
+    const chatScreen = document.getElementById('chatScreen');
 
-    button.innerText = '继续听TA说';
-    button.style.display = 'block';
+    chatScreen.className =
+      'screen chat-screen active ' + role.chatClass;
 
     hideAllScreens();
 
-    document.getElementById('chatScreen').classList.add('active');
+    chatScreen.className =
+      'screen chat-screen active ' + role.chatClass;
+
     document.getElementById('bottomNav').classList.add('hidden');
+
+    if (conversationStarted[key]) {
+
+      document.getElementById('introActions').classList.add('hidden');
+
+      renderChatHistory();
+
+      showComposer();
+
+    } else {
+
+      introIndex = 0;
+
+      document.getElementById('introActions').classList.remove('hidden');
+
+      document.getElementById('continueButton').style.display = 'block';
+      document.getElementById('continueButton').innerText = '继续听TA说';
+
+      renderIntro();
+
+      hideComposer();
+    }
 
     window.scrollTo(0, 0);
   }
 
 
-  function nextMessage() {
+  function renderIntro() {
 
-    if (currentMessageIndex < currentMessages.length - 1) {
-      currentMessageIndex++;
+    const role = roles[currentRoleKey];
+    const feed = document.getElementById('chatFeed');
+
+    feed.innerHTML = '';
+
+    const time = document.createElement('div');
+
+    time.className = 'time-line';
+    time.innerText = '今天 · 21:03';
+
+    feed.appendChild(time);
+
+    for (let i = 0; i <= introIndex; i++) {
+
+      const entry = createAIEntry(
+        role.name,
+        role.intro[i]
+      );
+
+      feed.appendChild(entry);
     }
 
-    const message = document.getElementById('message');
+    if (introIndex >= role.intro.length - 1) {
+      document.getElementById('continueButton').style.display = 'none';
+    }
+  }
 
-    message.style.opacity = 0;
+
+  function continueIntro() {
+
+    const role = roles[currentRoleKey];
+
+    if (introIndex < role.intro.length - 1) {
+      introIndex++;
+    }
+
+    renderIntro();
 
     setTimeout(() => {
-      message.innerText = currentMessages[currentMessageIndex];
-      message.style.opacity = 1;
-    }, 180);
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
+    }, 80);
+  }
 
-    if (currentMessageIndex === currentMessages.length - 1) {
-      document.getElementById('continueButton').innerText = '今天先到这里';
+
+  function enterConversation() {
+
+    const role = roles[currentRoleKey];
+
+    conversationStarted[currentRoleKey] = true;
+
+    if (chatHistory[currentRoleKey].length === 0) {
+
+      for (let i = 0; i <= introIndex; i++) {
+
+        chatHistory[currentRoleKey].push({
+          type: 'ai',
+          text: role.intro[i]
+        });
+      }
     }
+
+    document.getElementById('introActions').classList.add('hidden');
+
+    renderChatHistory();
+
+    showComposer();
+
+    setTimeout(() => {
+      document.getElementById('chatInput').focus();
+    }, 180);
   }
 
 
   function finishToday() {
 
-    document.getElementById('message').innerText =
-      `好。
+    const role = roles[currentRoleKey];
+    const feed = document.getElementById('chatFeed');
+
+    feed.innerHTML = '';
+
+    const time = document.createElement('div');
+
+    time.className = 'time-line';
+    time.innerText = '今天';
+
+    feed.appendChild(time);
+
+    feed.appendChild(
+      createAIEntry(
+        role.name,
+        `好。
 
 今天就到这里。
 
-下次来的时候，我们再继续。`;
+下次来的时候，
+我们再继续。`
+      )
+    );
 
     document.getElementById('continueButton').style.display = 'none';
+  }
+
+
+  function createAIEntry(name, text) {
+
+    const wrapper = document.createElement('div');
+
+    wrapper.className = 'ai-entry';
+
+    const speaker = document.createElement('div');
+
+    speaker.className = 'speaker';
+    speaker.innerText = name;
+
+    const message = document.createElement('div');
+
+    message.className = 'ai-text';
+    message.innerText = text;
+
+    wrapper.appendChild(speaker);
+    wrapper.appendChild(message);
+
+    return wrapper;
+  }
+
+
+  function createUserEntry(text) {
+
+    const wrapper = document.createElement('div');
+
+    wrapper.className = 'user-entry';
+
+    const message = document.createElement('div');
+
+    message.className = 'user-message';
+    message.innerText = text;
+
+    wrapper.appendChild(message);
+
+    return wrapper;
+  }
+
+
+  function renderChatHistory() {
+
+    const role = roles[currentRoleKey];
+    const history = chatHistory[currentRoleKey];
+    const feed = document.getElementById('chatFeed');
+
+    feed.innerHTML = '';
+
+    const time = document.createElement('div');
+
+    time.className = 'time-line';
+    time.innerText = '今天';
+
+    feed.appendChild(time);
+
+    history.forEach(item => {
+
+      if (item.type === 'ai') {
+
+        feed.appendChild(
+          createAIEntry(
+            role.name,
+            item.text
+          )
+        );
+
+      } else {
+
+        feed.appendChild(
+          createUserEntry(item.text)
+        );
+      }
+
+    });
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
+    }, 40);
+  }
+
+
+  function sendMessage() {
+
+    const input = document.getElementById('chatInput');
+
+    const text = input.value.trim();
+
+    if (!text) {
+      return;
+    }
+
+    chatHistory[currentRoleKey].push({
+      type: 'user',
+      text: text
+    });
+
+    input.value = '';
+
+    renderChatHistory();
+
+    showTyping();
+
+    setTimeout(() => {
+      fakeReply();
+    }, 700);
+  }
+
+
+  function handleInputKey(event) {
+
+    if (event.key === 'Enter') {
+
+      event.preventDefault();
+
+      sendMessage();
+    }
+  }
+
+
+  function showTyping() {
+
+    const role = roles[currentRoleKey];
+    const feed = document.getElementById('chatFeed');
+
+    const typing = document.createElement('div');
+
+    typing.id = 'typing';
+    typing.className = 'typing';
+    typing.innerText = role.name + '正在想……';
+
+    feed.appendChild(typing);
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
+    }, 30);
+  }
+
+
+  function fakeReply() {
+
+    const role = roles[currentRoleKey];
+
+    const index = replyIndex[currentRoleKey] % role.replies.length;
+
+    const text = role.replies[index];
+
+    replyIndex[currentRoleKey]++;
+
+    chatHistory[currentRoleKey].push({
+      type: 'ai',
+      text: text
+    });
+
+    renderChatHistory();
+  }
+
+
+  function backToConversation() {
+
+    hideAllScreens();
+    hideComposer();
+
+    document.getElementById('conversationScreen').classList.add('active');
+    document.getElementById('bottomNav').classList.remove('hidden');
+
+    renderConversations();
+
+    setActiveNav(1);
+
+    window.scrollTo(0, 0);
+  }
+
+
+  function renderConversations() {
+
+    const list = document.getElementById('conversationList');
+
+    list.innerHTML = '';
+
+    knownRoles.forEach(key => {
+
+      const role = roles[key];
+      const history = chatHistory[key];
+
+      let preview = role.intro[0].replace(/\n/g, ' ');
+
+      if (history.length > 0) {
+        preview = history[history.length - 1].text.replace(/\n/g, ' ');
+      }
+
+      const button = document.createElement('button');
+
+      button.className = 'conversation-card';
+
+      button.onclick = function() {
+        openChat(key);
+      };
+
+      button.innerHTML = `
+        <div class="conversation-avatar">
+          ${role.initial}
+        </div>
+
+        <div class="conversation-main">
+          <div class="conversation-name">
+            ${role.name}
+          </div>
+
+          <div class="conversation-preview">
+            ${escapeHTML(preview)}
+          </div>
+        </div>
+
+        <div class="conversation-time">
+          今天
+        </div>
+      `;
+
+      list.appendChild(button);
+    });
+  }
+
+
+  function escapeHTML(text) {
+
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
 
@@ -1230,7 +1975,10 @@
     document.getElementById('memoryTitle').innerText =
       role.name + '记得';
 
+    renderMemory(role);
+
     hideAllScreens();
+    hideComposer();
 
     document.getElementById('memoryScreen').classList.add('active');
     document.getElementById('bottomNav').classList.add('hidden');
@@ -1239,24 +1987,111 @@
   }
 
 
+  function renderMemory(role) {
+
+    const container = document.getElementById('memoryContent');
+
+    container.innerHTML = '';
+
+    container.appendChild(
+      createMemorySection(
+        '关于你',
+        role.memory.about,
+        '关于你'
+      )
+    );
+
+    container.appendChild(
+      createMemorySection(
+        '共同经历',
+        role.memory.events,
+        '共同经历'
+      )
+    );
+
+    container.appendChild(
+      createMemorySection(
+        'TA对你的理解',
+        role.memory.understanding,
+        '关系理解'
+      )
+    );
+  }
+
+
+  function createMemorySection(title, items, meta) {
+
+    const wrapper = document.createElement('div');
+
+    const heading = document.createElement('div');
+
+    heading.className = 'memory-section-title';
+    heading.innerText = title;
+
+    wrapper.appendChild(heading);
+
+    const card = document.createElement('div');
+
+    card.className = 'memory-card';
+
+    if (items.length === 0) {
+
+      const empty = document.createElement('div');
+
+      empty.className = 'empty-memory';
+      empty.innerText =
+        '你们还没有留下足够多的共同信息。';
+
+      card.appendChild(empty);
+
+    } else {
+
+      items.forEach(text => {
+
+        const item = document.createElement('div');
+
+        item.className = 'memory-item';
+
+        item.innerHTML = `
+          <div class="memory-text">
+            ${escapeHTML(text)}
+          </div>
+
+          <div class="memory-meta">
+            ${meta} · 测试数据
+          </div>
+        `;
+
+        card.appendChild(item);
+      });
+    }
+
+    wrapper.appendChild(card);
+
+    return wrapper;
+  }
+
+
   function backToChat() {
     openChat(currentRoleKey);
   }
 
 
-  function backToConversation() {
+  function setActiveNav(index) {
 
-    hideAllScreens();
+    document.querySelectorAll('.nav-item').forEach(
+      (item, itemIndex) => {
 
-    document.getElementById('conversationScreen').classList.add('active');
-    document.getElementById('bottomNav').classList.remove('hidden');
-
-    document.querySelectorAll('.nav-item').forEach((item, index) => {
-      item.classList.toggle('active', index === 1);
-    });
-
-    window.scrollTo(0, 0);
+        item.classList.toggle(
+          'active',
+          itemIndex === index
+        );
+      }
+    );
   }
+
+
+  renderConversations();
 
 </script>
 
