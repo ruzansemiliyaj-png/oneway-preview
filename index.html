@@ -10,84 +10,176 @@
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
-      background: #f7f7f7;
-      color: #222;
+      min-height: 100%;
+      background: #f4f3ef;
+      color: #202124;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    button {
+      font: inherit;
     }
 
     .page {
       min-height: 100vh;
-      padding: 30px 20px 40px;
+      padding: 28px 22px 34px;
       display: flex;
       flex-direction: column;
     }
 
-    .name {
-      font-size: 18px;
-      font-weight: 600;
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
     }
 
-    .message-area {
+    .name {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .status {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #92969d;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      margin-top: 7px;
+      border-radius: 50%;
+      background: #202124;
+    }
+
+    .conversation {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 30px;
+      padding: 50px 18px 30px;
     }
 
     .message {
-      font-size: 24px;
-      line-height: 1.7;
+      max-width: 310px;
+      font-size: 25px;
+      line-height: 1.75;
       text-align: center;
+      white-space: pre-line;
+      transition: opacity 0.2s ease;
     }
 
     .continue-button {
       width: 100%;
-      height: 52px;
-      border: none;
-      border-radius: 14px;
-      background: #222;
+      height: 54px;
+      border: 0;
+      border-radius: 16px;
+      background: #202124;
       color: white;
       font-size: 16px;
       font-weight: 600;
     }
 
-    .continue-button:active {
-      opacity: 0.8;
+    .end-button {
+      width: 100%;
+      margin-top: 16px;
+      padding: 10px;
+      border: 0;
+      background: transparent;
+      color: #9a9da2;
+      font-size: 13px;
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
-    <div class="name">TA</div>
 
-    <div class="message-area">
-      <div class="message" id="message">
-        今天想和你说一句。
+  <main class="page">
+
+    <header class="top">
+      <div>
+        <div class="name">TA</div>
+        <div class="status">今天 · 在这里</div>
       </div>
-    </div>
 
-    <button class="continue-button" onclick="nextMessage()">
-      继续
-    </button>
-  </div>
+      <div class="dot"></div>
+    </header>
+
+    <section class="conversation">
+      <div class="message" id="message">有时候，
+你不需要马上想明白。
+
+我可以陪你慢一点。</div>
+    </section>
+
+    <footer>
+      <button class="continue-button" id="continueButton" onclick="nextMessage()">
+        继续
+      </button>
+
+      <button class="end-button" onclick="finishToday()">
+        今天先到这里
+      </button>
+    </footer>
+
+  </main>
 
   <script>
     const messages = [
-      '今天想和你说一句。',
-      '有些答案，不需要今天就找到。',
-      '先照顾好现在的自己。'
+      `有时候，
+你不需要马上想明白。
+
+我可以陪你慢一点。`,
+
+      `今天发生的事情，
+不一定都要现在处理。
+
+先把最重的那一点放下来。`,
+
+      `如果你什么都不想做，
+也可以。
+
+至少此刻，
+你不用向我证明什么。`,
+
+      `好了。
+
+今天我想说的，
+暂时就这些。`
     ];
 
     let currentIndex = 0;
 
     function nextMessage() {
-      currentIndex = (currentIndex + 1) % messages.length;
-      document.getElementById('message').innerText = messages[currentIndex];
+      if (currentIndex < messages.length - 1) {
+        currentIndex++;
+      }
+
+      const message = document.getElementById('message');
+      const button = document.getElementById('continueButton');
+
+      message.style.opacity = 0;
+
+      setTimeout(() => {
+        message.innerText = messages[currentIndex];
+        message.style.opacity = 1;
+      }, 180);
+
+      if (currentIndex === messages.length - 1) {
+        button.innerText = '明天见';
+      }
+    }
+
+    function finishToday() {
+      document.getElementById('message').innerText =
+        '好。\n\n今天就到这里。\n\n我会在这里。';
+
+      document.getElementById('continueButton').style.display = 'none';
     }
   </script>
+
 </body>
 </html>
