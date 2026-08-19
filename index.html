@@ -3,37 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TA</title>
+  <title>林晚</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
-    html,
-    body {
+    html, body {
       margin: 0;
       min-height: 100%;
-      background: #f4f3ef;
-      color: #202124;
+      background: #f5f6f8;
+      color: #1f2329;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
     }
 
     button {
       font: inherit;
     }
 
-    .page {
+    .app {
       min-height: 100vh;
-      padding: 28px 22px 34px;
-      display: flex;
-      flex-direction: column;
+      max-width: 480px;
+      margin: 0 auto;
+      background: #f5f6f8;
+      padding-bottom: 86px;
     }
 
-    .top {
+    .screen {
+      display: none;
+      min-height: calc(100vh - 86px);
+      padding: 26px 20px 30px;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* TA 页面 */
+
+    .profile-header {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-start;
+    }
+
+    .identity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      background:
+        linear-gradient(145deg, #d9dee8, #aeb9ca);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
     }
 
     .name {
@@ -42,144 +78,481 @@
     }
 
     .status {
-      margin-top: 6px;
+      margin-top: 4px;
       font-size: 12px;
-      color: #92969d;
+      color: #969ba5;
     }
 
-    .dot {
-      width: 8px;
-      height: 8px;
-      margin-top: 7px;
+    .online-dot {
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background: #202124;
+      background: #6e8c75;
     }
 
-    .conversation {
-      flex: 1;
+    .companion-area {
+      min-height: 62vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 50px 18px 30px;
+      padding: 44px 8px 28px;
+    }
+
+    .message-box {
+      width: 100%;
+      background: white;
+      border-radius: 28px;
+      padding: 34px 28px;
+      box-shadow: 0 12px 40px rgba(25, 35, 50, 0.06);
+    }
+
+    .message-time {
+      font-size: 12px;
+      color: #a4a9b1;
+      margin-bottom: 20px;
     }
 
     .message {
-      max-width: 310px;
-      font-size: 25px;
-      line-height: 1.75;
-      text-align: center;
+      font-size: 23px;
+      line-height: 1.8;
       white-space: pre-line;
-      transition: opacity 0.2s ease;
+      transition: opacity .18s ease;
     }
 
-    .continue-button {
+    .primary-button {
       width: 100%;
       height: 54px;
       border: 0;
-      border-radius: 16px;
-      background: #202124;
+      border-radius: 18px;
+      background: #252a32;
       color: white;
       font-size: 16px;
       font-weight: 600;
     }
 
-    .end-button {
+    .secondary-button {
       width: 100%;
-      margin-top: 16px;
-      padding: 10px;
       border: 0;
       background: transparent;
-      color: #9a9da2;
+      color: #969ba5;
+      padding: 18px 10px 4px;
       font-size: 13px;
+    }
+
+    /* 记忆 */
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 750;
+      margin: 12px 0 6px;
+    }
+
+    .page-subtitle {
+      color: #959aa4;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .memory-section-title {
+      font-size: 13px;
+      color: #969ba5;
+      margin: 28px 4px 10px;
+    }
+
+    .memory-card {
+      background: white;
+      border-radius: 20px;
+      padding: 4px 18px;
+      box-shadow: 0 8px 30px rgba(25, 35, 50, 0.04);
+    }
+
+    .memory-item {
+      padding: 18px 0;
+      border-bottom: 1px solid #f0f1f3;
+    }
+
+    .memory-item:last-child {
+      border-bottom: 0;
+    }
+
+    .memory-text {
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .memory-meta {
+      margin-top: 7px;
+      color: #a2a6ad;
+      font-size: 11px;
+    }
+
+    .delete-memory {
+      margin-top: 9px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: #a0a5ad;
+      font-size: 12px;
+    }
+
+    /* 我的 */
+
+    .settings-card {
+      background: white;
+      border-radius: 22px;
+      overflow: hidden;
+      margin-top: 24px;
+      box-shadow: 0 8px 30px rgba(25, 35, 50, 0.04);
+    }
+
+    .setting-row {
+      min-height: 58px;
+      padding: 0 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f0f1f3;
+      font-size: 15px;
+    }
+
+    .setting-row:last-child {
+      border-bottom: 0;
+    }
+
+    .setting-value {
+      color: #9a9fa8;
+      font-size: 13px;
+    }
+
+    .ai-note {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #eceff3;
+      color: #737983;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    /* 导航 */
+
+    .nav {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: 78px;
+      padding-bottom: env(safe-area-inset-bottom);
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(18px);
+      border-top: 1px solid rgba(0,0,0,.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .nav-item {
+      border: 0;
+      background: transparent;
+      color: #a2a6ad;
+      font-size: 13px;
+      min-width: 80px;
+      height: 52px;
+    }
+
+    .nav-item.active {
+      color: #242932;
+      font-weight: 700;
     }
   </style>
 </head>
 
 <body>
 
-  <main class="page">
+<div class="app">
 
-    <header class="top">
-      <div>
-        <div class="name">TA</div>
-        <div class="status">今天 · 在这里</div>
+  <!-- TA -->
+  <section id="taScreen" class="screen active">
+
+    <header class="profile-header">
+      <div class="identity">
+        <div class="avatar">晚</div>
+
+        <div>
+          <div class="name">林晚</div>
+          <div class="status">今天 · 在这里</div>
+        </div>
       </div>
 
-      <div class="dot"></div>
+      <div class="online-dot"></div>
     </header>
 
-    <section class="conversation">
-      <div class="message" id="message">有时候，
-你不需要马上想明白。
+    <div class="companion-area">
+      <div class="message-box">
+        <div class="message-time">21:03</div>
 
-我可以陪你慢一点。</div>
-    </section>
+        <div class="message" id="message">回来了？
 
-    <footer>
-      <button class="continue-button" id="continueButton" onclick="nextMessage()">
-        继续
-      </button>
+你昨天说，
+今天想把那件事继续做下去。
 
-      <button class="end-button" onclick="finishToday()">
-        今天先到这里
-      </button>
-    </footer>
+后来怎么样？</div>
+      </div>
+    </div>
 
-  </main>
+    <button class="primary-button" id="continueButton" onclick="nextMessage()">
+      继续听她说
+    </button>
 
-  <script>
-    const messages = [
-      `有时候，
-你不需要马上想明白。
+    <button class="secondary-button" onclick="finishToday()">
+      今天先到这里
+    </button>
 
-我可以陪你慢一点。`,
+  </section>
 
-      `今天发生的事情，
-不一定都要现在处理。
 
-先把最重的那一点放下来。`,
+  <!-- 记忆 -->
+  <section id="memoryScreen" class="screen">
 
-      `如果你什么都不想做，
-也可以。
+    <div class="page-title">她记得</div>
 
-至少此刻，
-你不用向我证明什么。`,
+    <div class="page-subtitle">
+      重要的事情会留在这里。<br>
+      以后你可以决定哪些该留下，哪些应该忘掉。
+    </div>
 
-      `好了。
+    <div class="memory-section-title">关于你</div>
 
-今天我想说的，
-暂时就这些。`
-    ];
+    <div class="memory-card" id="aboutMemory">
 
-    let currentIndex = 0;
+      <div class="memory-item">
+        <div class="memory-text">
+          你正在认真做自己的第一个产品。
+        </div>
+        <div class="memory-meta">关于你</div>
+        <button class="delete-memory" onclick="deleteMemory(this)">
+          删除这条记忆
+        </button>
+      </div>
 
-    function nextMessage() {
-      if (currentIndex < messages.length - 1) {
-        currentIndex++;
-      }
+      <div class="memory-item">
+        <div class="memory-text">
+          你不喜欢别人一直催你，更希望自己想清楚以后行动。
+        </div>
+        <div class="memory-meta">习惯</div>
+        <button class="delete-memory" onclick="deleteMemory(this)">
+          删除这条记忆
+        </button>
+      </div>
 
-      const message = document.getElementById('message');
-      const button = document.getElementById('continueButton');
+      <div class="memory-item">
+        <div class="memory-text">
+          晚上的时候，你通常比白天想得更多。
+        </div>
+        <div class="memory-meta">习惯</div>
+        <button class="delete-memory" onclick="deleteMemory(this)">
+          删除这条记忆
+        </button>
+      </div>
 
-      message.style.opacity = 0;
+    </div>
 
-      setTimeout(() => {
-        message.innerText = messages[currentIndex];
-        message.style.opacity = 1;
-      }, 180);
 
-      if (currentIndex === messages.length - 1) {
-        button.innerText = '明天见';
-      }
+    <div class="memory-section-title">共同经历</div>
+
+    <div class="memory-card">
+
+      <div class="memory-item">
+        <div class="memory-text">
+          你决定认真把 AI 伴侣这个想法做成真正的产品。
+        </div>
+        <div class="memory-meta">2026 · 08 · 19</div>
+        <button class="delete-memory" onclick="deleteMemory(this)">
+          删除这条记忆
+        </button>
+      </div>
+
+      <div class="memory-item">
+        <div class="memory-text">
+          你第一次做出了可以直接用手机打开的产品原型。
+        </div>
+        <div class="memory-meta">2026 · 08 · 19</div>
+        <button class="delete-memory" onclick="deleteMemory(this)">
+          删除这条记忆
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- 我的 -->
+  <section id="myScreen" class="screen">
+
+    <div class="page-title">我的</div>
+
+    <div class="page-subtitle">
+      第一版只保留真正需要的设置。
+    </div>
+
+    <div class="settings-card">
+
+      <div class="setting-row">
+        <span>当前伴侣</span>
+        <span class="setting-value">林晚</span>
+      </div>
+
+      <div class="setting-row">
+        <span>记忆</span>
+        <span class="setting-value">5 条</span>
+      </div>
+
+      <div class="setting-row">
+        <span>聊天记录</span>
+        <span class="setting-value">管理</span>
+      </div>
+
+      <div class="setting-row">
+        <span>清除全部数据</span>
+        <span class="setting-value">›</span>
+      </div>
+
+    </div>
+
+    <div class="ai-note">
+      林晚是 AI 角色，不是真实人物。<br>
+      当前版本为产品原型，聊天与记忆暂时使用测试数据。
+    </div>
+
+  </section>
+
+</div>
+
+
+<nav class="nav">
+
+  <button class="nav-item active"
+          onclick="showScreen('taScreen', this)">
+    TA
+  </button>
+
+  <button class="nav-item"
+          onclick="showScreen('memoryScreen', this)">
+    记忆
+  </button>
+
+  <button class="nav-item"
+          onclick="showScreen('myScreen', this)">
+    我的
+  </button>
+
+</nav>
+
+
+<script>
+
+  const messages = [
+    `回来了？
+
+你昨天说，
+今天想把那件事继续做下去。
+
+后来怎么样？`,
+
+    `我记得你第一次说起它的时候，
+其实还有点不确定。
+
+但你最后还是开始做了。`,
+
+    `所以今天不用一次解决所有问题。
+
+至少把下一步做完。`,
+
+    `好了。
+
+今天我先说到这里。
+
+你想来的时候，
+我还在。`
+  ];
+
+  let currentIndex = 0;
+
+  function nextMessage() {
+
+    if (currentIndex < messages.length - 1) {
+      currentIndex++;
     }
 
-    function finishToday() {
-      document.getElementById('message').innerText =
-        '好。\n\n今天就到这里。\n\n我会在这里。';
+    const message =
+      document.getElementById('message');
 
-      document.getElementById('continueButton').style.display = 'none';
+    const button =
+      document.getElementById('continueButton');
+
+    message.style.opacity = 0;
+
+    setTimeout(() => {
+
+      message.innerText =
+        messages[currentIndex];
+
+      message.style.opacity = 1;
+
+    }, 180);
+
+    if (currentIndex === messages.length - 1) {
+      button.innerText = '明天再说';
     }
-  </script>
+  }
+
+
+  function finishToday() {
+
+    document.getElementById('message').innerText =
+      '好。\n\n今天就到这里。\n\n下次来的时候，我们再继续。';
+
+    document.getElementById('continueButton').style.display =
+      'none';
+  }
+
+
+  function showScreen(screenId, button) {
+
+    document
+      .querySelectorAll('.screen')
+      .forEach(screen => {
+        screen.classList.remove('active');
+      });
+
+    document
+      .getElementById(screenId)
+      .classList.add('active');
+
+
+    document
+      .querySelectorAll('.nav-item')
+      .forEach(item => {
+        item.classList.remove('active');
+      });
+
+    button.classList.add('active');
+  }
+
+
+  function deleteMemory(button) {
+
+    const memory =
+      button.closest('.memory-item');
+
+    memory.remove();
+  }
+
+</script>
 
 </body>
 </html>
