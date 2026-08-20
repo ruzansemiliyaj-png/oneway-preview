@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>OneWay AI Test</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#111318;
+  color:#eef0f3;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+
+.app{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  padding:18px 16px 110px;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.title{
+  font-size:24px;
+  font-weight:800;
+}
+
+.sub{
+  margin-top:6px;
+  color:#8a919b;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.panel{
+  margin-top:18px;
+  padding:14px;
+  border:1px solid #2a2f37;
+  border-radius:18px;
+  background:#191c22;
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.role{
+  border:1px solid #2f353e;
+  background:#20242b;
+  color:#aeb4bd;
+  padding:9px 12px;
+  border-radius:999px;
+}
+
+.role.active{
+  background:#fff;
+  color:#16191d;
+  border-color:#fff;
+}
+
+.status{
+  font-size:11px;
+  color:#9299a3;
+}
+
+.ok{
+  color:#9bd19b;
+}
+
+.bad{
+  color:#f0a4a4;
+}
+
+.feed{
+  margin-top:20px;
+}
+
+.msg{
+  margin:0 0 16px;
+}
+
+.who{
+  font-size:10px;
+  color:#747b85;
+  margin-bottom:4px;
+}
+
+.ai{
+  font-size:17px;
+  line-height:1.6;
+}
+
+.user{
+  text-align:right;
+}
+
+.user span{
+  display:inline-block;
+  max-width:84%;
+  padding:10px 12px;
+  border-radius:16px 16px 5px 16px;
+  background:#232831;
+  color:#e9ebee;
+  font-size:14px;
+  line-height:1.55;
+  text-align:left;
+}
+
+.quick{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  margin:14px -16px 0;
+  padding:0 16px;
+}
+
+.quick button{
+  white-space:nowrap;
+  border:1px solid #303640;
+  background:#1b1f25;
+  color:#aab0b9;
+  border-radius:999px;
+  padding:8px 11px;
+  font-size:11px;
+}
+
+.composer{
+  position:fixed;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:520px;
+  padding:
+    10px
+    14px
+    calc(10px + env(safe-area-inset-bottom));
+
+  background:
+    linear-gradient(
+      to top,
+      #111318 72%,
+      rgba(17,19,24,.92)
+    );
+}
+
+.compose{
+  display:flex;
+  gap:8px;
+}
+
+.compose input{
+  flex:1;
+  min-width:0;
+  border:1px solid #303640;
+  background:#1d2128;
+  color:#fff;
+  border-radius:16px;
+  padding:13px;
+  outline:none;
+}
+
+.send{
+  width:58px;
+  border:0;
+  border-radius:16px;
+  background:#fff;
+  color:#17191d;
+  font-weight:800;
+}
+
+.small{
+  border:0;
+  background:#242932;
+  color:#cfd3d8;
+  border-radius:12px;
+  padding:9px 10px;
+  font-size:11px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="top">
+
+    <div>
+
+      <div class="title">
+        AI角色联调
+      </div>
+
+      <div class="sub">
+        先调模型，不动主产品。
+        稳定后再合并回正式页面。
+      </div>
+
+    </div>
+
+    <button
+      class="small"
+      onclick="clearChat()"
+    >
+      清空
+    </button>
+
+  </div>
+
+  <div class="panel">
+
+    <div
+      class="row"
+      id="roles"
+    ></div>
+
+    <div style="height:12px"></div>
+
+    <div
+      id="status"
+      class="status"
+    >
+      正在检查 Worker…
+    </div>
+
+  </div>
+
+  <div class="quick">
+
+    <button onclick="quick('你好')">
+      你好
+    </button>
+
+    <button onclick="quick('今天好累')">
+      今天好累
+    </button>
+
+    <button onclick="quick('嗯')">
+      嗯
+    </button>
+
+    <button onclick="quick('我没什么好说的了')">
+      没话说
+    </button>
+
+    <button onclick="quick('你觉得我做错了吗')">
+      别顺着我
+    </button>
+
+    <button onclick="quick('你是不是AI')">
+      你是不是AI
+    </button>
+
+    <button onclick="quick('我睡了')">
+      我睡了
+    </button>
+
+  </div>
+
+  <div
+    id="feed"
+    class="feed"
+  ></div>
+
+</div>
+
+<div class="composer">
+
+  <div class="compose">
+
+    <input
+      id="input"
+      placeholder="和TA说句话…"
+      autocomplete="off"
+    >
+
+    <button
+      class="send"
+      onclick="send()"
+    >
+      发送
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+const ENDPOINT =
+  "https://oneway-ai.ruzansemiliyaj.workers.dev";
+
+const ROLE_NAMES = {
+  linwan:"林晚",
+  sunian:"苏念",
+  chenyu:"陈屿",
+  shenchuan:"沈川"
+};
+
+let roleKey =
+  "linwan";
+
+let messages =
+  [];
+
+function esc(s){
+
+  return String(s).replace(
+    /[&<>"']/g,
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+}
+
+function renderRoles(){
+
+  const box =
+    document.getElementById(
+      "roles"
+    );
+
+  box.innerHTML =
+    "";
+
+  Object.entries(
+    ROLE_NAMES
+  ).forEach(
+    ([k,n]) => {
+
+      const b =
+        document.createElement(
+          "button"
+        );
+
+      b.className =
+        "role" +
+        (
+          k === roleKey
+            ? " active"
+            : ""
+        );
+
+      b.textContent =
+        n;
+
+      b.onclick =
+        () => {
+
+          roleKey =
+            k;
+
+          messages =
+            [];
+
+          renderRoles();
+
+          renderFeed();
+        };
+
+      box.appendChild(
+        b
+      );
+    }
+  );
+}
+
+function renderFeed(){
+
+  const feed =
+    document.getElementById(
+      "feed"
+    );
+
+  feed.innerHTML =
+    "";
+
+  messages.forEach(
+    m => {
+
+      const d =
+        document.createElement(
+          "div"
+        );
+
+      d.className =
+        "msg " +
+        (
+          m.role === "user"
+            ? "user"
+            : ""
+        );
+
+      if(
+        m.role ===
+        "assistant"
+      ){
+
+        d.innerHTML =
+          `
+          <div class="who">
+            ${ROLE_NAMES[roleKey]}
+          </div>
+
+          <div class="ai">
+            ${
+              esc(
+                m.content
+              ).replace(
+                /\n/g,
+                "<br>"
+              )
+            }
+          </div>
+          `;
+
+      }else{
+
+        d.innerHTML =
+          `
+          <span>
+            ${esc(m.content)}
+          </span>
+          `;
+      }
+
+      feed.appendChild(
+        d
+      );
+    }
+  );
+
+  window.scrollTo({
+    top:
+      document.body
+        .scrollHeight,
+
+    behavior:
+      "smooth"
+  });
+}
+
+async function health(){
+
+  const el =
+    document.getElementById(
+      "status"
+    );
+
+  try{
+
+    const r =
+      await fetch(
+        ENDPOINT
+      );
+
+    const d =
+      await r.json();
+
+    if(
+      !r.ok ||
+      !d.ok
+    ){
+      throw new Error(
+        d.error ||
+        "连接失败"
+      );
+    }
+
+    el.className =
+      "status ok";
+
+    el.textContent =
+      `Worker 正常 · ${
+        d.model ||
+        "模型已连接"
+      } · API ${
+        d.apiConfigured
+          ? "已配置"
+          : "未配置"
+      }`;
+
+  }catch(e){
+
+    el.className =
+      "status bad";
+
+    el.textContent =
+      "Worker 连接失败：" +
+      e.message;
+  }
+}
+
+async function send(){
+
+  const input =
+    document.getElementById(
+      "input"
+    );
+
+  const text =
+    input.value.trim();
+
+  if(!text){
+    return;
+  }
+
+  input.value =
+    "";
+
+  messages.push({
+    role:"user",
+    content:text
+  });
+
+  renderFeed();
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+  status.className =
+    "status";
+
+  status.textContent =
+    `${ROLE_NAMES[roleKey]} 正在回复…`;
+
+  try{
+
+    const r =
+      await fetch(
+        ENDPOINT,
+        {
+          method:
+            "POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              roleKey,
+
+              messages:
+                messages.slice(
+                  -20
+                ),
+
+              relationship:{
+                stage:
+                  "初识",
+
+                days:
+                  1
+              },
+
+              scene:
+                "default"
+            })
+        }
+      );
+
+    const d =
+      await r.json();
+
+    if(
+      !r.ok ||
+      !d.ok
+    ){
+
+      throw new Error(
+        d.error ||
+        "模型请求失败"
+      );
+    }
+
+    if(d.silent){
+
+      status.className =
+        "status ok";
+
+      status.textContent =
+        `${ROLE_NAMES[roleKey]} 没有继续追问 · ${
+          d.model ||
+          ""
+        }`;
+
+    }else{
+
+      messages.push({
+        role:
+          "assistant",
+
+        content:
+          d.text ||
+          ""
+      });
+
+      status.className =
+        "status ok";
+
+      status.textContent =
+        `真实模型 · ${
+          d.model ||
+          ""
+        }`;
+
+      renderFeed();
+    }
+
+  }catch(e){
+
+    status.className =
+      "status bad";
+
+    status.textContent =
+      "请求失败：" +
+      e.message;
+  }
+}
+
+function quick(t){
+
+  document
+    .getElementById(
+      "input"
+    )
+    .value =
+      t;
+
+  send();
+}
+
+function clearChat(){
+
+  messages =
+    [];
+
+  renderFeed();
+
+  document
+    .getElementById(
+      "status"
+    )
+    .textContent =
+      "聊天已清空，Worker 状态不受影响。";
+}
+
+document
+  .getElementById(
+    "input"
+  )
+  .addEventListener(
+    "keydown",
+    e => {
+
+      if(
+        e.key === "Enter" &&
+        !e.isComposing
+      ){
+
+        send();
+      }
+    }
+  );
+
+renderRoles();
+renderFeed();
+health();
+
+</script>
+
+</body>
+</html>
