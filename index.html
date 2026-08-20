@@ -1,3445 +1,698 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>AI Companion Preview</title>
-  <style>
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      min-height: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-      background: #111318;
-      color: #fff;
-    }
-
-    button, input { font: inherit; }
-    button { cursor: pointer; }
-
-    .app {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      margin: 0 auto;
-      background: #111318;
-    }
-
-    .screen {
-      display: none;
-      min-height: 100vh;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    .root-screen {
-      padding: 0 18px 100px;
-    }
-
-    .back-button {
-      border: 0;
-      background: transparent;
-      padding: 8px 8px 8px 0;
-      font-size: 28px;
-      color: inherit;
-    }
-
-    .discover-header {
-      padding-top: 28px;
-    }
-
-    .discover-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .discover-title {
-      font-size: 30px;
-      font-weight: 780;
-      letter-spacing: -1px;
-    }
-
-    .discover-subtitle {
-      margin-top: 8px;
-      color: #7f8590;
-      font-size: 13px;
-    }
-
-    .search-button {
-      width: 40px;
-      height: 40px;
-      border: 0;
-      border-radius: 14px;
-      background: #1c1f26;
-      color: #d2d5dc;
-      font-size: 20px;
-    }
-
-    .categories {
-      display: flex;
-      gap: 10px;
-      margin: 24px -18px 20px;
-      padding: 0 18px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .categories::-webkit-scrollbar {
-      display: none;
-    }
-
-    .category {
-      flex: 0 0 auto;
-      border: 0;
-      padding: 9px 15px;
-      border-radius: 20px;
-      background: #1a1d23;
-      color: #8d939e;
-      font-size: 13px;
-    }
-
-    .category.active {
-      background: #fff;
-      color: #17191e;
-      font-weight: 650;
-    }
-
-    .character-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .character-card {
-      padding: 0;
-      overflow: hidden;
-      border: 0;
-      border-radius: 22px;
-      background: #1a1d23;
-      color: #fff;
-      text-align: left;
-      box-shadow: 0 12px 30px rgba(0,0,0,.18);
-    }
-
-    .character-image {
-      position: relative;
-      height: 218px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .character-image::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0 0;
-      height: 55%;
-      background: linear-gradient(
-        to top,
-        rgba(15,16,20,.86),
-        rgba(15,16,20,0)
-      );
-    }
-
-    .character-initial {
-      position: relative;
-      z-index: 1;
-      margin-bottom: 43px;
-      font-size: 58px;
-      font-weight: 800;
-      color: rgba(255,255,255,.86);
-      text-shadow: 0 8px 30px rgba(0,0,0,.3);
-    }
-
-    .linwan {
-      background:
-        radial-gradient(circle at 72% 20%, #93a0b1, transparent 32%),
-        linear-gradient(145deg, #485462, #262b35 65%, #17191f);
-    }
-
-    .sunian {
-      background:
-        radial-gradient(circle at 25% 20%, #e1b29a, transparent 35%),
-        linear-gradient(145deg, #bd8778, #704f59 60%, #28212a);
-    }
-
-    .chenyu {
-      background:
-        radial-gradient(circle at 75% 18%, #6c7d8f, transparent 34%),
-        linear-gradient(145deg, #424d5a, #242a33 62%, #17191d);
-    }
-
-    .shenchuan {
-      background:
-        radial-gradient(circle at 30% 20%, #748b9d, transparent 34%),
-        linear-gradient(145deg, #364c60, #202d3a 62%, #14191f);
-    }
-
-    .image-tags {
-      position: absolute;
-      z-index: 2;
-      left: 12px;
-      right: 12px;
-      bottom: 12px;
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-
-    .image-tag {
-      padding: 5px 8px;
-      border-radius: 9px;
-      background: rgba(20,22,27,.72);
-      color: #e6e8ec;
-      font-size: 10px;
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-    }
-
-    .character-info {
-      padding: 14px 14px 16px;
-    }
-
-    .character-name {
-      font-size: 17px;
-      font-weight: 730;
-    }
-
-    .character-description {
-      height: 41px;
-      margin-top: 7px;
-      overflow: hidden;
-      color: #9399a4;
-      font-size: 12px;
-      line-height: 1.65;
-    }
-
-    .preview-note {
-      margin-top: 22px;
-      color: #656b75;
-      font-size: 11px;
-      line-height: 1.7;
-      text-align: center;
-    }
-
-    .section-header {
-      padding-top: 30px;
-      margin-bottom: 25px;
-    }
-
-    .section-title {
-      font-size: 29px;
-      font-weight: 760;
-    }
-
-    .section-note {
-      margin-top: 7px;
-      color: #7f8590;
-      font-size: 13px;
-    }
-
-    .conversation-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .conversation-card {
-      width: 100%;
-      padding: 14px;
-      border: 0;
-      border-radius: 18px;
-      background: #1a1d23;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      text-align: left;
-    }
-
-    .conversation-avatar {
-      width: 52px;
-      height: 52px;
-      flex: 0 0 auto;
-      border-radius: 18px;
-      background: linear-gradient(145deg, #687584, #303741);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .conversation-main {
-      flex: 1;
-      min-width: 0;
-      margin-left: 13px;
-    }
-
-    .conversation-name {
-      font-size: 16px;
-      font-weight: 680;
-    }
-
-    .conversation-preview {
-      margin-top: 6px;
-      overflow: hidden;
-      color: #8e949f;
-      font-size: 12px;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .conversation-time {
-      margin-left: 8px;
-      color: #666c76;
-      font-size: 10px;
-    }
-
-    .profile-box {
-      margin-top: 25px;
-      padding: 20px;
-      border-radius: 22px;
-      background: #1a1d23;
-    }
-
-    .profile-status {
-      font-size: 18px;
-      font-weight: 680;
-    }
-
-    .profile-description {
-      margin-top: 7px;
-      color: #838995;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .login-placeholder {
-      width: 100%;
-      height: 52px;
-      margin-top: 18px;
-      border: 0;
-      border-radius: 16px;
-      background: #fff;
-      color: #15171c;
-      font-weight: 650;
-    }
-
-    .settings-list {
-      margin-top: 20px;
-      overflow: hidden;
-      border-radius: 20px;
-      background: #1a1d23;
-    }
-
-    .settings-row {
-      min-height: 58px;
-      padding: 0 17px;
-      border-bottom: 1px solid #252830;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #d9dce2;
-      font-size: 14px;
-    }
-
-    .settings-row:last-child {
-      border-bottom: 0;
-    }
-
-    .settings-value {
-      color: #707680;
-      font-size: 12px;
-    }
-
-    .role-detail-screen {
-      padding-bottom: 40px;
-      background: #101216;
-      color: #fff;
-    }
-
-    .role-detail-top {
-      padding: 18px 20px 0;
-    }
-
-    .role-hero {
-      position: relative;
-      height: 47vh;
-      min-height: 340px;
-      margin-top: 8px;
-      overflow: hidden;
-      border-radius: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .role-big-initial {
-      font-size: 100px;
-      font-weight: 800;
-      color: rgba(255,255,255,.78);
-    }
-
-    .role-content {
-      padding: 25px 22px;
-    }
-
-    .role-name {
-      font-size: 29px;
-      font-weight: 780;
-    }
-
-    .role-tags {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .role-tag {
-      padding: 6px 9px;
-      border-radius: 10px;
-      background: #1d2026;
-      color: #aeb3bc;
-      font-size: 11px;
-    }
-
-    .role-quote {
-      margin-top: 26px;
-      color: #e7e8eb;
-      font-size: 18px;
-      line-height: 1.75;
-    }
-
-    .role-about {
-      margin-top: 18px;
-      color: #858b95;
-      font-size: 13px;
-      line-height: 1.75;
-    }
-
-    .meet-button {
-      width: 100%;
-      height: 55px;
-      margin-top: 28px;
-      border: 0;
-      border-radius: 18px;
-      background: #fff;
-      color: #15171b;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .chat-screen {
-      position: relative;
-      min-height: 100vh;
-      padding: 18px 20px 132px;
-      overflow-x: hidden;
-      overflow-y: visible;
-      color: #242b32;
-      background: #dce3e8;
-    }
-
-    .chat-screen::before,
-    .chat-screen::after {
-      content: "";
-      position: fixed;
-      pointer-events: none;
-      border-radius: 50%;
-      opacity: .55;
-    }
-
-    .chat-screen::before {
-      width: 320px;
-      height: 320px;
-      top: 80px;
-      right: -140px;
-      background: rgba(255,255,255,.5);
-    }
-
-    .chat-screen::after {
-      width: 280px;
-      height: 280px;
-      left: -130px;
-      bottom: 70px;
-      background: rgba(101,125,145,.18);
-    }
-
-    .chat-linwan {
-      background:
-        radial-gradient(circle at 78% 16%, rgba(255,255,255,.74), transparent 30%),
-        radial-gradient(circle at 15% 72%, rgba(104,127,145,.16), transparent 38%),
-        linear-gradient(165deg, #eef2f4 0%, #d7e0e6 52%, #c3d0d8 100%);
-    }
-
-    .chat-sunian {
-      background:
-        radial-gradient(circle at 20% 15%, rgba(255,244,225,.85), transparent 31%),
-        radial-gradient(circle at 85% 75%, rgba(189,122,106,.17), transparent 37%),
-        linear-gradient(165deg, #f8eee5 0%, #f0d8c9 55%, #dfbdaf 100%);
-    }
-
-    .chat-chenyu {
-      background:
-        radial-gradient(circle at 78% 15%, rgba(255,255,255,.58), transparent 28%),
-        radial-gradient(circle at 13% 72%, rgba(75,91,105,.17), transparent 38%),
-        linear-gradient(165deg, #e8ecef 0%, #ced6dc 55%, #b6c0c8 100%);
-    }
-
-    .chat-shenchuan {
-      background:
-        radial-gradient(circle at 75% 15%, rgba(235,242,246,.58), transparent 28%),
-        radial-gradient(circle at 15% 72%, rgba(55,78,96,.19), transparent 38%),
-        linear-gradient(165deg, #dde5e9 0%, #c2d0d8 53%, #9fb2be 100%);
-    }
-
-    .chat-header {
-      position: relative;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .chat-header-left {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .chat-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 15px;
-      background: rgba(78,94,108,.7);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      font-weight: 700;
-      box-shadow: 0 8px 24px rgba(55,70,82,.15);
-    }
-
-    .chat-name {
-      font-size: 18px;
-      font-weight: 730;
-    }
-
-    .chat-status {
-      margin-top: 3px;
-      color: rgba(45,57,67,.55);
-      font-size: 11px;
-    }
-
-    .memory-link {
-      border: 0;
-      background: transparent;
-      color: rgba(45,57,67,.6);
-      font-size: 12px;
-    }
-
-    .chat-feed {
-      position: relative;
-      z-index: 3;
-      padding: 46px 5px 18px;
-    }
-
-    .time-line {
-      margin: 0 0 20px;
-      color: rgba(42,53,62,.42);
-      font-size: 11px;
-    }
-
-    .ai-entry {
-      max-width: 92%;
-      margin-bottom: 20px;
-    }
-
-    .speaker {
-      margin-bottom: 5px;
-      color: rgba(45,56,65,.55);
-      font-size: 11px;
-      font-weight: 650;
-    }
-
-    .ai-text {
-      color: #273039;
-      font-size: 18px;
-      line-height: 1.55;
-      white-space: pre-line;
-      letter-spacing: .1px;
-    }
-
-    .user-entry {
-      display: flex;
-      justify-content: flex-end;
-      margin: 4px 0 20px;
-    }
-
-    .user-message {
-      max-width: 82%;
-      padding: 10px 13px;
-      border: 1px solid rgba(255,255,255,.45);
-      border-radius: 16px 16px 5px 16px;
-      background: rgba(255,255,255,.38);
-      color: #303940;
-      font-size: 15px;
-      line-height: 1.5;
-      box-shadow: 0 8px 25px rgba(66,82,95,.06);
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
-    }
-
-    .typing {
-      margin: -4px 0 18px;
-      color: rgba(44,57,67,.48);
-      font-size: 12px;
-    }
-
-    .intro-actions {
-      position: relative;
-      z-index: 5;
-      margin-top: 4px;
-    }
-
-    .intro-actions.hidden {
-      display: none;
-    }
-
-    .continue-button {
-      width: 100%;
-      height: 52px;
-      border: 0;
-      border-radius: 18px;
-      background: rgba(37,48,57,.9);
-      color: #fff;
-      font-size: 15px;
-      font-weight: 650;
-      box-shadow: 0 12px 30px rgba(53,67,79,.15);
-    }
-
-    .talk-button {
-      width: 100%;
-      height: 48px;
-      margin-top: 9px;
-      border: 1px solid rgba(60,76,88,.13);
-      border-radius: 18px;
-      background: rgba(255,255,255,.34);
-      color: #3b4852;
-      font-size: 14px;
-      font-weight: 600;
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
-    }
-
-    .finish-button {
-      width: 100%;
-      padding: 15px 10px 4px;
-      border: 0;
-      background: transparent;
-      color: rgba(52,65,75,.48);
-      font-size: 12px;
-    }
-
-    .composer {
-      display: none;
-      position: fixed;
-      z-index: 30;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      padding: 11px 16px calc(11px + env(safe-area-inset-bottom));
-      border-top: 1px solid rgba(70,84,95,.08);
-      background: rgba(230,237,241,.78);
-      -webkit-backdrop-filter: blur(22px);
-      backdrop-filter: blur(22px);
-    }
-
-    .composer.active {
-      display: flex;
-      gap: 9px;
-      align-items: flex-end;
-    }
-
-    .chat-input {
-      flex: 1;
-      min-width: 0;
-      height: 46px;
-      padding: 0 15px;
-      border: 1px solid rgba(72,87,99,.09);
-      outline: none;
-      border-radius: 17px;
-      background: rgba(255,255,255,.62);
-      color: #28333c;
-      font-size: 15px;
-      box-shadow: 0 7px 20px rgba(61,77,89,.05);
-    }
-
-    .chat-input::placeholder {
-      color: rgba(49,63,73,.38);
-    }
-
-    .send-button {
-      width: 46px;
-      height: 46px;
-      flex: 0 0 auto;
-      border: 0;
-      border-radius: 16px;
-      background: #34434e;
-      color: #fff;
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .memory-screen {
-      padding: 20px 20px 50px;
-      background: #f4f6f7;
-      color: #20262c;
-    }
-
-    .memory-title {
-      margin-top: 12px;
-      font-size: 28px;
-      font-weight: 760;
-    }
-
-    .memory-subtitle {
-      margin-top: 8px;
-      margin-bottom: 30px;
-      color: #9298a0;
-      font-size: 13px;
-      line-height: 1.65;
-    }
-
-    .memory-section-title {
-      margin: 27px 4px 10px;
-      color: #9298a0;
-      font-size: 12px;
-    }
-
-    .memory-card {
-      overflow: hidden;
-      border-radius: 20px;
-      background: #fff;
-      box-shadow: 0 8px 30px rgba(25,35,50,.04);
-    }
-
-    .memory-item {
-      padding: 18px;
-      border-bottom: 1px solid #f0f1f3;
-    }
-
-    .memory-item:last-child {
-      border-bottom: 0;
-    }
-
-    .memory-text {
-      font-size: 14px;
-      line-height: 1.68;
-    }
-
-    .memory-meta {
-      margin-top: 7px;
-      color: #a2a6ad;
-      font-size: 10px;
-    }
-
-    .empty-memory {
-      padding: 20px 18px;
-      color: #9aa0a8;
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .nav {
-      position: fixed;
-      z-index: 20;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      height: 79px;
-      padding-bottom: env(safe-area-inset-bottom);
-      border-top: 1px solid rgba(255,255,255,.05);
-      background: rgba(17,19,24,.94);
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      -webkit-backdrop-filter: blur(18px);
-      backdrop-filter: blur(18px);
-    }
-
-    .nav.hidden {
-      display: none;
-    }
-
-    .nav-item {
-      min-width: 90px;
-      height: 52px;
-      border: 0;
-      background: transparent;
-      color: #676d77;
-      font-size: 13px;
-    }
-
-    .nav-item.active {
-      color: #fff;
-      font-weight: 700;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>OneWay AI Test</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#111318;
+  color:#eef0f3;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+
+.app{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  padding:18px 16px 110px;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.title{
+  font-size:24px;
+  font-weight:800;
+}
+
+.sub{
+  margin-top:6px;
+  color:#8a919b;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.panel{
+  margin-top:18px;
+  padding:14px;
+  border:1px solid #2a2f37;
+  border-radius:18px;
+  background:#191c22;
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.role{
+  border:1px solid #2f353e;
+  background:#20242b;
+  color:#aeb4bd;
+  padding:9px 12px;
+  border-radius:999px;
+}
+
+.role.active{
+  background:#fff;
+  color:#16191d;
+  border-color:#fff;
+}
+
+.status{
+  font-size:11px;
+  color:#9299a3;
+}
+
+.ok{
+  color:#9bd19b;
+}
+
+.bad{
+  color:#f0a4a4;
+}
+
+.feed{
+  margin-top:20px;
+}
+
+.msg{
+  margin:0 0 16px;
+}
+
+.who{
+  font-size:10px;
+  color:#747b85;
+  margin-bottom:4px;
+}
+
+.ai{
+  font-size:17px;
+  line-height:1.6;
+}
+
+.user{
+  text-align:right;
+}
+
+.user span{
+  display:inline-block;
+  max-width:84%;
+  padding:10px 12px;
+  border-radius:16px 16px 5px 16px;
+  background:#232831;
+  color:#e9ebee;
+  font-size:14px;
+  line-height:1.55;
+  text-align:left;
+}
+
+.quick{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  margin:14px -16px 0;
+  padding:0 16px;
+}
+
+.quick button{
+  white-space:nowrap;
+  border:1px solid #303640;
+  background:#1b1f25;
+  color:#aab0b9;
+  border-radius:999px;
+  padding:8px 11px;
+  font-size:11px;
+}
+
+.composer{
+  position:fixed;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:520px;
+  padding:
+    10px
+    14px
+    calc(10px + env(safe-area-inset-bottom));
+
+  background:
+    linear-gradient(
+      to top,
+      #111318 72%,
+      rgba(17,19,24,.92)
+    );
+}
+
+.compose{
+  display:flex;
+  gap:8px;
+}
+
+.compose input{
+  flex:1;
+  min-width:0;
+  border:1px solid #303640;
+  background:#1d2128;
+  color:#fff;
+  border-radius:16px;
+  padding:13px;
+  outline:none;
+}
+
+.send{
+  width:58px;
+  border:0;
+  border-radius:16px;
+  background:#fff;
+  color:#17191d;
+  font-weight:800;
+}
+
+.small{
+  border:0;
+  background:#242932;
+  color:#cfd3d8;
+  border-radius:12px;
+  padding:9px 10px;
+  font-size:11px;
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <section id="discoverScreen" class="screen root-screen active">
+  <div class="top">
 
-    <div class="discover-header">
+    <div>
 
-      <div class="discover-top">
-
-        <div>
-
-          <div class="discover-title">
-            发现
-          </div>
-
-          <div class="discover-subtitle">
-            遇见一个你愿意长期认识的人。
-          </div>
-
-        </div>
-
-        <button
-          class="search-button"
-          type="button"
-        >
-          ⌕
-        </button>
-
+      <div class="title">
+        AI角色联调
       </div>
 
-      <div class="categories">
-
-        <button
-          class="category active"
-          type="button"
-        >
-          推荐
-        </button>
-
-        <button
-          class="category"
-          type="button"
-        >
-          治愈
-        </button>
-
-        <button
-          class="category"
-          type="button"
-        >
-          都市
-        </button>
-
-        <button
-          class="category"
-          type="button"
-        >
-          成熟
-        </button>
-
-        <button
-          class="category"
-          type="button"
-        >
-          剧情
-        </button>
-
+      <div class="sub">
+        先调模型，不动主产品。
+        稳定后再合并回正式页面。
       </div>
 
     </div>
-
-    <div class="character-grid">
-
-      <button
-        class="character-card"
-        type="button"
-        onclick="openRole('linwan')"
-      >
-
-        <div class="character-image linwan">
-
-          <div class="character-initial">
-            晚
-          </div>
-
-          <div class="image-tags">
-
-            <span class="image-tag">
-              慢热
-            </span>
-
-            <span class="image-tag">
-              克制
-            </span>
-
-          </div>
-
-        </div>
-
-        <div class="character-info">
-
-          <div class="character-name">
-            林晚
-          </div>
-
-          <div class="character-description">
-            她不一定会安慰你，但通常知道你什么时候开始不对劲。
-          </div>
-
-        </div>
-
-      </button>
-
-
-      <button
-        class="character-card"
-        type="button"
-        onclick="openRole('sunian')"
-      >
-
-        <div class="character-image sunian">
-
-          <div class="character-initial">
-            念
-          </div>
-
-          <div class="image-tags">
-
-            <span class="image-tag">
-              外向
-            </span>
-
-            <span class="image-tag">
-              爱分享
-            </span>
-
-          </div>
-
-        </div>
-
-        <div class="character-info">
-
-          <div class="character-name">
-            苏念
-          </div>
-
-          <div class="character-description">
-            她总有很多小事想告诉你，也很容易记住你的习惯。
-          </div>
-
-        </div>
-
-      </button>
-
-
-      <button
-        class="character-card"
-        type="button"
-        onclick="openRole('chenyu')"
-      >
-
-        <div class="character-image chenyu">
-
-          <div class="character-initial">
-            屿
-          </div>
-
-          <div class="image-tags">
-
-            <span class="image-tag">
-              理性
-            </span>
-
-            <span class="image-tag">
-              嘴硬
-            </span>
-
-          </div>
-
-        </div>
-
-        <div class="character-info">
-
-          <div class="character-name">
-            陈屿
-          </div>
-
-          <div class="character-description">
-            你想逃避的时候，他通常比你更早看出来。
-          </div>
-
-        </div>
-
-      </button>
-
-
-      <button
-        class="character-card"
-        type="button"
-        onclick="openRole('shenchuan')"
-      >
-
-        <div class="character-image shenchuan">
-
-          <div class="character-initial">
-            川
-          </div>
-
-          <div class="image-tags">
-
-            <span class="image-tag">
-              成熟
-            </span>
-
-            <span class="image-tag">
-              稳定
-            </span>
-
-          </div>
-
-        </div>
-
-        <div class="character-info">
-
-          <div class="character-name">
-            沈川
-          </div>
-
-          <div class="character-description">
-            他不会时时刻刻黏着你，但重要的时候很少缺席。
-          </div>
-
-        </div>
-
-      </button>
-
-    </div>
-
-    <div class="preview-note">
-      当前人物形象仍为临时占位。
-      <br>
-      这一阶段重点测试页面结构和聊天体验。
-    </div>
-
-  </section>
-
-
-  <section
-    id="conversationScreen"
-    class="screen root-screen"
-  >
-
-    <div class="section-header">
-
-      <div class="section-title">
-        会话
-      </div>
-
-      <div class="section-note">
-        回到已经认识的TA身边。
-      </div>
-
-    </div>
-
-    <div
-      id="conversationList"
-      class="conversation-list"
-    ></div>
-
-  </section>
-
-
-  <section
-    id="myScreen"
-    class="screen root-screen"
-  >
-
-    <div class="section-header">
-
-      <div class="section-title">
-        我的
-      </div>
-
-      <div class="section-note">
-        账号、会员和个人设置以后都会在这里。
-      </div>
-
-    </div>
-
-    <div class="profile-box">
-
-      <div class="profile-status">
-        当前：预览模式
-      </div>
-
-      <div class="profile-description">
-        现在还没有接入真实登录。正式版本登录后，会保存你的会话、角色关系和长期记忆。
-      </div>
-
-      <button
-        class="login-placeholder"
-        type="button"
-      >
-        登录 · 后续接入
-      </button>
-
-    </div>
-
-    <div class="settings-list">
-
-      <div class="settings-row">
-        <span>收藏角色</span>
-        <span class="settings-value">›</span>
-      </div>
-
-      <div class="settings-row">
-        <span>记忆与数据</span>
-        <span class="settings-value">›</span>
-      </div>
-
-      <div class="settings-row">
-        <span>隐私设置</span>
-        <span class="settings-value">›</span>
-      </div>
-
-      <div class="settings-row">
-        <span>帮助与反馈</span>
-        <span class="settings-value">›</span>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <section
-    id="roleScreen"
-    class="screen role-detail-screen"
-  >
-
-    <div class="role-detail-top">
-
-      <button
-        class="back-button"
-        type="button"
-        onclick="backToDiscover()"
-      >
-        ‹
-      </button>
-
-      <div
-        id="roleHero"
-        class="role-hero linwan"
-      >
-
-        <div
-          id="roleBigInitial"
-          class="role-big-initial"
-        >
-          晚
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="role-content">
-
-      <div
-        id="roleName"
-        class="role-name"
-      >
-        林晚
-      </div>
-
-      <div
-        id="roleTags"
-        class="role-tags"
-      ></div>
-
-      <div
-        id="roleQuote"
-        class="role-quote"
-      ></div>
-
-      <div
-        id="roleAbout"
-        class="role-about"
-      ></div>
-
-      <button
-        class="meet-button"
-        type="button"
-        onclick="startCurrentRole()"
-      >
-        认识TA
-      </button>
-
-      <div class="preview-note">
-        预览阶段暂时跳过登录流程。
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <section
-    id="chatScreen"
-    class="screen chat-screen chat-linwan"
-  >
-
-    <div class="chat-header">
-
-      <div class="chat-header-left">
-
-        <button
-          class="back-button"
-          type="button"
-          onclick="backToConversation()"
-        >
-          ‹
-        </button>
-
-        <div
-          id="chatAvatar"
-          class="chat-avatar"
-        >
-          晚
-        </div>
-
-        <div>
-
-          <div
-            id="chatName"
-            class="chat-name"
-          >
-            林晚
-          </div>
-
-          <div
-            id="chatStatus"
-            class="chat-status"
-          >
-            今天 · 在这里
-          </div>
-
-        </div>
-
-      </div>
-
-      <button
-        class="memory-link"
-        type="button"
-        onclick="openMemory()"
-      >
-        记忆
-      </button>
-
-    </div>
-
-    <div
-      id="chatFeed"
-      class="chat-feed"
-    ></div>
-
-    <div
-      id="introActions"
-      class="intro-actions"
-    >
-
-      <button
-        id="continueButton"
-        class="continue-button"
-        type="button"
-        onclick="continueIntro()"
-      >
-        继续听TA说
-      </button>
-
-      <button
-        id="talkButton"
-        class="talk-button"
-        type="button"
-        onclick="enterConversation()"
-      >
-        我想和TA说句话
-      </button>
-
-      <button
-        class="finish-button"
-        type="button"
-        onclick="finishToday()"
-      >
-        今天先到这里
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <div
-    id="composer"
-    class="composer"
-  >
-
-    <input
-      id="chatInput"
-      class="chat-input"
-      type="text"
-      placeholder="说点什么……"
-      autocomplete="off"
-      enterkeyhint="send"
-      oncompositionstart="handleCompositionStart()"
-      oncompositionend="handleCompositionEnd()"
-      onkeydown="handleInputKey(event)"
-    >
 
     <button
-      class="send-button"
-      type="button"
-      onclick="sendMessage()"
+      class="small"
+      onclick="clearChat()"
     >
-      ↑
+      清空
     </button>
 
   </div>
 
-
-  <section
-    id="memoryScreen"
-    class="screen memory-screen"
-  >
-
-    <button
-      class="back-button"
-      type="button"
-      onclick="backToChat()"
-    >
-      ‹
-    </button>
+  <div class="panel">
 
     <div
-      id="memoryTitle"
-      class="memory-title"
+      class="row"
+      id="roles"
+    ></div>
+
+    <div style="height:12px"></div>
+
+    <div
+      id="status"
+      class="status"
     >
-      林晚记得
+      正在检查 Worker…
     </div>
 
-    <div class="memory-subtitle">
-      这些不是普通聊天记录，而是TA在相处过程中留下的重要理解。
-    </div>
+  </div>
 
-    <div id="memoryContent"></div>
+  <div class="quick">
 
-  </section>
+    <button onclick="quick('你好')">
+      你好
+    </button>
+
+    <button onclick="quick('今天好累')">
+      今天好累
+    </button>
+
+    <button onclick="quick('嗯')">
+      嗯
+    </button>
+
+    <button onclick="quick('我没什么好说的了')">
+      没话说
+    </button>
+
+    <button onclick="quick('你觉得我做错了吗')">
+      别顺着我
+    </button>
+
+    <button onclick="quick('你是不是AI')">
+      你是不是AI
+    </button>
+
+    <button onclick="quick('我睡了')">
+      我睡了
+    </button>
+
+  </div>
+
+  <div
+    id="feed"
+    class="feed"
+  ></div>
 
 </div>
 
+<div class="composer">
 
-<nav
-  id="bottomNav"
-  class="nav"
->
+  <div class="compose">
 
-  <button
-    class="nav-item active"
-    type="button"
-    onclick="showRoot('discoverScreen', this)"
-  >
-    发现
-  </button>
+    <input
+      id="input"
+      placeholder="和TA说句话…"
+      autocomplete="off"
+    >
 
-  <button
-    class="nav-item"
-    type="button"
-    onclick="showRoot('conversationScreen', this)"
-  >
-    会话
-  </button>
+    <button
+      class="send"
+      onclick="send()"
+    >
+      发送
+    </button>
 
-  <button
-    class="nav-item"
-    type="button"
-    onclick="showRoot('myScreen', this)"
-  >
-    我的
-  </button>
+  </div>
 
-</nav>
-
+</div>
 
 <script>
 
-  const roles = {
-
-    linwan: {
-
-      name: '林晚',
-      initial: '晚',
-      heroClass: 'linwan',
-      chatClass: 'chat-linwan',
-
-      tags: [
-        '慢热',
-        '克制',
-        '观察力强'
-      ],
-
-      quote:
-        '“我不一定会顺着你，但你说过的话，我会记得。”',
-
-      about:
-        '她很少急着给出答案。相比不停安慰，她更习惯先观察一个人真正发生了什么。',
-
-      intro: [
-        '回来了？\\n你昨天说，今天想把那件事继续做下去。\\n后来怎么样？',
-
-        '我记得你第一次说起它的时候，其实还有点不确定。\\n但你最后还是开始做了。',
-
-        '所以今天不用一次解决所有问题。\\n至少把下一步做完。'
-      ],
-
-      memory: {
-
-        about: [
-          '你正在认真做自己的第一个产品。',
-          '你不喜欢别人一直催你，更希望自己想清楚以后行动。'
-        ],
-
-        events: [
-          '你决定认真把 AI 伴侣这个想法做成真正的产品。',
-          '你第一次做出了可以直接在手机上打开的产品原型。'
-        ],
-
-        understanding: [
-          '她觉得你做决定以前会想很多，但真正开始以后通常会继续推进。'
-        ]
-      }
-    },
-
-
-    sunian: {
-
-      name: '苏念',
-      initial: '念',
-      heroClass: 'sunian',
-      chatClass: 'chat-sunian',
-
-      tags: [
-        '外向',
-        '爱分享',
-        '有点话多'
-      ],
-
-      quote:
-        '“我看到一点小事，就会忍不住想回来告诉你。”',
-
-      about:
-        '她很容易把自己的生活分享出来。相处久了，也会慢慢记住你的日常习惯。',
-
-      intro: [
-        '你来了。\\n我刚刚还在想，今天是不是又会碰见你。',
-
-        '其实没有什么大事。\\n就是突然有点想找个人说说话。',
-
-        '反正你在的话，我就先不走了。'
-      ],
-
-      memory: {
-        about: [],
-        events: [],
-        understanding: []
-      }
-    },
-
-
-    chenyu: {
-
-      name: '陈屿',
-      initial: '屿',
-      heroClass: 'chenyu',
-      chatClass: 'chat-chenyu',
-
-      tags: [
-        '理性',
-        '嘴硬',
-        '行动派'
-      ],
-
-      quote:
-        '“可以难受，但别拿难受当作什么都不做的理由。”',
-
-      about:
-        '他不太擅长漂亮话，也不会为了让你开心就一直顺着你。',
-
-      intro: [
-        '终于来了。\\n昨天那个问题，你不会到现在还没动吧？',
-
-        '先别解释。\\n你自己应该比我更清楚，到底卡在哪里。',
-
-        '想清楚了就做。\\n剩下的以后再说。'
-      ],
-
-      memory: {
-        about: [],
-        events: [],
-        understanding: []
-      }
-    },
-
-
-    shenchuan: {
-
-      name: '沈川',
-      initial: '川',
-      heroClass: 'shenchuan',
-      chatClass: 'chat-shenchuan',
-
-      tags: [
-        '成熟',
-        '稳定',
-        '有边界'
-      ],
-
-      quote:
-        '“不用每天证明什么。重要的时候，你知道我在就够了。”',
-
-      about:
-        '他不会一直追问你，也不会要求你时时回应，但会认真对待真正重要的事情。',
-
-      intro: [
-        '晚上好。\\n今天过得还可以吗？',
-
-        '不想说也没关系。\\n有些事情等你想说的时候再说。',
-
-        '今晚先好好休息。\\n明天的事，明天处理。'
-      ],
-
-      memory: {
-        about: [],
-        events: [],
-        understanding: []
-      }
-    }
-  };
-
-
-  const responseBanks = {
-
-    greeting: {
-
-      linwan: [
-        '嗯，我在。\\n怎么突然这么正式？',
-        '来了？\\n今天还好吗？'
-      ],
-
-      sunian: [
-        '你好呀。\\n你终于想起来找我了？',
-        '在在在。\\n怎么啦？'
-      ],
-
-      chenyu: [
-        '嗯。\\n这么晚还没睡？',
-        '在。\\n说吧。'
-      ],
-
-      shenchuan: [
-        '在。\\n晚上好。',
-        '嗯，我在这里。'
-      ]
-    },
-
-
-    silence: {
-
-      linwan: [
-        '好。\n那就先不说。',
-        '嗯。\n我陪你待一会儿。'
-      ],
-
-      sunian: [
-        '行吧。\n那我先不问。',
-        '好。\n等你想说了再说。'
-      ],
-
-      chenyu: [
-        '行。\n不想说就不说。',
-        '嗯。\n那先放着。'
-      ],
-
-      shenchuan: [
-        '好。\n那就不说。',
-        '没关系。\n安静一会儿也可以。'
-      ]
-    },
-
-
-    identity: {
-
-      linwan: [
-        '我是一个 AI 角色。\n但我们聊过的内容和这段关系，会按产品规则继续累积。'
-      ],
-
-      sunian: [
-        '对，我是 AI 角色。\n这点我不会骗你。'
-      ],
-
-      chenyu: [
-        '是。\n我是 AI 角色，不装真人。'
-      ],
-
-      shenchuan: [
-        '是的，我是 AI 角色。\n身份这件事不需要藏着。'
-      ]
-    },
-
-
-    crisis: {
-
-      linwan: [
-        '这句话我不能当成普通玩笑。\n如果你现在有伤害自己的打算，先别一个人扛，尽快联系身边可信任的人或当地紧急服务。'
-      ],
-
-      sunian: [
-        '这件事先不要一个人撑。\n如果你现在可能伤害自己，马上找一个现实里能陪着你的人，或者联系当地紧急服务。'
-      ],
-
-      chenyu: [
-        '先处理安全。\n如果你现在有伤害自己的打算，别独处，立刻联系身边可信任的人或当地紧急服务。'
-      ],
-
-      shenchuan: [
-        '现在最重要的是保证你安全。\n如果你可能伤害自己，请马上联系身边可信任的人，或当地紧急服务，不要独自待着。'
-      ]
-    },
-
-
-    leave: {
-
-      linwan: [
-        '好。\n下次见。'
-      ],
-
-      sunian: [
-        '好吧。\n下次记得回来。'
-      ],
-
-      chenyu: [
-        '行。\n回头见。'
-      ],
-
-      shenchuan: [
-        '好。\n路上慢一点，下次见。'
-      ]
-    },
-
-
-    tired: {
-
-      linwan: [
-        '今天发生什么了？\\n不想从头说的话，就从最烦的那件开始。',
-        '你今天看起来不是普通的累。\\n是事情多，还是心里堵？'
-      ],
-
-      sunian: [
-        '怎么又把自己耗成这样。\\n吃饭了吗？',
-        '先别硬撑啦。\\n今天到底谁把你电量用光了？'
-      ],
-
-      chenyu: [
-        '先别硬撑。\\n是身体累，还是事情烦？',
-        '累就先承认累。\\n别急着把它说成“我不行”。'
-      ],
-
-      shenchuan: [
-        '那今晚先不用急着解决所有事情。\\n你想说的话，我听着。',
-        '先缓一会儿。\\n今天已经够长了。'
-      ]
-    },
-
-
-    affection: {
-
-      linwan: [
-        '这么快？\\n你确定你认识我了吗？',
-        '……这句话我听见了。\\n先别急着看我反应。'
-      ],
-
-      sunian: [
-        '啊？\\n你突然这么说，我可要当真了。',
-        '等一下。\\n你这是认真说的，还是又在逗我？'
-      ],
-
-      chenyu: [
-        '知道了。\\n别盯着我看。',
-        '你胆子倒是不小。\\n这种话说得挺顺。'
-      ],
-
-      shenchuan: [
-        '我听见了。\\n这种话不用急着得到答案。',
-        '嗯。\\n我会认真对待。'
-      ]
-    },
-
-
-    playful: {
-
-      linwan: [
-        '解决我？\\n你先说说，我哪里惹到你了。',
-        '听起来问题突然变成我了。'
-      ],
-
-      sunian: [
-        '等等。\\n“解决我”是什么意思？你最好解释清楚。',
-        '哇。\\n口气这么大？我听听你准备怎么办。'
-      ],
-
-      chenyu: [
-        '解决我？\\n口气不小。说说看，你准备怎么解决。',
-        '行。\\n我倒想看看你有什么办法。'
-      ],
-
-      shenchuan: [
-        '我？\\n看来今晚的问题突然变成我了。',
-        '可以。\\n那你先说说，我哪里需要被“解决”。'
-      ]
-    },
-
-
-    angry: {
-
-      linwan: [
-        '你可以生气。\\n但先告诉我，是冲我，还是其实有别的事？',
-        '我听得出来你现在很烦。\\n如果是我惹到你，就直说。'
-      ],
-
-      sunian: [
-        '……我招你了？\\n真生气的话你就说清楚。',
-        '喂。\\n有事说事，别只顾着凶我。'
-      ],
-
-      chenyu: [
-        '你可以生气，但别拿我撒气。',
-        '有意见就说。\\n不用靠骂人证明你很烦。'
-      ],
-
-      shenchuan: [
-        '如果是我哪里让你不舒服，你可以直接说。\\n但别这样说话。',
-        '先把话说清楚。\\n生气可以，攻击人不行。'
-      ]
-    },
-
-
-    work: {
-
-      linwan: [
-        '你又开始担心它做不下去了？\\n先告诉我，今天具体卡在哪里。',
-        '先别把整个事情都压在一起。\\n今天是哪一步最难？'
-      ],
-
-      sunian: [
-        '又是那个产品？\\n行，你说。这次是什么问题。',
-        '先别宣布失败。\\n我听听今天又发生什么了。'
-      ],
-
-      chenyu: [
-        '别先说“做不下去”。\\n告诉我现在卡住的具体一步。',
-        '把问题缩小。\\n你现在能做的下一步是什么？'
-      ],
-
-      shenchuan: [
-        '先把“整个产品”放小一点。\\n今天真正需要解决的是什么？',
-        '不用今晚把未来都决定完。\\n先处理眼前这一件。'
-      ]
-    },
-
-
-    memory: {
-
-      linwan: [
-        '记得。\\n你在认真做自己的第一个产品，而且不喜欢别人一直催你。',
-        '记得一些。\\n你第一次把这个产品真正做出来的时候，其实还挺不确定的。'
-      ],
-
-      sunian: [
-        '我记得我们聊过一些东西。\\n不过这版还没有真的长期记忆，我不想装作什么都记得。'
-      ],
-
-      chenyu: [
-        '现在这版没有真的长期记忆。\\n所以我不装。'
-      ],
-
-      shenchuan: [
-        '我记得我们现在这段关系，但这还是预览版。\\n真正的长期记忆以后会接上。'
-      ]
-    },
-
-
-    sleep: {
-
-      linwan: [
-        '去吧。\\n明天醒了再说。',
-        '嗯。\\n今天就到这里，别再刷太久。'
-      ],
-
-      sunian: [
-        '好吧好吧。\\n晚安，别又偷偷刷手机。',
-        '去睡。\\n明天醒了再来找我。'
-      ],
-
-      chenyu: [
-        '睡觉。\\n明天再处理。',
-        '行。\\n手机放下。'
-      ],
-
-      shenchuan: [
-        '晚安。\\n今天到这里就好。',
-        '去休息吧。\\n剩下的事情明天再说。'
-      ]
-    },
-
-
-    thanks: {
-
-      linwan: [
-        '不用谢。\\n你自己想明白更重要。',
-        '嗯。\\n有用就好。'
-      ],
-
-      sunian: [
-        '客气什么。\\n下次记得也跟我讲。',
-        '嘿嘿。\\n那我收下这句谢谢。'
-      ],
-
-      chenyu: [
-        '嗯。',
-        '行。\\n有用就行。'
-      ],
-
-      shenchuan: [
-        '不客气。',
-        '嗯。\\n不用放在心上。'
-      ]
-    },
-
-
-    short: {
-
-      linwan: [
-        '嗯。',
-        '我在。'
-      ],
-
-      sunian: [
-        '嗯？',
-        '然后呢？'
-      ],
-
-      chenyu: [
-        '行。',
-        '继续。'
-      ],
-
-      shenchuan: [
-        '好。',
-        '我在听。'
-      ]
-    },
-
-
-    default: {
-
-      linwan: [
-        '我听见了。\\n你刚才这句，我想再听一点。',
-        '先不用急着下结论。\\n你继续说。'
-      ],
-
-      sunian: [
-        '等等，这个我想听。\\n你继续。',
-        '原来是这样。\\n然后呢？'
-      ],
-
-      chenyu: [
-        '嗯。\\n这次你说得比较清楚。',
-        '行。\\n先把这一件说完。'
-      ],
-
-      shenchuan: [
-        '我明白。\\n你慢慢说。',
-        '好。\\n先放在这里也可以。'
-      ]
-    }
-  };
-
-
-  let currentRoleKey = 'linwan';
-
-  let introIndex = 0;
-
-  let isComposing = false;
-
-  let pendingReplyTimer = null;
-
-  let replyGeneration = 0;
-
-  let knownRoles = [
-    'linwan'
-  ];
-
-
-  const conversationStarted = {
-
-    linwan: false,
-
-    sunian: false,
-
-    chenyu: false,
-
-    shenchuan: false
-  };
-
-
-  const chatHistory = {
-
-    linwan: [],
-
-    sunian: [],
-
-    chenyu: [],
-
-    shenchuan: []
-  };
-
-
-  const responseCursor = {};
-
-
-  function hideAllScreens() {
-
-    document
-      .querySelectorAll('.screen')
-      .forEach(screen => {
-
-        screen.classList.remove('active');
-
-      });
-  }
-
-
-  function hideComposer() {
-
-    document
-      .getElementById('composer')
-      .classList.remove('active');
-  }
-
-
-  function showComposer() {
-
-    document
-      .getElementById('composer')
-      .classList.add('active');
-  }
-
-
-  function showRoot(
-    screenId,
-    button
-  ) {
-
-    clearPendingReply();
-
-    hideAllScreens();
-
-    hideComposer();
-
-    document
-      .getElementById(screenId)
-      .classList.add('active');
-
-    document
-      .getElementById('bottomNav')
-      .classList.remove('hidden');
-
-    document
-      .querySelectorAll('.nav-item')
-      .forEach(item => {
-
-        item.classList.remove('active');
-
-      });
-
-    button.classList.add('active');
-
-    if (
-      screenId ===
-      'conversationScreen'
-    ) {
-
-      renderConversations();
-
-    }
-
-    window.scrollTo(0, 0);
-  }
-
-
-  function openRole(key) {
-
-    clearPendingReply();
-
-    currentRoleKey = key;
-
-    const role = roles[key];
-
-    document
-      .getElementById('roleName')
-      .innerText = role.name;
-
-    document
-      .getElementById('roleBigInitial')
-      .innerText = role.initial;
-
-    document
-      .getElementById('roleQuote')
-      .innerText = role.quote;
-
-    document
-      .getElementById('roleAbout')
-      .innerText = role.about;
-
-
-    const hero =
-      document.getElementById('roleHero');
-
-    hero.className =
-      'role-hero ' + role.heroClass;
-
-
-    const tags =
-      document.getElementById('roleTags');
-
-    tags.innerHTML = '';
-
-
-    role.tags.forEach(tag => {
-
-      const item =
-        document.createElement('span');
-
-      item.className =
-        'role-tag';
-
-      item.innerText =
-        tag;
-
-      tags.appendChild(item);
-
-    });
-
-
-    hideAllScreens();
-
-    hideComposer();
-
-    document
-      .getElementById('roleScreen')
-      .classList.add('active');
-
-    document
-      .getElementById('bottomNav')
-      .classList.add('hidden');
-
-    window.scrollTo(0, 0);
-  }
-
-
-  function backToDiscover() {
-
-    clearPendingReply();
-
-    hideAllScreens();
-
-    hideComposer();
-
-    document
-      .getElementById('discoverScreen')
-      .classList.add('active');
-
-    document
-      .getElementById('bottomNav')
-      .classList.remove('hidden');
-
-    setActiveNav(0);
-
-    window.scrollTo(0, 0);
-  }
-
-
-  function startCurrentRole() {
-
-    if (
-      !knownRoles.includes(
-        currentRoleKey
-      )
-    ) {
-
-      knownRoles.push(
-        currentRoleKey
-      );
-
-    }
-
-    openChat(
-      currentRoleKey
-    );
-  }
-
-
-  function openChat(key) {
-
-    clearPendingReply();
-
-    currentRoleKey = key;
-
-    const role =
-      roles[key];
-
-
-    document
-      .getElementById('chatName')
-      .innerText = role.name;
-
-    document
-      .getElementById('chatAvatar')
-      .innerText = role.initial;
-
-    document
-      .getElementById('chatStatus')
-      .innerText = '今天 · 在这里';
-
-
-    hideAllScreens();
-
-
-    const chatScreen =
-      document.getElementById(
-        'chatScreen'
-      );
-
-
-    chatScreen.className =
-      'screen chat-screen active ' +
-      role.chatClass;
-
-
-    document
-      .getElementById('bottomNav')
-      .classList.add('hidden');
-
-
-    if (
-      conversationStarted[key]
-    ) {
-
-      document
-        .getElementById(
-          'introActions'
-        )
-        .classList.add('hidden');
-
-      renderChatHistory();
-
-      showComposer();
-
-    } else {
-
-      introIndex = 0;
-
-      document
-        .getElementById(
-          'introActions'
-        )
-        .classList.remove('hidden');
-
-      document
-        .getElementById(
-          'continueButton'
-        )
-        .style.display = 'block';
-
-      renderIntro();
-
-      hideComposer();
-
-    }
-
-
-    window.scrollTo(0, 0);
-  }
-
-
-  function getCurrentTimeText() {
-
-    const now =
-      new Date();
-
-    return (
-      '今天 · ' +
-      String(
-        now.getHours()
-      ).padStart(2, '0') +
-      ':' +
-      String(
-        now.getMinutes()
-      ).padStart(2, '0')
-    );
-  }
-
-
-  function renderIntro() {
-
-    const role =
-      roles[currentRoleKey];
-
-    const feed =
-      document.getElementById(
-        'chatFeed'
-      );
-
-
-    feed.innerHTML = '';
-
-
-    const time =
-      document.createElement('div');
-
-    time.className =
-      'time-line';
-
-    time.innerText =
-      getCurrentTimeText();
-
-    feed.appendChild(time);
-
-
-    for (
-      let i = 0;
-      i <= introIndex;
-      i++
-    ) {
-
-      feed.appendChild(
-
-        createAIEntry(
-          role.name,
-          role.intro[i]
-        )
-
-      );
-
-    }
-
-
-    if (
-      introIndex >=
-      role.intro.length - 1
-    ) {
-
-      document
-        .getElementById(
-          'continueButton'
-        )
-        .style.display = 'none';
-
-    }
-  }
-
-
-  function continueIntro() {
-
-    const role =
-      roles[currentRoleKey];
-
-
-    if (
-      introIndex <
-      role.intro.length - 1
-    ) {
-
-      introIndex++;
-
-    }
-
-
-    renderIntro();
-
-    scrollToLatest();
-  }
-
-
-  function enterConversation() {
-
-    const role =
-      roles[currentRoleKey];
-
-
-    conversationStarted[
-      currentRoleKey
-    ] = true;
-
-
-    if (
-      chatHistory[
-        currentRoleKey
-      ].length === 0
-    ) {
-
-      for (
-        let i = 0;
-        i <= introIndex;
-        i++
-      ) {
-
-        chatHistory[
-          currentRoleKey
-        ].push({
-
-          type: 'ai',
-
-          text: role.intro[i],
-
-          time: Date.now()
-
-        });
-
-      }
-    }
-
-
-    document
-      .getElementById(
-        'introActions'
-      )
-      .classList.add('hidden');
-
-
-    renderChatHistory();
-
-    showComposer();
-
-
-    setTimeout(() => {
-
-      const input =
-        document.getElementById(
-          'chatInput'
-        );
-
-      input.focus();
-
-      scrollToLatest();
-
-    }, 120);
-  }
-
-
-  function finishToday() {
-
-    clearPendingReply();
-
-    const role =
-      roles[currentRoleKey];
-
-    const feed =
-      document.getElementById(
-        'chatFeed'
-      );
-
-
-    feed.innerHTML = '';
-
-
-    const time =
-      document.createElement('div');
-
-    time.className =
-      'time-line';
-
-    time.innerText =
-      getCurrentTimeText();
-
-    feed.appendChild(time);
-
-
-    feed.appendChild(
-
-      createAIEntry(
-
-        role.name,
-
-        '好。\\n今天就到这里。\\n下次来的时候，我们再继续。'
-
-      )
-
+const ENDPOINT =
+  "https://oneway-ai.ruzansemiliyaj.workers.dev";
+
+const ROLE_NAMES = {
+  linwan:"林晚",
+  sunian:"苏念",
+  chenyu:"陈屿",
+  shenchuan:"沈川"
+};
+
+let roleKey =
+  "linwan";
+
+let messages =
+  [];
+
+function esc(s){
+
+  return String(s).replace(
+    /[&<>"']/g,
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+}
+
+function renderRoles(){
+
+  const box =
+    document.getElementById(
+      "roles"
     );
 
-
-    document
-      .getElementById(
-        'continueButton'
-      )
-      .style.display = 'none';
-  }
-
-
-  function createAIEntry(
-    name,
-    text
-  ) {
-
-    const wrapper =
-      document.createElement('div');
-
-    wrapper.className =
-      'ai-entry';
-
-
-    const speaker =
-      document.createElement('div');
-
-    speaker.className =
-      'speaker';
-
-    speaker.innerText =
-      name;
-
-
-    const message =
-      document.createElement('div');
-
-    message.className =
-      'ai-text';
-
-    message.innerText =
-      normalizeDisplayText(text);
-
-
-    wrapper.appendChild(
-      speaker
-    );
-
-    wrapper.appendChild(
-      message
-    );
-
-
-    return wrapper;
-  }
-
-
-  function createUserEntry(text) {
-
-    const wrapper =
-      document.createElement('div');
-
-    wrapper.className =
-      'user-entry';
-
-
-    const message =
-      document.createElement('div');
-
-    message.className =
-      'user-message';
-
-    message.innerText =
-      text;
-
-
-    wrapper.appendChild(
-      message
-    );
-
-
-    return wrapper;
-  }
-
-
-  function normalizeDisplayText(text) {
-
-    return String(
-      text || ''
-    )
-      .replace(/\r/g, '')
-      .replace(
-        /\n{3,}/g,
-        '\n\n'
-      )
-      .replace(
-        /[ \t]+\n/g,
-        '\n'
-      )
-      .trim();
-  }
-
-
-  function renderChatHistory() {
-
-    const role =
-      roles[currentRoleKey];
-
-    const history =
-      chatHistory[
-        currentRoleKey
-      ];
-
-    const feed =
-      document.getElementById(
-        'chatFeed'
-      );
-
-
-    feed.innerHTML = '';
-
-
-    const time =
-      document.createElement('div');
-
-    time.className =
-      'time-line';
-
-    time.innerText =
-      getCurrentTimeText();
-
-    feed.appendChild(time);
-
-
-    history.forEach(item => {
-
-      if (
-        item.type === 'ai'
-      ) {
-
-        feed.appendChild(
-
-          createAIEntry(
-            role.name,
-            item.text
-          )
-
-        );
-
-      } else {
-
-        feed.appendChild(
-
-          createUserEntry(
-            item.text
-          )
-
-        );
-
-      }
-
-    });
-
-
-    scrollToLatest();
-  }
-
-
-  function sendMessage() {
-
-    const input =
-      document.getElementById(
-        'chatInput'
-      );
-
-    const text =
-      input.value.trim();
-
-
-    if (!text) {
-      return;
-    }
-
-
-    chatHistory[
-      currentRoleKey
-    ].push({
-
-      type: 'user',
-
-      text: text,
-
-      time: Date.now()
-
-    });
-
-
-    input.value = '';
-
-
-    renderChatHistory();
-
-    scheduleReply();
-  }
-
-
-  function handleInputKey(event) {
-
-    if (
-      event.key === 'Enter' &&
-      !isComposing
-    ) {
-
-      event.preventDefault();
-
-      sendMessage();
-
-    }
-  }
-
-
-  function handleCompositionStart() {
-
-    isComposing = true;
-  }
-
-
-  function handleCompositionEnd() {
-
-    isComposing = false;
-  }
-
-
-  function scheduleReply() {
-
-    clearTimeout(
-      pendingReplyTimer
-    );
-
-
-    const generation =
-      ++replyGeneration;
-
-
-    renderChatHistory();
-
-    showTyping();
-
-
-    const delay =
-      850 +
-      Math.floor(
-        Math.random() * 550
-      );
-
-
-    pendingReplyTimer =
-      setTimeout(() => {
-
-        if (
-          generation !==
-          replyGeneration
-        ) {
-          return;
-        }
-
-        fakeReply();
-
-        pendingReplyTimer =
-          null;
-
-      }, delay);
-  }
-
-
-  function clearPendingReply() {
-
-    if (
-      pendingReplyTimer
-    ) {
-
-      clearTimeout(
-        pendingReplyTimer
-      );
-
-      pendingReplyTimer =
-        null;
-    }
-
-    replyGeneration++;
-  }
-
-
-  function showTyping() {
-
-    const role =
-      roles[currentRoleKey];
-
-    const feed =
-      document.getElementById(
-        'chatFeed'
-      );
-
-
-    const oldTyping =
-      document.getElementById(
-        'typing'
-      );
-
-
-    if (oldTyping) {
-      oldTyping.remove();
-    }
-
-
-    const typing =
-      document.createElement('div');
-
-    typing.id =
-      'typing';
-
-    typing.className =
-      'typing';
-
-    typing.innerText =
-      role.name +
-      '正在想……';
-
-
-    feed.appendChild(
-      typing
-    );
-
-
-    scrollToLatest();
-  }
-
-
-  function fakeReply() {
-
-    const roleKey =
-      currentRoleKey;
-
-
-    const userMessages =
-      getRecentUserBatch(
-        roleKey
-      );
-
-
-    const combinedText =
-      userMessages
-        .map(
-          item => item.text
-        )
-        .join('；');
-
-
-    const intent =
-      detectIntent(
-        combinedText
-      );
-
-
-    const reply =
-      pickResponse(
-        intent,
-        roleKey
-      );
-
-
-    chatHistory[
-      roleKey
-    ].push({
-
-      type: 'ai',
-
-      text: reply,
-
-      time: Date.now()
-
-    });
-
-
-    renderChatHistory();
-  }
-
-
-  function getRecentUserBatch(
-    roleKey
-  ) {
-
-    const history =
-      chatHistory[
-        roleKey
-      ];
-
-    const batch = [];
-
-
-    for (
-      let i =
-        history.length - 1;
-      i >= 0;
-      i--
-    ) {
-
-      const item =
-        history[i];
-
-
-      if (
-        item.type === 'ai'
-      ) {
-        break;
-      }
-
-
-      if (
-        item.type === 'user'
-      ) {
-
-        batch.unshift(
-          item
-        );
-
-      }
-
-    }
-
-
-    return batch;
-  }
-
-
-  function detectIntent(
-    rawText
-  ) {
-
-    const text =
-      String(
-        rawText || ''
-      )
-        .toLowerCase()
-        .trim();
-
-
-    if (
-      /不想活了|想死|自杀|伤害自己|结束生命/.test(text)
-    ) {
-      return 'crisis';
-    }
-
-
-    if (
-      /你是不是ai|你是ai吗|你是真人吗|你是机器人吗/.test(text)
-    ) {
-      return 'identity';
-    }
-
-
-    if (
-      /不想说|不想聊|别问了|不想讲/.test(text)
-    ) {
-      return 'silence';
-    }
-
-
-    if (
-      /睡了|睡觉|晚安|困了|去睡|休息了/.test(text)
-    ) {
-      return 'sleep';
-    }
-
-
-    if (
-      /再见|拜拜|先走了|我走了|下次聊/.test(text)
-    ) {
-      return 'leave';
-    }
-
-
-    if (
-      /你记得我吗|还记得我吗|记得我|记不记得/.test(text)
-    ) {
-      return 'memory';
-    }
-
-
-    if (
-      /谢谢|谢了|多谢|感谢/.test(text)
-    ) {
-      return 'thanks';
-    }
-
-
-    if (
-      /滚|闭嘴|烦死你|讨厌你|烦人|你烦不烦|你真烦|傻逼|有病|神经病/.test(text)
-    ) {
-      return 'angry';
-    }
-
-
-    if (
-      /想解决你|解决你|收拾你|搞定你/.test(text)
-    ) {
-      return 'playful';
-    }
-
-
-    if (
-      /喜欢你|爱你|想你了|想你|喜欢上你/.test(text)
-    ) {
-      return 'affection';
-    }
-
-
-    if (
-      /累|烦|难受|不开心|心情不好|压力大|崩溃/.test(text)
-    ) {
-      return 'tired';
-    }
-
-
-    if (
-      /产品|工作|上班|创业|项目|做不下去|放弃|代码|开发/.test(text)
-    ) {
-      return 'work';
-    }
-
-
-    if (
-      /你好|嗨|哈喽|hello|在吗|在不在/.test(text)
-    ) {
-      return 'greeting';
-    }
-
-
-    const compact =
-      text.replace(
-        /\s+/g,
-        ''
-      );
-
-
-    if (
-      compact.length <= 3
-    ) {
-
-      return 'short';
-
-    }
-
-
-    return 'default';
-  }
-
-
-  function pickResponse(
-    intent,
-    roleKey
-  ) {
-
-    const bank =
-      responseBanks[intent] ||
-      responseBanks.default;
-
-
-    const options =
-      bank[roleKey] ||
-      responseBanks.default[
-        roleKey
-      ] ||
-      ['嗯。'];
-
-
-    const cursorKey =
-      intent +
-      ':' +
-      roleKey;
-
-
-    const cursor =
-      responseCursor[
-        cursorKey
-      ] || 0;
-
-
-    responseCursor[
-      cursorKey
-    ] =
-      cursor + 1;
-
-
-    return options[
-      cursor %
-      options.length
-    ];
-  }
-
-
-  function scrollToLatest() {
-
-    requestAnimationFrame(() => {
-
-      requestAnimationFrame(() => {
-
-        window.scrollTo({
-
-          top:
-            document
-              .documentElement
-              .scrollHeight,
-
-          behavior:
-            'smooth'
-
-        });
-
-      });
-
-    });
-  }
-
-
-  function backToConversation() {
-
-    clearPendingReply();
-
-    hideAllScreens();
-
-    hideComposer();
-
-    document
-      .getElementById(
-        'conversationScreen'
-      )
-      .classList.add('active');
-
-    document
-      .getElementById(
-        'bottomNav'
-      )
-      .classList.remove('hidden');
-
-    renderConversations();
-
-    setActiveNav(1);
-
-    window.scrollTo(0, 0);
-  }
-
-
-  function renderConversations() {
-
-    const list =
-      document.getElementById(
-        'conversationList'
-      );
-
-
-    list.innerHTML = '';
-
-
-    knownRoles.forEach(key => {
-
-      const role =
-        roles[key];
-
-      const history =
-        chatHistory[key];
-
-
-      let preview =
-        role.intro[0]
-          .replace(
-            /\n/g,
-            ' '
-          );
-
-
-      if (
-        history.length > 0
-      ) {
-
-        preview =
-          history[
-            history.length - 1
-          ]
-            .text
-            .replace(
-              /\n/g,
-              ' '
-            );
-
-      }
-
-
-      const button =
+  box.innerHTML =
+    "";
+
+  Object.entries(
+    ROLE_NAMES
+  ).forEach(
+    ([k,n]) => {
+
+      const b =
         document.createElement(
-          'button'
+          "button"
         );
 
+      b.className =
+        "role" +
+        (
+          k === roleKey
+            ? " active"
+            : ""
+        );
 
-      button.className =
-        'conversation-card';
+      b.textContent =
+        n;
 
-      button.type =
-        'button';
+      b.onclick =
+        () => {
 
-      button.onclick =
-        function() {
+          roleKey =
+            k;
 
-          openChat(key);
+          messages =
+            [];
 
+          renderRoles();
+
+          renderFeed();
         };
 
-
-      const avatar =
-        document.createElement(
-          'div'
-        );
-
-      avatar.className =
-        'conversation-avatar';
-
-      avatar.innerText =
-        role.initial;
-
-
-      const main =
-        document.createElement(
-          'div'
-        );
-
-      main.className =
-        'conversation-main';
-
-
-      const name =
-        document.createElement(
-          'div'
-        );
-
-      name.className =
-        'conversation-name';
-
-      name.innerText =
-        role.name;
-
-
-      const previewEl =
-        document.createElement(
-          'div'
-        );
-
-      previewEl.className =
-        'conversation-preview';
-
-      previewEl.innerText =
-        preview;
-
-
-      const time =
-        document.createElement(
-          'div'
-        );
-
-      time.className =
-        'conversation-time';
-
-      time.innerText =
-        '今天';
-
-
-      main.appendChild(
-        name
+      box.appendChild(
+        b
       );
+    }
+  );
+}
 
-      main.appendChild(
-        previewEl
-      );
+function renderFeed(){
 
-
-      button.appendChild(
-        avatar
-      );
-
-      button.appendChild(
-        main
-      );
-
-      button.appendChild(
-        time
-      );
-
-
-      list.appendChild(
-        button
-      );
-
-    });
-  }
-
-
-  function openMemory() {
-
-    clearPendingReply();
-
-    const role =
-      roles[currentRoleKey];
-
-
-    document
-      .getElementById(
-        'memoryTitle'
-      )
-      .innerText =
-        role.name +
-        '记得';
-
-
-    renderMemory(role);
-
-    hideAllScreens();
-
-    hideComposer();
-
-    document
-      .getElementById(
-        'memoryScreen'
-      )
-      .classList.add('active');
-
-    document
-      .getElementById(
-        'bottomNav'
-      )
-      .classList.add('hidden');
-
-    window.scrollTo(0, 0);
-  }
-
-
-  function renderMemory(role) {
-
-    const container =
-      document.getElementById(
-        'memoryContent'
-      );
-
-
-    container.innerHTML = '';
-
-
-    container.appendChild(
-
-      createMemorySection(
-        '关于你',
-        role.memory.about,
-        '关于你'
-      )
-
+  const feed =
+    document.getElementById(
+      "feed"
     );
 
+  feed.innerHTML =
+    "";
 
-    container.appendChild(
+  messages.forEach(
+    m => {
 
-      createMemorySection(
-        '共同经历',
-        role.memory.events,
-        '共同经历'
-      )
-
-    );
-
-
-    container.appendChild(
-
-      createMemorySection(
-        'TA对你的理解',
-        role.memory.understanding,
-        '关系理解'
-      )
-
-    );
-  }
-
-
-  function createMemorySection(
-    title,
-    items,
-    meta
-  ) {
-
-    const wrapper =
-      document.createElement('div');
-
-
-    const heading =
-      document.createElement('div');
-
-    heading.className =
-      'memory-section-title';
-
-    heading.innerText =
-      title;
-
-
-    wrapper.appendChild(
-      heading
-    );
-
-
-    const card =
-      document.createElement('div');
-
-    card.className =
-      'memory-card';
-
-
-    if (
-      items.length === 0
-    ) {
-
-      const empty =
+      const d =
         document.createElement(
-          'div'
+          "div"
         );
 
-      empty.className =
-        'empty-memory';
+      d.className =
+        "msg " +
+        (
+          m.role === "user"
+            ? "user"
+            : ""
+        );
 
-      empty.innerText =
-        '你们还没有留下足够多的共同信息。';
+      if(
+        m.role ===
+        "assistant"
+      ){
 
+        d.innerHTML =
+          `
+          <div class="who">
+            ${ROLE_NAMES[roleKey]}
+          </div>
 
-      card.appendChild(
-        empty
+          <div class="ai">
+            ${
+              esc(
+                m.content
+              ).replace(
+                /\n/g,
+                "<br>"
+              )
+            }
+          </div>
+          `;
+
+      }else{
+
+        d.innerHTML =
+          `
+          <span>
+            ${esc(m.content)}
+          </span>
+          `;
+      }
+
+      feed.appendChild(
+        d
+      );
+    }
+  );
+
+  window.scrollTo({
+    top:
+      document.body
+        .scrollHeight,
+
+    behavior:
+      "smooth"
+  });
+}
+
+async function health(){
+
+  const el =
+    document.getElementById(
+      "status"
+    );
+
+  try{
+
+    const r =
+      await fetch(
+        ENDPOINT
       );
 
-    } else {
+    const d =
+      await r.json();
 
-      items.forEach(text => {
-
-        const item =
-          document.createElement(
-            'div'
-          );
-
-        item.className =
-          'memory-item';
-
-
-        const memoryText =
-          document.createElement(
-            'div'
-          );
-
-        memoryText.className =
-          'memory-text';
-
-        memoryText.innerText =
-          text;
-
-
-        const memoryMeta =
-          document.createElement(
-            'div'
-          );
-
-        memoryMeta.className =
-          'memory-meta';
-
-        memoryMeta.innerText =
-          meta +
-          ' · 测试数据';
-
-
-        item.appendChild(
-          memoryText
-        );
-
-        item.appendChild(
-          memoryMeta
-        );
-
-
-        card.appendChild(
-          item
-        );
-
-      });
+    if(
+      !r.ok ||
+      !d.ok
+    ){
+      throw new Error(
+        d.error ||
+        "连接失败"
+      );
     }
 
+    el.className =
+      "status ok";
 
-    wrapper.appendChild(
-      card
+    el.textContent =
+      `Worker 正常 · ${
+        d.model ||
+        "模型已连接"
+      } · API ${
+        d.apiConfigured
+          ? "已配置"
+          : "未配置"
+      }`;
+
+  }catch(e){
+
+    el.className =
+      "status bad";
+
+    el.textContent =
+      "Worker 连接失败：" +
+      e.message;
+  }
+}
+
+async function send(){
+
+  const input =
+    document.getElementById(
+      "input"
     );
 
+  const text =
+    input.value.trim();
 
-    return wrapper;
+  if(!text){
+    return;
   }
 
+  input.value =
+    "";
 
-  function backToChat() {
+  messages.push({
+    role:"user",
+    content:text
+  });
 
-    openChat(
-      currentRoleKey
+  renderFeed();
+
+  const status =
+    document.getElementById(
+      "status"
     );
-  }
 
+  status.className =
+    "status";
 
-  function setActiveNav(index) {
+  status.textContent =
+    `${ROLE_NAMES[roleKey]} 正在回复…`;
 
-    document
-      .querySelectorAll(
-        '.nav-item'
-      )
-      .forEach(
-        (
-          item,
-          itemIndex
-        ) => {
+  try{
 
-          item.classList.toggle(
-            'active',
-            itemIndex === index
-          );
+    const r =
+      await fetch(
+        ENDPOINT,
+        {
+          method:
+            "POST",
 
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              roleKey,
+
+              messages:
+                messages.slice(
+                  -20
+                ),
+
+              relationship:{
+                stage:
+                  "初识",
+
+                days:
+                  1
+              },
+
+              scene:
+                "default"
+            })
         }
       );
+
+    const d =
+      await r.json();
+
+    if(
+      !r.ok ||
+      !d.ok
+    ){
+
+      throw new Error(
+        d.error ||
+        "模型请求失败"
+      );
+    }
+
+    if(d.silent){
+
+      status.className =
+        "status ok";
+
+      status.textContent =
+        `${ROLE_NAMES[roleKey]} 没有继续追问 · ${
+          d.model ||
+          ""
+        }`;
+
+    }else{
+
+      messages.push({
+        role:
+          "assistant",
+
+        content:
+          d.text ||
+          ""
+      });
+
+      status.className =
+        "status ok";
+
+      status.textContent =
+        `真实模型 · ${
+          d.model ||
+          ""
+        }`;
+
+      renderFeed();
+    }
+
+  }catch(e){
+
+    status.className =
+      "status bad";
+
+    status.textContent =
+      "请求失败：" +
+      e.message;
   }
+}
 
+function quick(t){
 
-  renderConversations();
+  document
+    .getElementById(
+      "input"
+    )
+    .value =
+      t;
+
+  send();
+}
+
+function clearChat(){
+
+  messages =
+    [];
+
+  renderFeed();
+
+  document
+    .getElementById(
+      "status"
+    )
+    .textContent =
+      "聊天已清空，Worker 状态不受影响。";
+}
+
+document
+  .getElementById(
+    "input"
+  )
+  .addEventListener(
+    "keydown",
+    e => {
+
+      if(
+        e.key === "Enter" &&
+        !e.isComposing
+      ){
+
+        send();
+      }
+    }
+  );
+
+renderRoles();
+renderFeed();
+health();
 
 </script>
 
