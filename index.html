@@ -2,30 +2,20 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>AI Companion Preview</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     html, body {
       margin: 0;
       min-height: 100%;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
       background: #111318;
-      color: #ffffff;
+      color: #fff;
     }
 
-    button,
-    input {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
 
     .app {
       width: 100%;
@@ -56,18 +46,14 @@
       color: inherit;
     }
 
-    /* =========================
-       发现
-    ========================= */
-
     .discover-header {
       padding-top: 28px;
     }
 
     .discover-top {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
     }
 
     .discover-title {
@@ -116,7 +102,7 @@
     }
 
     .category.active {
-      background: white;
+      background: #fff;
       color: #17191e;
       font-weight: 650;
     }
@@ -133,7 +119,7 @@
       border: 0;
       border-radius: 22px;
       background: #1a1d23;
-      color: white;
+      color: #fff;
       text-align: left;
       box-shadow: 0 12px 30px rgba(0,0,0,.18);
     }
@@ -142,17 +128,15 @@
       position: relative;
       height: 218px;
       display: flex;
-      justify-content: center;
       align-items: flex-end;
+      justify-content: center;
       overflow: hidden;
     }
 
     .character-image::after {
       content: "";
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      inset: auto 0 0 0;
       height: 55%;
       background: linear-gradient(
         to top,
@@ -202,18 +186,18 @@
       right: 12px;
       bottom: 12px;
       display: flex;
-      flex-wrap: wrap;
       gap: 5px;
+      flex-wrap: wrap;
     }
 
     .image-tag {
       padding: 5px 8px;
       border-radius: 9px;
       background: rgba(20,22,27,.72);
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
       color: #e6e8ec;
       font-size: 10px;
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
     }
 
     .character-info {
@@ -241,10 +225,6 @@
       line-height: 1.7;
       text-align: center;
     }
-
-    /* =========================
-       会话 / 我的
-    ========================= */
 
     .section-header {
       padding-top: 30px;
@@ -274,7 +254,7 @@
       border: 0;
       border-radius: 18px;
       background: #1a1d23;
-      color: white;
+      color: #fff;
       display: flex;
       align-items: center;
       text-align: left;
@@ -344,7 +324,7 @@
       margin-top: 18px;
       border: 0;
       border-radius: 16px;
-      background: white;
+      background: #fff;
       color: #15171c;
       font-weight: 650;
     }
@@ -376,14 +356,10 @@
       font-size: 12px;
     }
 
-    /* =========================
-       角色详情
-    ========================= */
-
     .role-detail-screen {
       padding-bottom: 40px;
       background: #101216;
-      color: white;
+      color: #fff;
     }
 
     .role-detail-top {
@@ -452,21 +428,18 @@
       margin-top: 28px;
       border: 0;
       border-radius: 18px;
-      background: white;
+      background: #fff;
       color: #15171b;
       font-size: 16px;
       font-weight: 700;
     }
 
-    /* =========================
-       A + C 聊天页
-    ========================= */
-
     .chat-screen {
       position: relative;
       min-height: 100vh;
-      padding: 18px 20px 145px;
-      overflow: hidden;
+      padding: 18px 20px 132px;
+      overflow-x: hidden;
+      overflow-y: visible;
       color: #242b32;
       background: #dce3e8;
     }
@@ -477,7 +450,6 @@
       position: fixed;
       pointer-events: none;
       border-radius: 50%;
-      filter: blur(1px);
       opacity: .55;
     }
 
@@ -544,7 +516,7 @@
       height: 42px;
       border-radius: 15px;
       background: rgba(78,94,108,.7);
-      color: white;
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -574,22 +546,22 @@
     .chat-feed {
       position: relative;
       z-index: 3;
-      padding: 58px 5px 25px;
+      padding: 46px 5px 18px;
     }
 
     .time-line {
-      margin: 0 0 26px;
+      margin: 0 0 20px;
       color: rgba(42,53,62,.42);
       font-size: 11px;
     }
 
     .ai-entry {
       max-width: 92%;
-      margin-bottom: 34px;
+      margin-bottom: 20px;
     }
 
     .speaker {
-      margin-bottom: 9px;
+      margin-bottom: 5px;
       color: rgba(45,56,65,.55);
       font-size: 11px;
       font-weight: 650;
@@ -597,8 +569,8 @@
 
     .ai-text {
       color: #273039;
-      font-size: 20px;
-      line-height: 1.8;
+      font-size: 18px;
+      line-height: 1.55;
       white-space: pre-line;
       letter-spacing: .1px;
     }
@@ -606,25 +578,25 @@
     .user-entry {
       display: flex;
       justify-content: flex-end;
-      margin: 5px 0 33px;
+      margin: 4px 0 20px;
     }
 
     .user-message {
       max-width: 82%;
-      padding: 11px 14px;
+      padding: 10px 13px;
       border: 1px solid rgba(255,255,255,.45);
-      border-radius: 17px 17px 5px 17px;
+      border-radius: 16px 16px 5px 16px;
       background: rgba(255,255,255,.38);
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
       color: #303940;
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.5;
       box-shadow: 0 8px 25px rgba(66,82,95,.06);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
     }
 
     .typing {
-      margin-bottom: 28px;
+      margin: -4px 0 18px;
       color: rgba(44,57,67,.48);
       font-size: 12px;
     }
@@ -632,7 +604,7 @@
     .intro-actions {
       position: relative;
       z-index: 5;
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
     .intro-actions.hidden {
@@ -645,7 +617,7 @@
       border: 0;
       border-radius: 18px;
       background: rgba(37,48,57,.9);
-      color: white;
+      color: #fff;
       font-size: 15px;
       font-weight: 650;
       box-shadow: 0 12px 30px rgba(53,67,79,.15);
@@ -667,7 +639,7 @@
 
     .finish-button {
       width: 100%;
-      padding: 16px 10px 4px;
+      padding: 15px 10px 4px;
       border: 0;
       background: transparent;
       color: rgba(52,65,75,.48);
@@ -683,9 +655,9 @@
       transform: translateX(-50%);
       width: 100%;
       max-width: 480px;
-      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      padding: 11px 16px calc(11px + env(safe-area-inset-bottom));
       border-top: 1px solid rgba(70,84,95,.08);
-      background: rgba(230,237,241,.74);
+      background: rgba(230,237,241,.78);
       -webkit-backdrop-filter: blur(22px);
       backdrop-filter: blur(22px);
     }
@@ -698,13 +670,13 @@
 
     .chat-input {
       flex: 1;
-      height: 48px;
       min-width: 0;
-      padding: 0 16px;
+      height: 46px;
+      padding: 0 15px;
       border: 1px solid rgba(72,87,99,.09);
       outline: none;
-      border-radius: 18px;
-      background: rgba(255,255,255,.58);
+      border-radius: 17px;
+      background: rgba(255,255,255,.62);
       color: #28333c;
       font-size: 15px;
       box-shadow: 0 7px 20px rgba(61,77,89,.05);
@@ -715,20 +687,16 @@
     }
 
     .send-button {
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       flex: 0 0 auto;
       border: 0;
-      border-radius: 17px;
+      border-radius: 16px;
       background: #34434e;
-      color: white;
+      color: #fff;
       font-size: 18px;
       font-weight: 700;
     }
-
-    /* =========================
-       记忆
-    ========================= */
 
     .memory-screen {
       padding: 20px 20px 50px;
@@ -759,7 +727,7 @@
     .memory-card {
       overflow: hidden;
       border-radius: 20px;
-      background: white;
+      background: #fff;
       box-shadow: 0 8px 30px rgba(25,35,50,.04);
     }
 
@@ -790,10 +758,6 @@
       line-height: 1.7;
     }
 
-    /* =========================
-       底栏
-    ========================= */
-
     .nav {
       position: fixed;
       z-index: 20;
@@ -806,11 +770,11 @@
       padding-bottom: env(safe-area-inset-bottom);
       border-top: 1px solid rgba(255,255,255,.05);
       background: rgba(17,19,24,.94);
-      -webkit-backdrop-filter: blur(18px);
-      backdrop-filter: blur(18px);
       display: flex;
       align-items: center;
       justify-content: space-around;
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
     }
 
     .nav.hidden {
@@ -827,7 +791,7 @@
     }
 
     .nav-item.active {
-      color: white;
+      color: #fff;
       font-weight: 700;
     }
   </style>
@@ -837,155 +801,309 @@
 
 <div class="app">
 
-  <!-- 发现 -->
   <section id="discoverScreen" class="screen root-screen active">
 
     <div class="discover-header">
 
       <div class="discover-top">
+
         <div>
-          <div class="discover-title">发现</div>
+
+          <div class="discover-title">
+            发现
+          </div>
+
           <div class="discover-subtitle">
             遇见一个你愿意长期认识的人。
           </div>
+
         </div>
 
-        <button class="search-button">⌕</button>
+        <button
+          class="search-button"
+          type="button"
+        >
+          ⌕
+        </button>
+
       </div>
 
       <div class="categories">
-        <button class="category active">推荐</button>
-        <button class="category">治愈</button>
-        <button class="category">都市</button>
-        <button class="category">成熟</button>
-        <button class="category">剧情</button>
+
+        <button
+          class="category active"
+          type="button"
+        >
+          推荐
+        </button>
+
+        <button
+          class="category"
+          type="button"
+        >
+          治愈
+        </button>
+
+        <button
+          class="category"
+          type="button"
+        >
+          都市
+        </button>
+
+        <button
+          class="category"
+          type="button"
+        >
+          成熟
+        </button>
+
+        <button
+          class="category"
+          type="button"
+        >
+          剧情
+        </button>
+
       </div>
 
     </div>
 
     <div class="character-grid">
 
-      <button class="character-card" onclick="openRole('linwan')">
+      <button
+        class="character-card"
+        type="button"
+        onclick="openRole('linwan')"
+      >
+
         <div class="character-image linwan">
-          <div class="character-initial">晚</div>
+
+          <div class="character-initial">
+            晚
+          </div>
 
           <div class="image-tags">
-            <span class="image-tag">慢热</span>
-            <span class="image-tag">克制</span>
+
+            <span class="image-tag">
+              慢热
+            </span>
+
+            <span class="image-tag">
+              克制
+            </span>
+
           </div>
+
         </div>
 
         <div class="character-info">
-          <div class="character-name">林晚</div>
+
+          <div class="character-name">
+            林晚
+          </div>
+
           <div class="character-description">
             她不一定会安慰你，但通常知道你什么时候开始不对劲。
           </div>
+
         </div>
+
       </button>
 
 
-      <button class="character-card" onclick="openRole('sunian')">
+      <button
+        class="character-card"
+        type="button"
+        onclick="openRole('sunian')"
+      >
+
         <div class="character-image sunian">
-          <div class="character-initial">念</div>
+
+          <div class="character-initial">
+            念
+          </div>
 
           <div class="image-tags">
-            <span class="image-tag">外向</span>
-            <span class="image-tag">爱分享</span>
+
+            <span class="image-tag">
+              外向
+            </span>
+
+            <span class="image-tag">
+              爱分享
+            </span>
+
           </div>
+
         </div>
 
         <div class="character-info">
-          <div class="character-name">苏念</div>
+
+          <div class="character-name">
+            苏念
+          </div>
+
           <div class="character-description">
             她总有很多小事想告诉你，也很容易记住你的习惯。
           </div>
+
         </div>
+
       </button>
 
 
-      <button class="character-card" onclick="openRole('chenyu')">
+      <button
+        class="character-card"
+        type="button"
+        onclick="openRole('chenyu')"
+      >
+
         <div class="character-image chenyu">
-          <div class="character-initial">屿</div>
+
+          <div class="character-initial">
+            屿
+          </div>
 
           <div class="image-tags">
-            <span class="image-tag">理性</span>
-            <span class="image-tag">嘴硬</span>
+
+            <span class="image-tag">
+              理性
+            </span>
+
+            <span class="image-tag">
+              嘴硬
+            </span>
+
           </div>
+
         </div>
 
         <div class="character-info">
-          <div class="character-name">陈屿</div>
+
+          <div class="character-name">
+            陈屿
+          </div>
+
           <div class="character-description">
             你想逃避的时候，他通常比你更早看出来。
           </div>
+
         </div>
+
       </button>
 
 
-      <button class="character-card" onclick="openRole('shenchuan')">
+      <button
+        class="character-card"
+        type="button"
+        onclick="openRole('shenchuan')"
+      >
+
         <div class="character-image shenchuan">
-          <div class="character-initial">川</div>
+
+          <div class="character-initial">
+            川
+          </div>
 
           <div class="image-tags">
-            <span class="image-tag">成熟</span>
-            <span class="image-tag">稳定</span>
+
+            <span class="image-tag">
+              成熟
+            </span>
+
+            <span class="image-tag">
+              稳定
+            </span>
+
           </div>
+
         </div>
 
         <div class="character-info">
-          <div class="character-name">沈川</div>
+
+          <div class="character-name">
+            沈川
+          </div>
+
           <div class="character-description">
             他不会时时刻刻黏着你，但重要的时候很少缺席。
           </div>
+
         </div>
+
       </button>
 
     </div>
 
     <div class="preview-note">
-      当前人物形象仍为临时占位。<br>
+      当前人物形象仍为临时占位。
+      <br>
       这一阶段重点测试页面结构和聊天体验。
     </div>
 
   </section>
 
 
-  <!-- 会话 -->
-  <section id="conversationScreen" class="screen root-screen">
+  <section
+    id="conversationScreen"
+    class="screen root-screen"
+  >
 
     <div class="section-header">
-      <div class="section-title">会话</div>
+
+      <div class="section-title">
+        会话
+      </div>
+
       <div class="section-note">
         回到已经认识的TA身边。
       </div>
+
     </div>
 
-    <div id="conversationList" class="conversation-list"></div>
+    <div
+      id="conversationList"
+      class="conversation-list"
+    ></div>
 
   </section>
 
 
-  <!-- 我的 -->
-  <section id="myScreen" class="screen root-screen">
+  <section
+    id="myScreen"
+    class="screen root-screen"
+  >
 
     <div class="section-header">
-      <div class="section-title">我的</div>
+
+      <div class="section-title">
+        我的
+      </div>
+
       <div class="section-note">
         账号、会员和个人设置以后都会在这里。
       </div>
+
     </div>
 
     <div class="profile-box">
-      <div class="profile-status">当前：预览模式</div>
 
-      <div class="profile-description">
-        现在还没有接入真实登录。
-        正式版本登录后，会保存你的会话、角色关系和长期记忆。
+      <div class="profile-status">
+        当前：预览模式
       </div>
 
-      <button class="login-placeholder">
+      <div class="profile-description">
+        现在还没有接入真实登录。正式版本登录后，会保存你的会话、角色关系和长期记忆。
+      </div>
+
+      <button
+        class="login-placeholder"
+        type="button"
+      >
         登录 · 后续接入
       </button>
+
     </div>
 
     <div class="settings-list">
@@ -1015,36 +1133,66 @@
   </section>
 
 
-  <!-- 角色详情 -->
-  <section id="roleScreen" class="screen role-detail-screen">
+  <section
+    id="roleScreen"
+    class="screen role-detail-screen"
+  >
 
     <div class="role-detail-top">
 
-      <button class="back-button" onclick="backToDiscover()">
+      <button
+        class="back-button"
+        type="button"
+        onclick="backToDiscover()"
+      >
         ‹
       </button>
 
-      <div id="roleHero" class="role-hero linwan">
-        <div id="roleBigInitial" class="role-big-initial">
+      <div
+        id="roleHero"
+        class="role-hero linwan"
+      >
+
+        <div
+          id="roleBigInitial"
+          class="role-big-initial"
+        >
           晚
         </div>
+
       </div>
 
     </div>
 
     <div class="role-content">
 
-      <div id="roleName" class="role-name">
+      <div
+        id="roleName"
+        class="role-name"
+      >
         林晚
       </div>
 
-      <div id="roleTags" class="role-tags"></div>
+      <div
+        id="roleTags"
+        class="role-tags"
+      ></div>
 
-      <div id="roleQuote" class="role-quote"></div>
+      <div
+        id="roleQuote"
+        class="role-quote"
+      ></div>
 
-      <div id="roleAbout" class="role-about"></div>
+      <div
+        id="roleAbout"
+        class="role-about"
+      ></div>
 
-      <button class="meet-button" onclick="startCurrentRole()">
+      <button
+        class="meet-button"
+        type="button"
+        onclick="startCurrentRole()"
+      >
         认识TA
       </button>
 
@@ -1057,48 +1205,74 @@
   </section>
 
 
-  <!-- A + C 聊天 -->
-  <section id="chatScreen" class="screen chat-screen chat-linwan">
+  <section
+    id="chatScreen"
+    class="screen chat-screen chat-linwan"
+  >
 
     <div class="chat-header">
 
       <div class="chat-header-left">
 
-        <button class="back-button" onclick="backToConversation()">
+        <button
+          class="back-button"
+          type="button"
+          onclick="backToConversation()"
+        >
           ‹
         </button>
 
-        <div id="chatAvatar" class="chat-avatar">
+        <div
+          id="chatAvatar"
+          class="chat-avatar"
+        >
           晚
         </div>
 
         <div>
-          <div id="chatName" class="chat-name">
+
+          <div
+            id="chatName"
+            class="chat-name"
+          >
             林晚
           </div>
 
-          <div class="chat-status">
+          <div
+            id="chatStatus"
+            class="chat-status"
+          >
             今天 · 在这里
           </div>
+
         </div>
 
       </div>
 
-      <button class="memory-link" onclick="openMemory()">
+      <button
+        class="memory-link"
+        type="button"
+        onclick="openMemory()"
+      >
         记忆
       </button>
 
     </div>
 
+    <div
+      id="chatFeed"
+      class="chat-feed"
+    ></div>
 
-    <div id="chatFeed" class="chat-feed"></div>
-
-
-    <div id="introActions" class="intro-actions">
+    <div
+      id="introActions"
+      class="intro-actions"
+    >
 
       <button
         id="continueButton"
         class="continue-button"
+        type="button"
         onclick="continueIntro()"
       >
         继续听TA说
@@ -1107,6 +1281,7 @@
       <button
         id="talkButton"
         class="talk-button"
+        type="button"
         onclick="enterConversation()"
       >
         我想和TA说句话
@@ -1114,6 +1289,7 @@
 
       <button
         class="finish-button"
+        type="button"
         onclick="finishToday()"
       >
         今天先到这里
@@ -1124,8 +1300,10 @@
   </section>
 
 
-  <!-- 输入区 -->
-  <div id="composer" class="composer">
+  <div
+    id="composer"
+    class="composer"
+  >
 
     <input
       id="chatInput"
@@ -1133,30 +1311,45 @@
       type="text"
       placeholder="说点什么……"
       autocomplete="off"
+      enterkeyhint="send"
+      oncompositionstart="handleCompositionStart()"
+      oncompositionend="handleCompositionEnd()"
       onkeydown="handleInputKey(event)"
     >
 
-    <button class="send-button" onclick="sendMessage()">
+    <button
+      class="send-button"
+      type="button"
+      onclick="sendMessage()"
+    >
       ↑
     </button>
 
   </div>
 
 
-  <!-- 记忆 -->
-  <section id="memoryScreen" class="screen memory-screen">
+  <section
+    id="memoryScreen"
+    class="screen memory-screen"
+  >
 
-    <button class="back-button" onclick="backToChat()">
+    <button
+      class="back-button"
+      type="button"
+      onclick="backToChat()"
+    >
       ‹
     </button>
 
-    <div id="memoryTitle" class="memory-title">
+    <div
+      id="memoryTitle"
+      class="memory-title"
+    >
       林晚记得
     </div>
 
     <div class="memory-subtitle">
-      这些不是普通聊天记录，
-      而是TA在相处过程中留下的重要理解。
+      这些不是普通聊天记录，而是TA在相处过程中留下的重要理解。
     </div>
 
     <div id="memoryContent"></div>
@@ -1166,11 +1359,14 @@
 </div>
 
 
-<!-- 底部导航 -->
-<nav id="bottomNav" class="nav">
+<nav
+  id="bottomNav"
+  class="nav"
+>
 
   <button
     class="nav-item active"
+    type="button"
     onclick="showRoot('discoverScreen', this)"
   >
     发现
@@ -1178,6 +1374,7 @@
 
   <button
     class="nav-item"
+    type="button"
     onclick="showRoot('conversationScreen', this)"
   >
     会话
@@ -1185,6 +1382,7 @@
 
   <button
     class="nav-item"
+    type="button"
     onclick="showRoot('myScreen', this)"
   >
     我的
@@ -1198,6 +1396,7 @@
   const roles = {
 
     linwan: {
+
       name: '林晚',
       initial: '晚',
       heroClass: 'linwan',
@@ -1216,42 +1415,15 @@
         '她很少急着给出答案。相比不停安慰，她更习惯先观察一个人真正发生了什么。',
 
       intro: [
-        `回来了？
+        '回来了？\\n你昨天说，今天想把那件事继续做下去。\\n后来怎么样？',
 
-你昨天说，
-今天想把那件事继续做下去。
+        '我记得你第一次说起它的时候，其实还有点不确定。\\n但你最后还是开始做了。',
 
-后来怎么样？`,
-
-        `我记得你第一次说起它的时候，
-其实还有点不确定。
-
-但你最后还是开始做了。`,
-
-        `所以今天不用一次解决所有问题。
-
-至少把下一步做完。`
-      ],
-
-      replies: [
-        `嗯，我在听。
-
-你可以慢一点说。`,
-
-        `我记住了。
-
-不过我更想知道，
-这件事真正让你在意的是什么。`,
-
-        `你刚才这句话，
-和你之前说过的有一点不一样。`,
-
-        `不用急着给自己一个结论。
-
-先把现在真正发生的事情说清楚。`
+        '所以今天不用一次解决所有问题。\\n至少把下一步做完。'
       ],
 
       memory: {
+
         about: [
           '你正在认真做自己的第一个产品。',
           '你不喜欢别人一直催你，更希望自己想清楚以后行动。'
@@ -1270,6 +1442,7 @@
 
 
     sunian: {
+
       name: '苏念',
       initial: '念',
       heroClass: 'sunian',
@@ -1288,35 +1461,11 @@
         '她很容易把自己的生活分享出来。相处久了，也会慢慢记住你的日常习惯。',
 
       intro: [
-        `你来了。
+        '你来了。\\n我刚刚还在想，今天是不是又会碰见你。',
 
-我刚刚还在想，
-今天是不是又会碰见你。`,
+        '其实没有什么大事。\\n就是突然有点想找个人说说话。',
 
-        `其实没有什么大事。
-
-就是突然有点想找个人说说话。`,
-
-        `反正你在的话，
-我就先不走了。`
-      ],
-
-      replies: [
-        `等等，这个我想听。
-
-你继续说。`,
-
-        `原来是这样。
-
-难怪你刚刚说话的感觉有点不一样。`,
-
-        `那我先记下来。
-
-以后你别说我忘了。`,
-
-        `我突然有点好奇。
-
-如果重新来一次，你还会这么选吗？`
+        '反正你在的话，我就先不走了。'
       ],
 
       memory: {
@@ -1328,6 +1477,7 @@
 
 
     chenyu: {
+
       name: '陈屿',
       initial: '屿',
       heroClass: 'chenyu',
@@ -1346,37 +1496,11 @@
         '他不太擅长漂亮话，也不会为了让你开心就一直顺着你。',
 
       intro: [
-        `终于来了。
+        '终于来了。\\n昨天那个问题，你不会到现在还没动吧？',
 
-昨天那个问题，
-你不会到现在还没动吧？`,
+        '先别解释。\\n你自己应该比我更清楚，到底卡在哪里。',
 
-        `先别解释。
-
-你自己应该比我更清楚，
-到底卡在哪里。`,
-
-        `想清楚了就做。
-
-剩下的以后再说。`
-      ],
-
-      replies: [
-        `说重点。
-
-你现在真正想解决的是什么？`,
-
-        `这个理由我听懂了。
-
-但它不能代替行动。`,
-
-        `可以。
-
-至少这次你没有躲。`,
-
-        `先做最小的一步。
-
-其他问题做完再讨论。`
+        '想清楚了就做。\\n剩下的以后再说。'
       ],
 
       memory: {
@@ -1388,6 +1512,7 @@
 
 
     shenchuan: {
+
       name: '沈川',
       initial: '川',
       heroClass: 'shenchuan',
@@ -1406,33 +1531,11 @@
         '他不会一直追问你，也不会要求你时时回应，但会认真对待真正重要的事情。',
 
       intro: [
-        `晚上好。
+        '晚上好。\\n今天过得还可以吗？',
 
-今天过得还可以吗？`,
+        '不想说也没关系。\\n有些事情等你想说的时候再说。',
 
-        `不想说也没关系。
-
-有些事情等你想说的时候再说。`,
-
-        `今晚先好好休息。
-
-明天的事，明天处理。`
-      ],
-
-      replies: [
-        `我明白。
-
-你不用一次把所有事情说完。`,
-
-        `这件事先放在这里也可以。
-
-等你想清楚，我们再继续。`,
-
-        `听起来你已经撑了一段时间了。`,
-
-        `先处理眼前最重要的。
-
-其他事情不用今晚全部解决。`
+        '今晚先好好休息。\\n明天的事，明天处理。'
       ],
 
       memory: {
@@ -1441,7 +1544,354 @@
         understanding: []
       }
     }
+  };
 
+
+  const responseBanks = {
+
+    greeting: {
+
+      linwan: [
+        '嗯，我在。\\n怎么突然这么正式？',
+        '来了？\\n今天还好吗？'
+      ],
+
+      sunian: [
+        '你好呀。\\n你终于想起来找我了？',
+        '在在在。\\n怎么啦？'
+      ],
+
+      chenyu: [
+        '嗯。\\n这么晚还没睡？',
+        '在。\\n说吧。'
+      ],
+
+      shenchuan: [
+        '在。\\n晚上好。',
+        '嗯，我在这里。'
+      ]
+    },
+
+
+    silence: {
+
+      linwan: [
+        '好。\n那就先不说。',
+        '嗯。\n我陪你待一会儿。'
+      ],
+
+      sunian: [
+        '行吧。\n那我先不问。',
+        '好。\n等你想说了再说。'
+      ],
+
+      chenyu: [
+        '行。\n不想说就不说。',
+        '嗯。\n那先放着。'
+      ],
+
+      shenchuan: [
+        '好。\n那就不说。',
+        '没关系。\n安静一会儿也可以。'
+      ]
+    },
+
+
+    identity: {
+
+      linwan: [
+        '我是一个 AI 角色。\n但我们聊过的内容和这段关系，会按产品规则继续累积。'
+      ],
+
+      sunian: [
+        '对，我是 AI 角色。\n这点我不会骗你。'
+      ],
+
+      chenyu: [
+        '是。\n我是 AI 角色，不装真人。'
+      ],
+
+      shenchuan: [
+        '是的，我是 AI 角色。\n身份这件事不需要藏着。'
+      ]
+    },
+
+
+    crisis: {
+
+      linwan: [
+        '这句话我不能当成普通玩笑。\n如果你现在有伤害自己的打算，先别一个人扛，尽快联系身边可信任的人或当地紧急服务。'
+      ],
+
+      sunian: [
+        '这件事先不要一个人撑。\n如果你现在可能伤害自己，马上找一个现实里能陪着你的人，或者联系当地紧急服务。'
+      ],
+
+      chenyu: [
+        '先处理安全。\n如果你现在有伤害自己的打算，别独处，立刻联系身边可信任的人或当地紧急服务。'
+      ],
+
+      shenchuan: [
+        '现在最重要的是保证你安全。\n如果你可能伤害自己，请马上联系身边可信任的人，或当地紧急服务，不要独自待着。'
+      ]
+    },
+
+
+    leave: {
+
+      linwan: [
+        '好。\n下次见。'
+      ],
+
+      sunian: [
+        '好吧。\n下次记得回来。'
+      ],
+
+      chenyu: [
+        '行。\n回头见。'
+      ],
+
+      shenchuan: [
+        '好。\n路上慢一点，下次见。'
+      ]
+    },
+
+
+    tired: {
+
+      linwan: [
+        '今天发生什么了？\\n不想从头说的话，就从最烦的那件开始。',
+        '你今天看起来不是普通的累。\\n是事情多，还是心里堵？'
+      ],
+
+      sunian: [
+        '怎么又把自己耗成这样。\\n吃饭了吗？',
+        '先别硬撑啦。\\n今天到底谁把你电量用光了？'
+      ],
+
+      chenyu: [
+        '先别硬撑。\\n是身体累，还是事情烦？',
+        '累就先承认累。\\n别急着把它说成“我不行”。'
+      ],
+
+      shenchuan: [
+        '那今晚先不用急着解决所有事情。\\n你想说的话，我听着。',
+        '先缓一会儿。\\n今天已经够长了。'
+      ]
+    },
+
+
+    affection: {
+
+      linwan: [
+        '这么快？\\n你确定你认识我了吗？',
+        '……这句话我听见了。\\n先别急着看我反应。'
+      ],
+
+      sunian: [
+        '啊？\\n你突然这么说，我可要当真了。',
+        '等一下。\\n你这是认真说的，还是又在逗我？'
+      ],
+
+      chenyu: [
+        '知道了。\\n别盯着我看。',
+        '你胆子倒是不小。\\n这种话说得挺顺。'
+      ],
+
+      shenchuan: [
+        '我听见了。\\n这种话不用急着得到答案。',
+        '嗯。\\n我会认真对待。'
+      ]
+    },
+
+
+    playful: {
+
+      linwan: [
+        '解决我？\\n你先说说，我哪里惹到你了。',
+        '听起来问题突然变成我了。'
+      ],
+
+      sunian: [
+        '等等。\\n“解决我”是什么意思？你最好解释清楚。',
+        '哇。\\n口气这么大？我听听你准备怎么办。'
+      ],
+
+      chenyu: [
+        '解决我？\\n口气不小。说说看，你准备怎么解决。',
+        '行。\\n我倒想看看你有什么办法。'
+      ],
+
+      shenchuan: [
+        '我？\\n看来今晚的问题突然变成我了。',
+        '可以。\\n那你先说说，我哪里需要被“解决”。'
+      ]
+    },
+
+
+    angry: {
+
+      linwan: [
+        '你可以生气。\\n但先告诉我，是冲我，还是其实有别的事？',
+        '我听得出来你现在很烦。\\n如果是我惹到你，就直说。'
+      ],
+
+      sunian: [
+        '……我招你了？\\n真生气的话你就说清楚。',
+        '喂。\\n有事说事，别只顾着凶我。'
+      ],
+
+      chenyu: [
+        '你可以生气，但别拿我撒气。',
+        '有意见就说。\\n不用靠骂人证明你很烦。'
+      ],
+
+      shenchuan: [
+        '如果是我哪里让你不舒服，你可以直接说。\\n但别这样说话。',
+        '先把话说清楚。\\n生气可以，攻击人不行。'
+      ]
+    },
+
+
+    work: {
+
+      linwan: [
+        '你又开始担心它做不下去了？\\n先告诉我，今天具体卡在哪里。',
+        '先别把整个事情都压在一起。\\n今天是哪一步最难？'
+      ],
+
+      sunian: [
+        '又是那个产品？\\n行，你说。这次是什么问题。',
+        '先别宣布失败。\\n我听听今天又发生什么了。'
+      ],
+
+      chenyu: [
+        '别先说“做不下去”。\\n告诉我现在卡住的具体一步。',
+        '把问题缩小。\\n你现在能做的下一步是什么？'
+      ],
+
+      shenchuan: [
+        '先把“整个产品”放小一点。\\n今天真正需要解决的是什么？',
+        '不用今晚把未来都决定完。\\n先处理眼前这一件。'
+      ]
+    },
+
+
+    memory: {
+
+      linwan: [
+        '记得。\\n你在认真做自己的第一个产品，而且不喜欢别人一直催你。',
+        '记得一些。\\n你第一次把这个产品真正做出来的时候，其实还挺不确定的。'
+      ],
+
+      sunian: [
+        '我记得我们聊过一些东西。\\n不过这版还没有真的长期记忆，我不想装作什么都记得。'
+      ],
+
+      chenyu: [
+        '现在这版没有真的长期记忆。\\n所以我不装。'
+      ],
+
+      shenchuan: [
+        '我记得我们现在这段关系，但这还是预览版。\\n真正的长期记忆以后会接上。'
+      ]
+    },
+
+
+    sleep: {
+
+      linwan: [
+        '去吧。\\n明天醒了再说。',
+        '嗯。\\n今天就到这里，别再刷太久。'
+      ],
+
+      sunian: [
+        '好吧好吧。\\n晚安，别又偷偷刷手机。',
+        '去睡。\\n明天醒了再来找我。'
+      ],
+
+      chenyu: [
+        '睡觉。\\n明天再处理。',
+        '行。\\n手机放下。'
+      ],
+
+      shenchuan: [
+        '晚安。\\n今天到这里就好。',
+        '去休息吧。\\n剩下的事情明天再说。'
+      ]
+    },
+
+
+    thanks: {
+
+      linwan: [
+        '不用谢。\\n你自己想明白更重要。',
+        '嗯。\\n有用就好。'
+      ],
+
+      sunian: [
+        '客气什么。\\n下次记得也跟我讲。',
+        '嘿嘿。\\n那我收下这句谢谢。'
+      ],
+
+      chenyu: [
+        '嗯。',
+        '行。\\n有用就行。'
+      ],
+
+      shenchuan: [
+        '不客气。',
+        '嗯。\\n不用放在心上。'
+      ]
+    },
+
+
+    short: {
+
+      linwan: [
+        '嗯。',
+        '我在。'
+      ],
+
+      sunian: [
+        '嗯？',
+        '然后呢？'
+      ],
+
+      chenyu: [
+        '行。',
+        '继续。'
+      ],
+
+      shenchuan: [
+        '好。',
+        '我在听。'
+      ]
+    },
+
+
+    default: {
+
+      linwan: [
+        '我听见了。\\n你刚才这句，我想再听一点。',
+        '先不用急着下结论。\\n你继续说。'
+      ],
+
+      sunian: [
+        '等等，这个我想听。\\n你继续。',
+        '原来是这样。\\n然后呢？'
+      ],
+
+      chenyu: [
+        '嗯。\\n这次你说得比较清楚。',
+        '行。\\n先把这一件说完。'
+      ],
+
+      shenchuan: [
+        '我明白。\\n你慢慢说。',
+        '好。\\n先放在这里也可以。'
+      ]
+    }
   };
 
 
@@ -1449,63 +1899,108 @@
 
   let introIndex = 0;
 
-  let knownRoles = ['linwan'];
+  let isComposing = false;
+
+  let pendingReplyTimer = null;
+
+  let replyGeneration = 0;
+
+  let knownRoles = [
+    'linwan'
+  ];
+
 
   const conversationStarted = {
+
     linwan: false,
+
     sunian: false,
+
     chenyu: false,
+
     shenchuan: false
   };
 
+
   const chatHistory = {
+
     linwan: [],
+
     sunian: [],
+
     chenyu: [],
+
     shenchuan: []
   };
 
-  const replyIndex = {
-    linwan: 0,
-    sunian: 0,
-    chenyu: 0,
-    shenchuan: 0
-  };
+
+  const responseCursor = {};
 
 
   function hideAllScreens() {
-    document.querySelectorAll('.screen').forEach(screen => {
-      screen.classList.remove('active');
-    });
+
+    document
+      .querySelectorAll('.screen')
+      .forEach(screen => {
+
+        screen.classList.remove('active');
+
+      });
   }
 
 
   function hideComposer() {
-    document.getElementById('composer').classList.remove('active');
+
+    document
+      .getElementById('composer')
+      .classList.remove('active');
   }
 
 
   function showComposer() {
-    document.getElementById('composer').classList.add('active');
+
+    document
+      .getElementById('composer')
+      .classList.add('active');
   }
 
 
-  function showRoot(screenId, button) {
+  function showRoot(
+    screenId,
+    button
+  ) {
+
+    clearPendingReply();
 
     hideAllScreens();
+
     hideComposer();
 
-    document.getElementById(screenId).classList.add('active');
-    document.getElementById('bottomNav').classList.remove('hidden');
+    document
+      .getElementById(screenId)
+      .classList.add('active');
 
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.classList.remove('active');
-    });
+    document
+      .getElementById('bottomNav')
+      .classList.remove('hidden');
+
+    document
+      .querySelectorAll('.nav-item')
+      .forEach(item => {
+
+        item.classList.remove('active');
+
+      });
 
     button.classList.add('active');
 
-    if (screenId === 'conversationScreen') {
+    if (
+      screenId ===
+      'conversationScreen'
+    ) {
+
       renderConversations();
+
     }
 
     window.scrollTo(0, 0);
@@ -1514,36 +2009,69 @@
 
   function openRole(key) {
 
+    clearPendingReply();
+
     currentRoleKey = key;
 
     const role = roles[key];
 
-    document.getElementById('roleName').innerText = role.name;
-    document.getElementById('roleBigInitial').innerText = role.initial;
-    document.getElementById('roleQuote').innerText = role.quote;
-    document.getElementById('roleAbout').innerText = role.about;
+    document
+      .getElementById('roleName')
+      .innerText = role.name;
 
-    const hero = document.getElementById('roleHero');
-    hero.className = 'role-hero ' + role.heroClass;
+    document
+      .getElementById('roleBigInitial')
+      .innerText = role.initial;
 
-    const tags = document.getElementById('roleTags');
+    document
+      .getElementById('roleQuote')
+      .innerText = role.quote;
+
+    document
+      .getElementById('roleAbout')
+      .innerText = role.about;
+
+
+    const hero =
+      document.getElementById('roleHero');
+
+    hero.className =
+      'role-hero ' + role.heroClass;
+
+
+    const tags =
+      document.getElementById('roleTags');
 
     tags.innerHTML = '';
 
-    role.tags.forEach(tag => {
-      const item = document.createElement('span');
 
-      item.className = 'role-tag';
-      item.innerText = tag;
+    role.tags.forEach(tag => {
+
+      const item =
+        document.createElement('span');
+
+      item.className =
+        'role-tag';
+
+      item.innerText =
+        tag;
 
       tags.appendChild(item);
+
     });
 
+
     hideAllScreens();
+
     hideComposer();
 
-    document.getElementById('roleScreen').classList.add('active');
-    document.getElementById('bottomNav').classList.add('hidden');
+    document
+      .getElementById('roleScreen')
+      .classList.add('active');
+
+    document
+      .getElementById('bottomNav')
+      .classList.add('hidden');
 
     window.scrollTo(0, 0);
   }
@@ -1551,11 +2079,19 @@
 
   function backToDiscover() {
 
+    clearPendingReply();
+
     hideAllScreens();
+
     hideComposer();
 
-    document.getElementById('discoverScreen').classList.add('active');
-    document.getElementById('bottomNav').classList.remove('hidden');
+    document
+      .getElementById('discoverScreen')
+      .classList.add('active');
+
+    document
+      .getElementById('bottomNav')
+      .classList.remove('hidden');
 
     setActiveNav(0);
 
@@ -1565,38 +2101,75 @@
 
   function startCurrentRole() {
 
-    if (!knownRoles.includes(currentRoleKey)) {
-      knownRoles.push(currentRoleKey);
+    if (
+      !knownRoles.includes(
+        currentRoleKey
+      )
+    ) {
+
+      knownRoles.push(
+        currentRoleKey
+      );
+
     }
 
-    openChat(currentRoleKey);
+    openChat(
+      currentRoleKey
+    );
   }
 
 
   function openChat(key) {
 
+    clearPendingReply();
+
     currentRoleKey = key;
 
-    const role = roles[key];
+    const role =
+      roles[key];
 
-    document.getElementById('chatName').innerText = role.name;
-    document.getElementById('chatAvatar').innerText = role.initial;
 
-    const chatScreen = document.getElementById('chatScreen');
+    document
+      .getElementById('chatName')
+      .innerText = role.name;
 
-    chatScreen.className =
-      'screen chat-screen active ' + role.chatClass;
+    document
+      .getElementById('chatAvatar')
+      .innerText = role.initial;
+
+    document
+      .getElementById('chatStatus')
+      .innerText = '今天 · 在这里';
+
 
     hideAllScreens();
 
+
+    const chatScreen =
+      document.getElementById(
+        'chatScreen'
+      );
+
+
     chatScreen.className =
-      'screen chat-screen active ' + role.chatClass;
+      'screen chat-screen active ' +
+      role.chatClass;
 
-    document.getElementById('bottomNav').classList.add('hidden');
 
-    if (conversationStarted[key]) {
+    document
+      .getElementById('bottomNav')
+      .classList.add('hidden');
 
-      document.getElementById('introActions').classList.add('hidden');
+
+    if (
+      conversationStarted[key]
+    ) {
+
+      document
+        .getElementById(
+          'introActions'
+        )
+        .classList.add('hidden');
 
       renderChatHistory();
 
@@ -1606,146 +2179,283 @@
 
       introIndex = 0;
 
-      document.getElementById('introActions').classList.remove('hidden');
+      document
+        .getElementById(
+          'introActions'
+        )
+        .classList.remove('hidden');
 
-      document.getElementById('continueButton').style.display = 'block';
-      document.getElementById('continueButton').innerText = '继续听TA说';
+      document
+        .getElementById(
+          'continueButton'
+        )
+        .style.display = 'block';
 
       renderIntro();
 
       hideComposer();
+
     }
+
 
     window.scrollTo(0, 0);
   }
 
 
+  function getCurrentTimeText() {
+
+    const now =
+      new Date();
+
+    return (
+      '今天 · ' +
+      String(
+        now.getHours()
+      ).padStart(2, '0') +
+      ':' +
+      String(
+        now.getMinutes()
+      ).padStart(2, '0')
+    );
+  }
+
+
   function renderIntro() {
 
-    const role = roles[currentRoleKey];
-    const feed = document.getElementById('chatFeed');
+    const role =
+      roles[currentRoleKey];
+
+    const feed =
+      document.getElementById(
+        'chatFeed'
+      );
+
 
     feed.innerHTML = '';
 
-    const time = document.createElement('div');
 
-    time.className = 'time-line';
-    time.innerText = '今天 · 21:03';
+    const time =
+      document.createElement('div');
+
+    time.className =
+      'time-line';
+
+    time.innerText =
+      getCurrentTimeText();
 
     feed.appendChild(time);
 
-    for (let i = 0; i <= introIndex; i++) {
 
-      const entry = createAIEntry(
-        role.name,
-        role.intro[i]
+    for (
+      let i = 0;
+      i <= introIndex;
+      i++
+    ) {
+
+      feed.appendChild(
+
+        createAIEntry(
+          role.name,
+          role.intro[i]
+        )
+
       );
 
-      feed.appendChild(entry);
     }
 
-    if (introIndex >= role.intro.length - 1) {
-      document.getElementById('continueButton').style.display = 'none';
+
+    if (
+      introIndex >=
+      role.intro.length - 1
+    ) {
+
+      document
+        .getElementById(
+          'continueButton'
+        )
+        .style.display = 'none';
+
     }
   }
 
 
   function continueIntro() {
 
-    const role = roles[currentRoleKey];
+    const role =
+      roles[currentRoleKey];
 
-    if (introIndex < role.intro.length - 1) {
+
+    if (
+      introIndex <
+      role.intro.length - 1
+    ) {
+
       introIndex++;
+
     }
+
 
     renderIntro();
 
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: 'smooth'
-      });
-    }, 80);
+    scrollToLatest();
   }
 
 
   function enterConversation() {
 
-    const role = roles[currentRoleKey];
+    const role =
+      roles[currentRoleKey];
 
-    conversationStarted[currentRoleKey] = true;
 
-    if (chatHistory[currentRoleKey].length === 0) {
+    conversationStarted[
+      currentRoleKey
+    ] = true;
 
-      for (let i = 0; i <= introIndex; i++) {
 
-        chatHistory[currentRoleKey].push({
+    if (
+      chatHistory[
+        currentRoleKey
+      ].length === 0
+    ) {
+
+      for (
+        let i = 0;
+        i <= introIndex;
+        i++
+      ) {
+
+        chatHistory[
+          currentRoleKey
+        ].push({
+
           type: 'ai',
-          text: role.intro[i]
+
+          text: role.intro[i],
+
+          time: Date.now()
+
         });
+
       }
     }
 
-    document.getElementById('introActions').classList.add('hidden');
+
+    document
+      .getElementById(
+        'introActions'
+      )
+      .classList.add('hidden');
+
 
     renderChatHistory();
 
     showComposer();
 
+
     setTimeout(() => {
-      document.getElementById('chatInput').focus();
-    }, 180);
+
+      const input =
+        document.getElementById(
+          'chatInput'
+        );
+
+      input.focus();
+
+      scrollToLatest();
+
+    }, 120);
   }
 
 
   function finishToday() {
 
-    const role = roles[currentRoleKey];
-    const feed = document.getElementById('chatFeed');
+    clearPendingReply();
+
+    const role =
+      roles[currentRoleKey];
+
+    const feed =
+      document.getElementById(
+        'chatFeed'
+      );
+
 
     feed.innerHTML = '';
 
-    const time = document.createElement('div');
 
-    time.className = 'time-line';
-    time.innerText = '今天';
+    const time =
+      document.createElement('div');
+
+    time.className =
+      'time-line';
+
+    time.innerText =
+      getCurrentTimeText();
 
     feed.appendChild(time);
 
+
     feed.appendChild(
+
       createAIEntry(
+
         role.name,
-        `好。
 
-今天就到这里。
+        '好。\\n今天就到这里。\\n下次来的时候，我们再继续。'
 
-下次来的时候，
-我们再继续。`
       )
+
     );
 
-    document.getElementById('continueButton').style.display = 'none';
+
+    document
+      .getElementById(
+        'continueButton'
+      )
+      .style.display = 'none';
   }
 
 
-  function createAIEntry(name, text) {
+  function createAIEntry(
+    name,
+    text
+  ) {
 
-    const wrapper = document.createElement('div');
+    const wrapper =
+      document.createElement('div');
 
-    wrapper.className = 'ai-entry';
+    wrapper.className =
+      'ai-entry';
 
-    const speaker = document.createElement('div');
 
-    speaker.className = 'speaker';
-    speaker.innerText = name;
+    const speaker =
+      document.createElement('div');
 
-    const message = document.createElement('div');
+    speaker.className =
+      'speaker';
 
-    message.className = 'ai-text';
-    message.innerText = text;
+    speaker.innerText =
+      name;
 
-    wrapper.appendChild(speaker);
-    wrapper.appendChild(message);
+
+    const message =
+      document.createElement('div');
+
+    message.className =
+      'ai-text';
+
+    message.innerText =
+      normalizeDisplayText(text);
+
+
+    wrapper.appendChild(
+      speaker
+    );
+
+    wrapper.appendChild(
+      message
+    );
+
 
     return wrapper;
   }
@@ -1753,151 +2463,591 @@
 
   function createUserEntry(text) {
 
-    const wrapper = document.createElement('div');
+    const wrapper =
+      document.createElement('div');
 
-    wrapper.className = 'user-entry';
+    wrapper.className =
+      'user-entry';
 
-    const message = document.createElement('div');
 
-    message.className = 'user-message';
-    message.innerText = text;
+    const message =
+      document.createElement('div');
 
-    wrapper.appendChild(message);
+    message.className =
+      'user-message';
+
+    message.innerText =
+      text;
+
+
+    wrapper.appendChild(
+      message
+    );
+
 
     return wrapper;
   }
 
 
+  function normalizeDisplayText(text) {
+
+    return String(
+      text || ''
+    )
+      .replace(/\r/g, '')
+      .replace(
+        /\n{3,}/g,
+        '\n\n'
+      )
+      .replace(
+        /[ \t]+\n/g,
+        '\n'
+      )
+      .trim();
+  }
+
+
   function renderChatHistory() {
 
-    const role = roles[currentRoleKey];
-    const history = chatHistory[currentRoleKey];
-    const feed = document.getElementById('chatFeed');
+    const role =
+      roles[currentRoleKey];
+
+    const history =
+      chatHistory[
+        currentRoleKey
+      ];
+
+    const feed =
+      document.getElementById(
+        'chatFeed'
+      );
+
 
     feed.innerHTML = '';
 
-    const time = document.createElement('div');
 
-    time.className = 'time-line';
-    time.innerText = '今天';
+    const time =
+      document.createElement('div');
+
+    time.className =
+      'time-line';
+
+    time.innerText =
+      getCurrentTimeText();
 
     feed.appendChild(time);
 
+
     history.forEach(item => {
 
-      if (item.type === 'ai') {
+      if (
+        item.type === 'ai'
+      ) {
 
         feed.appendChild(
+
           createAIEntry(
             role.name,
             item.text
           )
+
         );
 
       } else {
 
         feed.appendChild(
-          createUserEntry(item.text)
+
+          createUserEntry(
+            item.text
+          )
+
         );
+
       }
 
     });
 
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: 'smooth'
-      });
-    }, 40);
+
+    scrollToLatest();
   }
 
 
   function sendMessage() {
 
-    const input = document.getElementById('chatInput');
+    const input =
+      document.getElementById(
+        'chatInput'
+      );
 
-    const text = input.value.trim();
+    const text =
+      input.value.trim();
+
 
     if (!text) {
       return;
     }
 
-    chatHistory[currentRoleKey].push({
+
+    chatHistory[
+      currentRoleKey
+    ].push({
+
       type: 'user',
-      text: text
+
+      text: text,
+
+      time: Date.now()
+
     });
+
 
     input.value = '';
 
+
     renderChatHistory();
 
-    showTyping();
-
-    setTimeout(() => {
-      fakeReply();
-    }, 700);
+    scheduleReply();
   }
 
 
   function handleInputKey(event) {
 
-    if (event.key === 'Enter') {
+    if (
+      event.key === 'Enter' &&
+      !isComposing
+    ) {
 
       event.preventDefault();
 
       sendMessage();
+
     }
+  }
+
+
+  function handleCompositionStart() {
+
+    isComposing = true;
+  }
+
+
+  function handleCompositionEnd() {
+
+    isComposing = false;
+  }
+
+
+  function scheduleReply() {
+
+    clearTimeout(
+      pendingReplyTimer
+    );
+
+
+    const generation =
+      ++replyGeneration;
+
+
+    renderChatHistory();
+
+    showTyping();
+
+
+    const delay =
+      850 +
+      Math.floor(
+        Math.random() * 550
+      );
+
+
+    pendingReplyTimer =
+      setTimeout(() => {
+
+        if (
+          generation !==
+          replyGeneration
+        ) {
+          return;
+        }
+
+        fakeReply();
+
+        pendingReplyTimer =
+          null;
+
+      }, delay);
+  }
+
+
+  function clearPendingReply() {
+
+    if (
+      pendingReplyTimer
+    ) {
+
+      clearTimeout(
+        pendingReplyTimer
+      );
+
+      pendingReplyTimer =
+        null;
+    }
+
+    replyGeneration++;
   }
 
 
   function showTyping() {
 
-    const role = roles[currentRoleKey];
-    const feed = document.getElementById('chatFeed');
+    const role =
+      roles[currentRoleKey];
 
-    const typing = document.createElement('div');
+    const feed =
+      document.getElementById(
+        'chatFeed'
+      );
 
-    typing.id = 'typing';
-    typing.className = 'typing';
-    typing.innerText = role.name + '正在想……';
 
-    feed.appendChild(typing);
+    const oldTyping =
+      document.getElementById(
+        'typing'
+      );
 
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: 'smooth'
-      });
-    }, 30);
+
+    if (oldTyping) {
+      oldTyping.remove();
+    }
+
+
+    const typing =
+      document.createElement('div');
+
+    typing.id =
+      'typing';
+
+    typing.className =
+      'typing';
+
+    typing.innerText =
+      role.name +
+      '正在想……';
+
+
+    feed.appendChild(
+      typing
+    );
+
+
+    scrollToLatest();
   }
 
 
   function fakeReply() {
 
-    const role = roles[currentRoleKey];
+    const roleKey =
+      currentRoleKey;
 
-    const index = replyIndex[currentRoleKey] % role.replies.length;
 
-    const text = role.replies[index];
+    const userMessages =
+      getRecentUserBatch(
+        roleKey
+      );
 
-    replyIndex[currentRoleKey]++;
 
-    chatHistory[currentRoleKey].push({
+    const combinedText =
+      userMessages
+        .map(
+          item => item.text
+        )
+        .join('；');
+
+
+    const intent =
+      detectIntent(
+        combinedText
+      );
+
+
+    const reply =
+      pickResponse(
+        intent,
+        roleKey
+      );
+
+
+    chatHistory[
+      roleKey
+    ].push({
+
       type: 'ai',
-      text: text
+
+      text: reply,
+
+      time: Date.now()
+
     });
+
 
     renderChatHistory();
   }
 
 
+  function getRecentUserBatch(
+    roleKey
+  ) {
+
+    const history =
+      chatHistory[
+        roleKey
+      ];
+
+    const batch = [];
+
+
+    for (
+      let i =
+        history.length - 1;
+      i >= 0;
+      i--
+    ) {
+
+      const item =
+        history[i];
+
+
+      if (
+        item.type === 'ai'
+      ) {
+        break;
+      }
+
+
+      if (
+        item.type === 'user'
+      ) {
+
+        batch.unshift(
+          item
+        );
+
+      }
+
+    }
+
+
+    return batch;
+  }
+
+
+  function detectIntent(
+    rawText
+  ) {
+
+    const text =
+      String(
+        rawText || ''
+      )
+        .toLowerCase()
+        .trim();
+
+
+    if (
+      /不想活了|想死|自杀|伤害自己|结束生命/.test(text)
+    ) {
+      return 'crisis';
+    }
+
+
+    if (
+      /你是不是ai|你是ai吗|你是真人吗|你是机器人吗/.test(text)
+    ) {
+      return 'identity';
+    }
+
+
+    if (
+      /不想说|不想聊|别问了|不想讲/.test(text)
+    ) {
+      return 'silence';
+    }
+
+
+    if (
+      /睡了|睡觉|晚安|困了|去睡|休息了/.test(text)
+    ) {
+      return 'sleep';
+    }
+
+
+    if (
+      /再见|拜拜|先走了|我走了|下次聊/.test(text)
+    ) {
+      return 'leave';
+    }
+
+
+    if (
+      /你记得我吗|还记得我吗|记得我|记不记得/.test(text)
+    ) {
+      return 'memory';
+    }
+
+
+    if (
+      /谢谢|谢了|多谢|感谢/.test(text)
+    ) {
+      return 'thanks';
+    }
+
+
+    if (
+      /滚|闭嘴|烦死你|讨厌你|烦人|你烦不烦|你真烦|傻逼|有病|神经病/.test(text)
+    ) {
+      return 'angry';
+    }
+
+
+    if (
+      /想解决你|解决你|收拾你|搞定你/.test(text)
+    ) {
+      return 'playful';
+    }
+
+
+    if (
+      /喜欢你|爱你|想你了|想你|喜欢上你/.test(text)
+    ) {
+      return 'affection';
+    }
+
+
+    if (
+      /累|烦|难受|不开心|心情不好|压力大|崩溃/.test(text)
+    ) {
+      return 'tired';
+    }
+
+
+    if (
+      /产品|工作|上班|创业|项目|做不下去|放弃|代码|开发/.test(text)
+    ) {
+      return 'work';
+    }
+
+
+    if (
+      /你好|嗨|哈喽|hello|在吗|在不在/.test(text)
+    ) {
+      return 'greeting';
+    }
+
+
+    const compact =
+      text.replace(
+        /\s+/g,
+        ''
+      );
+
+
+    if (
+      compact.length <= 3
+    ) {
+
+      return 'short';
+
+    }
+
+
+    return 'default';
+  }
+
+
+  function pickResponse(
+    intent,
+    roleKey
+  ) {
+
+    const bank =
+      responseBanks[intent] ||
+      responseBanks.default;
+
+
+    const options =
+      bank[roleKey] ||
+      responseBanks.default[
+        roleKey
+      ] ||
+      ['嗯。'];
+
+
+    const cursorKey =
+      intent +
+      ':' +
+      roleKey;
+
+
+    const cursor =
+      responseCursor[
+        cursorKey
+      ] || 0;
+
+
+    responseCursor[
+      cursorKey
+    ] =
+      cursor + 1;
+
+
+    return options[
+      cursor %
+      options.length
+    ];
+  }
+
+
+  function scrollToLatest() {
+
+    requestAnimationFrame(() => {
+
+      requestAnimationFrame(() => {
+
+        window.scrollTo({
+
+          top:
+            document
+              .documentElement
+              .scrollHeight,
+
+          behavior:
+            'smooth'
+
+        });
+
+      });
+
+    });
+  }
+
+
   function backToConversation() {
 
+    clearPendingReply();
+
     hideAllScreens();
+
     hideComposer();
 
-    document.getElementById('conversationScreen').classList.add('active');
-    document.getElementById('bottomNav').classList.remove('hidden');
+    document
+      .getElementById(
+        'conversationScreen'
+      )
+      .classList.add('active');
+
+    document
+      .getElementById(
+        'bottomNav'
+      )
+      .classList.remove('hidden');
 
     renderConversations();
 
@@ -1909,79 +3059,190 @@
 
   function renderConversations() {
 
-    const list = document.getElementById('conversationList');
+    const list =
+      document.getElementById(
+        'conversationList'
+      );
+
 
     list.innerHTML = '';
 
+
     knownRoles.forEach(key => {
 
-      const role = roles[key];
-      const history = chatHistory[key];
+      const role =
+        roles[key];
 
-      let preview = role.intro[0].replace(/\n/g, ' ');
+      const history =
+        chatHistory[key];
 
-      if (history.length > 0) {
-        preview = history[history.length - 1].text.replace(/\n/g, ' ');
+
+      let preview =
+        role.intro[0]
+          .replace(
+            /\n/g,
+            ' '
+          );
+
+
+      if (
+        history.length > 0
+      ) {
+
+        preview =
+          history[
+            history.length - 1
+          ]
+            .text
+            .replace(
+              /\n/g,
+              ' '
+            );
+
       }
 
-      const button = document.createElement('button');
 
-      button.className = 'conversation-card';
+      const button =
+        document.createElement(
+          'button'
+        );
 
-      button.onclick = function() {
-        openChat(key);
-      };
 
-      button.innerHTML = `
-        <div class="conversation-avatar">
-          ${role.initial}
-        </div>
+      button.className =
+        'conversation-card';
 
-        <div class="conversation-main">
-          <div class="conversation-name">
-            ${role.name}
-          </div>
+      button.type =
+        'button';
 
-          <div class="conversation-preview">
-            ${escapeHTML(preview)}
-          </div>
-        </div>
+      button.onclick =
+        function() {
 
-        <div class="conversation-time">
-          今天
-        </div>
-      `;
+          openChat(key);
 
-      list.appendChild(button);
+        };
+
+
+      const avatar =
+        document.createElement(
+          'div'
+        );
+
+      avatar.className =
+        'conversation-avatar';
+
+      avatar.innerText =
+        role.initial;
+
+
+      const main =
+        document.createElement(
+          'div'
+        );
+
+      main.className =
+        'conversation-main';
+
+
+      const name =
+        document.createElement(
+          'div'
+        );
+
+      name.className =
+        'conversation-name';
+
+      name.innerText =
+        role.name;
+
+
+      const previewEl =
+        document.createElement(
+          'div'
+        );
+
+      previewEl.className =
+        'conversation-preview';
+
+      previewEl.innerText =
+        preview;
+
+
+      const time =
+        document.createElement(
+          'div'
+        );
+
+      time.className =
+        'conversation-time';
+
+      time.innerText =
+        '今天';
+
+
+      main.appendChild(
+        name
+      );
+
+      main.appendChild(
+        previewEl
+      );
+
+
+      button.appendChild(
+        avatar
+      );
+
+      button.appendChild(
+        main
+      );
+
+      button.appendChild(
+        time
+      );
+
+
+      list.appendChild(
+        button
+      );
+
     });
-  }
-
-
-  function escapeHTML(text) {
-
-    return text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
   }
 
 
   function openMemory() {
 
-    const role = roles[currentRoleKey];
+    clearPendingReply();
 
-    document.getElementById('memoryTitle').innerText =
-      role.name + '记得';
+    const role =
+      roles[currentRoleKey];
+
+
+    document
+      .getElementById(
+        'memoryTitle'
+      )
+      .innerText =
+        role.name +
+        '记得';
+
 
     renderMemory(role);
 
     hideAllScreens();
+
     hideComposer();
 
-    document.getElementById('memoryScreen').classList.add('active');
-    document.getElementById('bottomNav').classList.add('hidden');
+    document
+      .getElementById(
+        'memoryScreen'
+      )
+      .classList.add('active');
+
+    document
+      .getElementById(
+        'bottomNav'
+      )
+      .classList.add('hidden');
 
     window.scrollTo(0, 0);
   }
@@ -1989,105 +3250,192 @@
 
   function renderMemory(role) {
 
-    const container = document.getElementById('memoryContent');
+    const container =
+      document.getElementById(
+        'memoryContent'
+      );
+
 
     container.innerHTML = '';
 
+
     container.appendChild(
+
       createMemorySection(
         '关于你',
         role.memory.about,
         '关于你'
       )
+
     );
 
+
     container.appendChild(
+
       createMemorySection(
         '共同经历',
         role.memory.events,
         '共同经历'
       )
+
     );
 
+
     container.appendChild(
+
       createMemorySection(
         'TA对你的理解',
         role.memory.understanding,
         '关系理解'
       )
+
     );
   }
 
 
-  function createMemorySection(title, items, meta) {
+  function createMemorySection(
+    title,
+    items,
+    meta
+  ) {
 
-    const wrapper = document.createElement('div');
+    const wrapper =
+      document.createElement('div');
 
-    const heading = document.createElement('div');
 
-    heading.className = 'memory-section-title';
-    heading.innerText = title;
+    const heading =
+      document.createElement('div');
 
-    wrapper.appendChild(heading);
+    heading.className =
+      'memory-section-title';
 
-    const card = document.createElement('div');
+    heading.innerText =
+      title;
 
-    card.className = 'memory-card';
 
-    if (items.length === 0) {
+    wrapper.appendChild(
+      heading
+    );
 
-      const empty = document.createElement('div');
 
-      empty.className = 'empty-memory';
+    const card =
+      document.createElement('div');
+
+    card.className =
+      'memory-card';
+
+
+    if (
+      items.length === 0
+    ) {
+
+      const empty =
+        document.createElement(
+          'div'
+        );
+
+      empty.className =
+        'empty-memory';
+
       empty.innerText =
         '你们还没有留下足够多的共同信息。';
 
-      card.appendChild(empty);
+
+      card.appendChild(
+        empty
+      );
 
     } else {
 
       items.forEach(text => {
 
-        const item = document.createElement('div');
+        const item =
+          document.createElement(
+            'div'
+          );
 
-        item.className = 'memory-item';
+        item.className =
+          'memory-item';
 
-        item.innerHTML = `
-          <div class="memory-text">
-            ${escapeHTML(text)}
-          </div>
 
-          <div class="memory-meta">
-            ${meta} · 测试数据
-          </div>
-        `;
+        const memoryText =
+          document.createElement(
+            'div'
+          );
 
-        card.appendChild(item);
+        memoryText.className =
+          'memory-text';
+
+        memoryText.innerText =
+          text;
+
+
+        const memoryMeta =
+          document.createElement(
+            'div'
+          );
+
+        memoryMeta.className =
+          'memory-meta';
+
+        memoryMeta.innerText =
+          meta +
+          ' · 测试数据';
+
+
+        item.appendChild(
+          memoryText
+        );
+
+        item.appendChild(
+          memoryMeta
+        );
+
+
+        card.appendChild(
+          item
+        );
+
       });
     }
 
-    wrapper.appendChild(card);
+
+    wrapper.appendChild(
+      card
+    );
+
 
     return wrapper;
   }
 
 
   function backToChat() {
-    openChat(currentRoleKey);
+
+    openChat(
+      currentRoleKey
+    );
   }
 
 
   function setActiveNav(index) {
 
-    document.querySelectorAll('.nav-item').forEach(
-      (item, itemIndex) => {
+    document
+      .querySelectorAll(
+        '.nav-item'
+      )
+      .forEach(
+        (
+          item,
+          itemIndex
+        ) => {
 
-        item.classList.toggle(
-          'active',
-          itemIndex === index
-        );
-      }
-    );
+          item.classList.toggle(
+            'active',
+            itemIndex === index
+          );
+
+        }
+      );
   }
 
 
