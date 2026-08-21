@@ -3,330 +3,178 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>OneWay AI Test</title>
-
+<title>OneWay AI Test V1.1</title>
 <style>
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  background:#111318;
-  color:#eef0f3;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
-}
-
-.app{
-  max-width:520px;
-  margin:auto;
-  min-height:100vh;
-  padding:18px 16px 110px;
-}
-
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-}
-
-.title{
-  font-size:24px;
-  font-weight:800;
-}
-
-.sub{
-  margin-top:6px;
-  color:#8a919b;
-  font-size:12px;
-  line-height:1.6;
-}
-
-.panel{
-  margin-top:18px;
-  padding:14px;
-  border:1px solid #2a2f37;
-  border-radius:18px;
-  background:#191c22;
-}
-
-.row{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.role{
-  border:1px solid #2f353e;
-  background:#20242b;
-  color:#aeb4bd;
-  padding:9px 12px;
-  border-radius:999px;
-}
-
-.role.active{
-  background:#fff;
-  color:#16191d;
-  border-color:#fff;
-}
-
-.status{
-  font-size:11px;
-  color:#9299a3;
-}
-
-.ok{
-  color:#9bd19b;
-}
-
-.bad{
-  color:#f0a4a4;
-}
-
-.feed{
-  margin-top:20px;
-}
-
-.msg{
-  margin:0 0 16px;
-}
-
-.who{
-  font-size:10px;
-  color:#747b85;
-  margin-bottom:4px;
-}
-
-.ai{
-  font-size:17px;
-  line-height:1.6;
-}
-
-.user{
-  text-align:right;
-}
-
-.user span{
-  display:inline-block;
-  max-width:84%;
-  padding:10px 12px;
-  border-radius:16px 16px 5px 16px;
-  background:#232831;
-  color:#e9ebee;
-  font-size:14px;
-  line-height:1.55;
-  text-align:left;
-}
-
-.quick{
-  display:flex;
-  gap:8px;
-  overflow:auto;
-  margin:14px -16px 0;
-  padding:0 16px;
-}
-
-.quick button{
-  white-space:nowrap;
-  border:1px solid #303640;
-  background:#1b1f25;
-  color:#aab0b9;
-  border-radius:999px;
-  padding:8px 11px;
-  font-size:11px;
-}
-
-.composer{
-  position:fixed;
-  left:50%;
-  bottom:0;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:520px;
-  padding:
-    10px
-    14px
-    calc(10px + env(safe-area-inset-bottom));
-
-  background:
-    linear-gradient(
-      to top,
-      #111318 72%,
-      rgba(17,19,24,.92)
-    );
-}
-
-.compose{
-  display:flex;
-  gap:8px;
-}
-
-.compose input{
-  flex:1;
-  min-width:0;
-  border:1px solid #303640;
-  background:#1d2128;
-  color:#fff;
-  border-radius:16px;
-  padding:13px;
-  outline:none;
-}
-
-.send{
-  width:58px;
-  border:0;
-  border-radius:16px;
-  background:#fff;
-  color:#17191d;
-  font-weight:800;
-}
-
-.small{
-  border:0;
-  background:#242932;
-  color:#cfd3d8;
-  border-radius:12px;
-  padding:9px 10px;
-  font-size:11px;
-}
+*{box-sizing:border-box}
+body{margin:0;background:#111318;color:#eef0f3;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
+button,input{font:inherit}.app{max-width:520px;margin:auto;min-height:100vh;padding:18px 16px 118px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.title{font-size:24px;font-weight:800}
+.sub{margin-top:6px;color:#8a919b;font-size:12px;line-height:1.6}.panel{margin-top:18px;padding:14px;border:1px solid #2a2f37;border-radius:18px;background:#191c22}
+.row{display:flex;gap:8px;flex-wrap:wrap}.role{border:1px solid #2f353e;background:#20242b;color:#aeb4bd;padding:9px 12px;border-radius:999px}
+.role.active{background:#fff;color:#16191d;border-color:#fff}.role:disabled,.quick button:disabled,.small:disabled,.send:disabled{opacity:.42}
+.status{font-size:11px;color:#9299a3;line-height:1.5}.ok{color:#9bd19b}.bad{color:#f0a4a4}.feed{margin-top:20px}
+.msg{margin:0 0 16px}.who{font-size:10px;color:#747b85;margin-bottom:5px}
+.ai-bubble{font-size:17px;line-height:1.65;margin:0 0 8px;opacity:1;transform:translateY(0);transition:opacity .28s ease,transform .28s ease}
+.ai-bubble.pending{opacity:0;transform:translateY(5px)}.user{text-align:right}.user span{display:inline-block;max-width:84%;padding:10px 12px;border-radius:16px 16px 5px 16px;background:#232831;color:#e9ebee;font-size:14px;line-height:1.55;text-align:left}
+.typing{display:flex;align-items:center;gap:5px;height:24px}.dot{width:5px;height:5px;border-radius:50%;background:#7c838d;animation:pulse 1s infinite ease-in-out}
+.dot:nth-child(2){animation-delay:.16s}.dot:nth-child(3){animation-delay:.32s}@keyframes pulse{0%,70%,100%{opacity:.25;transform:translateY(0)}35%{opacity:1;transform:translateY(-2px)}}
+.quick{display:flex;gap:8px;overflow:auto;margin:14px -16px 0;padding:0 16px}.quick button{white-space:nowrap;border:1px solid #303640;background:#1b1f25;color:#aab0b9;border-radius:999px;padding:8px 11px;font-size:11px}
+.composer{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:520px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,#111318 72%,rgba(17,19,24,.94))}
+.compose{display:flex;gap:8px}.compose input{flex:1;min-width:0;border:1px solid #303640;background:#1d2128;color:#fff;border-radius:16px;padding:13px;outline:none}.compose input:disabled{opacity:.65}
+.send{width:58px;border:0;border-radius:16px;background:#fff;color:#17191d;font-weight:800}.small{border:0;background:#242932;color:#cfd3d8;border-radius:12px;padding:9px 10px;font-size:11px}
 </style>
 </head>
-
 <body>
-
 <div class="app">
-
   <div class="top">
-
-    <div>
-
-      <div class="title">
-        AI角色联调
-      </div>
-
-      <div class="sub">
-        先调模型，不动主产品。
-        稳定后再合并回正式页面。
-      </div>
-
-    </div>
-
-    <button
-      class="small"
-      onclick="clearChat()"
-    >
-      清空
-    </button>
-
+    <div><div class="title">AI角色联调</div><div class="sub">V1.1 · 本机保存聊天 · 分段浮现 · 防连续发送</div></div>
+    <button id="clearBtn" class="small" onclick="clearChat()">清空</button>
   </div>
 
   <div class="panel">
-
-    <div
-      class="row"
-      id="roles"
-    ></div>
-
+    <div class="row" id="roles"></div>
     <div style="height:12px"></div>
-
-    <div
-      id="status"
-      class="status"
-    >
-      正在检查 Worker…
-    </div>
-
+    <div id="status" class="status">正在检查 Worker…</div>
   </div>
 
   <div class="quick">
-
-    <button onclick="quick('你好')">
-      你好
-    </button>
-
-    <button onclick="quick('今天好累')">
-      今天好累
-    </button>
-
-    <button onclick="quick('嗯')">
-      嗯
-    </button>
-
-    <button onclick="quick('我没什么好说的了')">
-      没话说
-    </button>
-
-    <button onclick="quick('你觉得我做错了吗')">
-      别顺着我
-    </button>
-
-    <button onclick="quick('你是不是AI')">
-      你是不是AI
-    </button>
-
-    <button onclick="quick('我睡了')">
-      我睡了
-    </button>
-
+    <button onclick="quick('你好')">你好</button>
+    <button onclick="quick('今天好累')">今天好累</button>
+    <button onclick="quick('嗯')">嗯</button>
+    <button onclick="quick('我没什么好说的了')">没话说</button>
+    <button onclick="quick('你觉得我做错了吗')">别顺着我</button>
+    <button onclick="quick('你是不是AI')">你是不是AI</button>
+    <button onclick="quick('我睡了')">我睡了</button>
   </div>
 
-  <div
-    id="feed"
-    class="feed"
-  ></div>
-
+  <div id="feed" class="feed"></div>
 </div>
 
 <div class="composer">
-
   <div class="compose">
-
-    <input
-      id="input"
-      placeholder="和TA说句话…"
-      autocomplete="off"
-    >
-
-    <button
-      class="send"
-      onclick="send()"
-    >
-      发送
-    </button>
-
+    <input id="input" placeholder="和TA说句话…" autocomplete="off">
+    <button id="sendBtn" class="send" onclick="send()">发送</button>
   </div>
-
 </div>
 
 <script>
+const ENDPOINT="https://oneway-ai.ruzansemiliyaj.workers.dev";
+const STORE_KEY="oneway_ai_lab_v11";
+const USER_KEY="oneway_anon_user_v1";
 
-const ENDPOINT =
-  "https://oneway-ai.ruzansemiliyaj.workers.dev";
-
-const ROLE_NAMES = {
+const ROLE_NAMES={
   linwan:"林晚",
   sunian:"苏念",
   chenyu:"陈屿",
   shenchuan:"沈川"
 };
 
-let roleKey =
-  "linwan";
+const ROLE_PACING={
+  linwan:{initial:720,between:680},
+  sunian:{initial:360,between:420},
+  chenyu:{initial:280,between:340},
+  shenchuan:{initial:540,between:560}
+};
 
-let messages =
-  [];
+let busy=false;
+let typingNode=null;
+
+function makeId(prefix="id"){
+  if(window.crypto&&crypto.randomUUID){
+    return prefix+"_"+crypto.randomUUID();
+  }
+
+  return prefix+"_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2);
+}
+
+function getOrCreateUserId(){
+  let id=localStorage.getItem(USER_KEY);
+
+  if(!id){
+    id=makeId("usr");
+    localStorage.setItem(USER_KEY,id);
+  }
+
+  return id;
+}
+
+const userId=getOrCreateUserId();
+
+function blankRoleData(){
+  return {
+    messages:[],
+    lifeContext:null
+  };
+}
+
+function loadStore(){
+  try{
+    const raw=JSON.parse(
+      localStorage.getItem(STORE_KEY)||"null"
+    );
+
+    if(raw&&raw.roles){
+      for(const k of Object.keys(ROLE_NAMES)){
+        if(!raw.roles[k]){
+          raw.roles[k]=blankRoleData();
+        }
+
+        if(!Array.isArray(raw.roles[k].messages)){
+          raw.roles[k].messages=[];
+        }
+      }
+
+      return raw;
+    }
+  }catch(e){}
+
+  return {
+    version:1,
+    selectedRole:"linwan",
+    roles:{
+      linwan:blankRoleData(),
+      sunian:blankRoleData(),
+      chenyu:blankRoleData(),
+      shenchuan:blankRoleData()
+    }
+  };
+}
+
+let store=loadStore();
+
+let roleKey=
+  ROLE_NAMES[store.selectedRole]
+    ? store.selectedRole
+    : "linwan";
+
+function roleData(){
+  if(!store.roles[roleKey]){
+    store.roles[roleKey]=blankRoleData();
+  }
+
+  return store.roles[roleKey];
+}
+
+function saveStore(){
+  store.selectedRole=roleKey;
+
+  try{
+    localStorage.setItem(
+      STORE_KEY,
+      JSON.stringify(store)
+    );
+  }catch(e){
+    setStatus(
+      "bad",
+      "本机聊天保存失败："+e.message
+    );
+  }
+}
 
 function esc(s){
-
   return String(s).replace(
     /[&<>"']/g,
-    c => ({
+    c=>({
       "&":"&amp;",
       "<":"&lt;",
       ">":"&gt;",
@@ -336,49 +184,264 @@ function esc(s){
   );
 }
 
-function renderRoles(){
+function wait(ms){
+  return new Promise(
+    resolve=>setTimeout(resolve,ms)
+  );
+}
 
-  const box =
+function segmentReply(text){
+  const clean=
+    String(text||"")
+      .replace(/\r/g,"")
+      .trim();
+
+  if(!clean){
+    return [];
+  }
+
+  if(clean.length<=32){
+    return [clean];
+  }
+
+  const lines=
+    clean
+      .split(/\n+/)
+      .map(s=>s.trim())
+      .filter(Boolean);
+
+  const pieces=[];
+
+  for(const line of lines){
+    const matches=
+      line.match(
+        /[^。！？!?…]+[。！？!?…]?/g
+      );
+
+    if(matches){
+      pieces.push(
+        ...matches
+          .map(s=>s.trim())
+          .filter(Boolean)
+      );
+    }else{
+      pieces.push(line);
+    }
+  }
+
+  const result=[];
+  let current="";
+
+  for(const piece of pieces){
+    if(!current){
+      current=piece;
+      continue;
+    }
+
+    if((current+piece).length<=44){
+      current+=piece;
+    }else{
+      result.push(current);
+      current=piece;
+    }
+  }
+
+  if(current){
+    result.push(current);
+  }
+
+  if(result.length<=3){
+    return result;
+  }
+
+  return [
+    result[0],
+    result[1],
+    result.slice(2).join("")
+  ];
+}
+
+function scrollBottom(smooth=true){
+  window.scrollTo({
+    top:document.body.scrollHeight,
+    behavior:smooth
+      ? "smooth"
+      : "auto"
+  });
+}
+
+function createUserNode(content){
+  const d=
+    document.createElement("div");
+
+  d.className=
+    "msg user";
+
+  d.innerHTML=
+    `<span>${esc(content)}</span>`;
+
+  return d;
+}
+
+function createAssistantGroup(name){
+  const d=
+    document.createElement("div");
+
+  d.className=
+    "msg assistant";
+
+  const who=
+    document.createElement("div");
+
+  who.className=
+    "who";
+
+  who.textContent=
+    name;
+
+  d.appendChild(who);
+
+  return d;
+}
+
+function addAssistantBubble(
+  group,
+  text,
+  pending=false
+){
+  const bubble=
+    document.createElement("div");
+
+  bubble.className=
+    "ai-bubble"+
+    (
+      pending
+        ? " pending"
+        : ""
+    );
+
+  bubble.innerHTML=
+    esc(text)
+      .replace(/\n/g,"<br>");
+
+  group.appendChild(
+    bubble
+  );
+
+  return bubble;
+}
+
+function renderFeed(){
+  removeTyping();
+
+  const feed=
+    document.getElementById(
+      "feed"
+    );
+
+  feed.innerHTML="";
+
+  for(const m of roleData().messages){
+
+    if(m.role==="user"){
+      feed.appendChild(
+        createUserNode(
+          m.content
+        )
+      );
+
+      continue;
+    }
+
+    if(
+      m.role===
+      "assistant"
+    ){
+      const group=
+        createAssistantGroup(
+          ROLE_NAMES[roleKey]
+        );
+
+      const segments=
+        Array.isArray(
+          m.segments
+        ) &&
+        m.segments.length
+          ? m.segments
+          : segmentReply(
+              m.content
+            );
+
+      for(
+        const part
+        of segments
+      ){
+        addAssistantBubble(
+          group,
+          part,
+          false
+        );
+      }
+
+      feed.appendChild(
+        group
+      );
+    }
+  }
+
+  scrollBottom(false);
+}
+
+function renderRoles(){
+  const box=
     document.getElementById(
       "roles"
     );
 
-  box.innerHTML =
-    "";
+  box.innerHTML="";
 
   Object.entries(
     ROLE_NAMES
   ).forEach(
-    ([k,n]) => {
-
-      const b =
+    ([k,n])=>{
+      const b=
         document.createElement(
           "button"
         );
 
-      b.className =
-        "role" +
+      b.className=
+        "role"+
         (
-          k === roleKey
+          k===roleKey
             ? " active"
             : ""
         );
 
-      b.textContent =
+      b.textContent=
         n;
 
-      b.onclick =
-        () => {
+      b.disabled=
+        busy;
 
-          roleKey =
-            k;
+      b.onclick=
+        ()=>{
+          if(
+            busy ||
+            k===roleKey
+          ){
+            return;
+          }
 
-          messages =
-            [];
+          roleKey=k;
 
+          saveStore();
           renderRoles();
-
           renderFeed();
+
+          setStatus(
+            "ok",
+            `${ROLE_NAMES[roleKey]} · 已恢复本机聊天记录`
+          );
         };
 
       box.appendChild(
@@ -388,96 +451,198 @@ function renderRoles(){
   );
 }
 
-function renderFeed(){
+function setBusy(value){
+  busy=value;
 
-  const feed =
-    document.getElementById(
-      "feed"
+  document
+    .getElementById(
+      "input"
+    )
+    .disabled=
+      value;
+
+  document
+    .getElementById(
+      "sendBtn"
+    )
+    .disabled=
+      value;
+
+  document
+    .getElementById(
+      "clearBtn"
+    )
+    .disabled=
+      value;
+
+  document
+    .querySelectorAll(
+      ".quick button"
+    )
+    .forEach(
+      b=>b.disabled=value
     );
 
-  feed.innerHTML =
-    "";
-
-  messages.forEach(
-    m => {
-
-      const d =
-        document.createElement(
-          "div"
-        );
-
-      d.className =
-        "msg " +
-        (
-          m.role === "user"
-            ? "user"
-            : ""
-        );
-
-      if(
-        m.role ===
-        "assistant"
-      ){
-
-        d.innerHTML =
-          `
-          <div class="who">
-            ${ROLE_NAMES[roleKey]}
-          </div>
-
-          <div class="ai">
-            ${
-              esc(
-                m.content
-              ).replace(
-                /\n/g,
-                "<br>"
-              )
-            }
-          </div>
-          `;
-
-      }else{
-
-        d.innerHTML =
-          `
-          <span>
-            ${esc(m.content)}
-          </span>
-          `;
-      }
-
-      feed.appendChild(
-        d
-      );
-    }
-  );
-
-  window.scrollTo({
-    top:
-      document.body
-        .scrollHeight,
-
-    behavior:
-      "smooth"
-  });
+  document
+    .querySelectorAll(
+      ".role"
+    )
+    .forEach(
+      b=>b.disabled=value
+    );
 }
 
-async function health(){
-
-  const el =
+function setStatus(
+  kind,
+  text
+){
+  const el=
     document.getElementById(
       "status"
     );
 
-  try{
+  el.className=
+    "status"+
+    (
+      kind
+        ? ` ${kind}`
+        : ""
+    );
 
-    const r =
-      await fetch(
-        ENDPOINT
+  el.textContent=
+    text;
+}
+
+function showTyping(){
+  removeTyping();
+
+  const feed=
+    document.getElementById(
+      "feed"
+    );
+
+  const group=
+    createAssistantGroup(
+      ROLE_NAMES[roleKey]
+    );
+
+  group.id=
+    "typingNode";
+
+  const t=
+    document.createElement(
+      "div"
+    );
+
+  t.className=
+    "typing";
+
+  t.innerHTML=
+    '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+
+  group.appendChild(t);
+  feed.appendChild(group);
+
+  typingNode=
+    group;
+
+  scrollBottom();
+}
+
+function removeTyping(){
+  const n=
+    typingNode ||
+    document.getElementById(
+      "typingNode"
+    );
+
+  if(
+    n &&
+    n.parentNode
+  ){
+    n.parentNode.removeChild(
+      n
+    );
+  }
+
+  typingNode=null;
+}
+
+async function animateAssistant(
+  message
+){
+  removeTyping();
+
+  const feed=
+    document.getElementById(
+      "feed"
+    );
+
+  const group=
+    createAssistantGroup(
+      ROLE_NAMES[roleKey]
+    );
+
+  feed.appendChild(
+    group
+  );
+
+  const pacing=
+    ROLE_PACING[roleKey] ||
+    ROLE_PACING.linwan;
+
+  await wait(
+    pacing.initial
+  );
+
+  for(
+    let i=0;
+    i<message.segments.length;
+    i++
+  ){
+    const bubble=
+      addAssistantBubble(
+        group,
+        message.segments[i],
+        true
       );
 
-    const d =
+    scrollBottom();
+
+    requestAnimationFrame(
+      ()=>requestAnimationFrame(
+        ()=>bubble
+          .classList
+          .remove(
+            "pending"
+          )
+      )
+    );
+
+    if(
+      i<
+      message.segments.length-1
+    ){
+      await wait(
+        pacing.between
+      );
+    }
+  }
+
+  scrollBottom();
+}
+
+async function health(){
+  try{
+    const r=
+      await fetch(
+        ENDPOINT,
+        {
+          cache:"no-store"
+        }
+      );
+
+    const d=
       await r.json();
 
     if(
@@ -490,73 +655,79 @@ async function health(){
       );
     }
 
-    el.className =
-      "status ok";
-
-    el.textContent =
-      `Worker 正常 · ${
-        d.model ||
-        "模型已连接"
-      } · API ${
-        d.apiConfigured
-          ? "已配置"
-          : "未配置"
-      }`;
+    setStatus(
+      "ok",
+      `Worker正常 · ${d.model||"模型已连接"} · 本机身份已建立 · ${ROLE_NAMES[roleKey]}已保存${roleData().messages.length}条`
+    );
 
   }catch(e){
-
-    el.className =
-      "status bad";
-
-    el.textContent =
-      "Worker 连接失败：" +
-      e.message;
+    setStatus(
+      "bad",
+      "Worker连接失败："+e.message
+    );
   }
 }
 
 async function send(){
+  if(busy){
+    return;
+  }
 
-  const input =
+  const input=
     document.getElementById(
       "input"
     );
 
-  const text =
+  const text=
     input.value.trim();
 
   if(!text){
     return;
   }
 
-  input.value =
-    "";
+  const activeRole=
+    roleKey;
 
-  messages.push({
+  const data=
+    roleData();
+
+  input.value="";
+
+  data.messages.push({
+    id:makeId("msg"),
     role:"user",
-    content:text
+    content:text,
+    createdAt:
+      new Date().toISOString()
   });
 
+  saveStore();
   renderFeed();
+  setBusy(true);
+  renderRoles();
+  showTyping();
 
-  const status =
-    document.getElementById(
-      "status"
-    );
-
-  status.className =
-    "status";
-
-  status.textContent =
-    `${ROLE_NAMES[roleKey]} 正在回复…`;
+  setStatus(
+    "",
+    `${ROLE_NAMES[activeRole]} 正在回复…`
+  );
 
   try{
+    const payloadMessages=
+      data.messages
+        .slice(-20)
+        .map(
+          m=>({
+            role:m.role,
+            content:m.content
+          })
+        );
 
-    const r =
+    const r=
       await fetch(
         ENDPOINT,
         {
-          method:
-            "POST",
+          method:"POST",
 
           headers:{
             "Content-Type":
@@ -565,111 +736,145 @@ async function send(){
 
           body:
             JSON.stringify({
-              roleKey,
-
+              userId,
+              roleKey:activeRole,
               messages:
-                messages.slice(
-                  -20
-                ),
-
+                payloadMessages,
               relationship:{
-                stage:
-                  "初识",
-
-                days:
-                  1
+                stage:"初识",
+                days:1
               },
-
-              scene:
-                "default"
+              scene:"default",
+              lifeContext:
+                data.lifeContext ||
+                null
             })
         }
       );
 
-    const d =
+    const d=
       await r.json();
 
     if(
       !r.ok ||
       !d.ok
     ){
-
       throw new Error(
         d.error ||
         "模型请求失败"
       );
     }
 
-    if(d.silent){
-
-      status.className =
-        "status ok";
-
-      status.textContent =
-        `${ROLE_NAMES[roleKey]} 没有继续追问 · ${
-          d.model ||
-          ""
-        }`;
-
-    }else{
-
-      messages.push({
-        role:
-          "assistant",
-
-        content:
-          d.text ||
-          ""
-      });
-
-      status.className =
-        "status ok";
-
-      status.textContent =
-        `真实模型 · ${
-          d.model ||
-          ""
-        }`;
-
-      renderFeed();
+    if(d.life){
+      data.lifeContext=
+        d.life;
     }
 
+    if(d.silent){
+      saveStore();
+      removeTyping();
+
+      setStatus(
+        "ok",
+        `${ROLE_NAMES[activeRole]} 安静了一会儿 · ${d.model||""}`
+      );
+
+      return;
+    }
+
+    const content=
+      String(
+        d.text||""
+      ).trim();
+
+    const assistantMessage={
+      id:makeId("msg"),
+      role:"assistant",
+      content,
+      segments:
+        segmentReply(
+          content
+        ),
+      createdAt:
+        new Date().toISOString()
+    };
+
+    data.messages.push(
+      assistantMessage
+    );
+
+    saveStore();
+
+    setStatus(
+      "ok",
+      `真实模型 · ${d.model||""} · 回复已保存`
+    );
+
+    await animateAssistant(
+      assistantMessage
+    );
+
   }catch(e){
+    removeTyping();
 
-    status.className =
-      "status bad";
+    setStatus(
+      "bad",
+      "请求失败："+e.message
+    );
 
-    status.textContent =
-      "请求失败：" +
-      e.message;
+  }finally{
+    setBusy(false);
+    renderRoles();
+
+    document
+      .getElementById(
+        "input"
+      )
+      .focus();
   }
 }
 
 function quick(t){
+  if(busy){
+    return;
+  }
 
   document
     .getElementById(
       "input"
     )
-    .value =
+    .value=
       t;
 
   send();
 }
 
 function clearChat(){
+  if(busy){
+    return;
+  }
 
-  messages =
-    [];
+  const name=
+    ROLE_NAMES[roleKey];
 
+  if(
+    !confirm(
+      `只清空${name}在这台设备上的测试聊天？`
+    )
+  ){
+    return;
+  }
+
+  store.roles[roleKey]=
+    blankRoleData();
+
+  saveStore();
   renderFeed();
 
-  document
-    .getElementById(
-      "status"
-    )
-    .textContent =
-      "聊天已清空，Worker 状态不受影响。";
+  setStatus(
+    "ok",
+    `${name}的本机测试聊天已清空`
+  );
 }
 
 document
@@ -678,23 +883,43 @@ document
   )
   .addEventListener(
     "keydown",
-    e => {
-
+    e=>{
       if(
-        e.key === "Enter" &&
-        !e.isComposing
+        e.key==="Enter" &&
+        !e.isComposing &&
+        !busy
       ){
-
         send();
       }
     }
   );
 
+window.addEventListener(
+  "storage",
+  e=>{
+    if(
+      e.key===STORE_KEY &&
+      !busy
+    ){
+      store=
+        loadStore();
+
+      roleKey=
+        ROLE_NAMES[
+          store.selectedRole
+        ]
+          ? store.selectedRole
+          : "linwan";
+
+      renderRoles();
+      renderFeed();
+    }
+  }
+);
+
 renderRoles();
 renderFeed();
 health();
-
 </script>
-
 </body>
 </html>
